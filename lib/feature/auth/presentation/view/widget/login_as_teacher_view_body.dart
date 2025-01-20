@@ -51,7 +51,7 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
               },
               validator: (value) {
                 if (value?.isEmpty ?? true) {
-                  return LocaleKeys.enteryourcode.tr();
+                  return LocaleKeys.enterYourCode.tr();
                 } else {
                   return null;
                 }
@@ -65,7 +65,7 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
               },
               validator: (value) {
                 if (value?.isEmpty ?? true) {
-                  return LocaleKeys.enteryourpassword.tr();
+                  return LocaleKeys.enterYourPassword.tr();
                 } else {
                   return null;
                 }

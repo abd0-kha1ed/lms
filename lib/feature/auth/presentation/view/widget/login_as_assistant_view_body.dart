@@ -52,7 +52,7 @@ class _LoginAsAssistantViewBodyState extends State<LoginAsAssistantViewBody> {
               },
               validator: (value) {
                 if (value?.isEmpty ?? true) {
-                  return 'Enter Your Code';
+                  return LocaleKeys.enterYourCode.tr();
                 } else {
                   return null;
                 }
@@ -66,7 +66,7 @@ class _LoginAsAssistantViewBodyState extends State<LoginAsAssistantViewBody> {
               },
               validator: (value) {
                 if (value?.isEmpty ?? true) {
-                  return 'Enter Your Password';
+                  return LocaleKeys.enterYourPassword.tr();
                 } else {
                   return null;
                 }
