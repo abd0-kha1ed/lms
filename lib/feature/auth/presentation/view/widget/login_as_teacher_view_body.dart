@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
 import 'package:video_player_app/core/widget/custom_text_form_field.dart';
 import 'package:video_player_app/feature/auth/presentation/view/widget/custom_login_container.dart';
+import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class LoginAsTeacherViewBody extends StatefulWidget {
   const LoginAsTeacherViewBody({super.key});
@@ -30,26 +32,26 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
             Icon(FontAwesomeIcons.video, color: kPrimaryColor, size: 120),
             const SizedBox(height: 20),
             Center(
-              child: const Text(
-                'Dashboard',
+              child: Text(
+                LocaleKeys.dashboard.tr(),
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(height: 30),
             Center(
                 child: CustomLoginContainer(
-              title: 'Teacher',
+              title: LocaleKeys.teacher.tr(),
               icon: Icons.school,
             )),
             const SizedBox(height: 35),
             CustomTextFormField(
-              hintText: 'Code',
+              hintText: LocaleKeys.code.tr(),
               onChanged: (value) {
                 code = value;
               },
               validator: (value) {
                 if (value?.isEmpty ?? true) {
-                  return 'Enter Your Code';
+                  return LocaleKeys.enteryourcode.tr();
                 } else {
                   return null;
                 }
@@ -57,13 +59,13 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
             ),
             const SizedBox(height: 15),
             CustomTextFormField(
-              hintText: 'Password',
+              hintText: LocaleKeys.password.tr(),
               onChanged: (value) {
                 password = value;
               },
               validator: (value) {
                 if (value?.isEmpty ?? true) {
-                  return 'Enter Your Password';
+                  return LocaleKeys.enteryourpassword.tr();
                 } else {
                   return null;
                 }
@@ -81,7 +83,7 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
             ),
             const SizedBox(height: 30),
             CustomButton(
-              title: 'Login',
+              title: LocaleKeys.login.tr(),
               onTap: () {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();

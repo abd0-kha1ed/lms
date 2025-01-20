@@ -34,20 +34,20 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
             Icon(FontAwesomeIcons.video, color: kPrimaryColor, size: 120),
             const SizedBox(height: 20),
             Center(
-              child: const Text(
-                'My Lectures',
+              child: Text(
+                LocaleKeys.myLectures.tr(),
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(height: 35),
             CustomTextFormField(
-              hintText: 'Code',
+              hintText: LocaleKeys.code.tr(),
               onChanged: (value) {
                 code = value;
               },
               validator: (value) {
                 if (value?.isEmpty ?? true) {
-                  return 'Enter Your Code';
+                  return LocaleKeys.enteryourcode.tr();
                 } else {
                   return null;
                 }
@@ -55,13 +55,13 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
             ),
             const SizedBox(height: 15),
             CustomTextFormField(
-              hintText: 'Password',
+              hintText: LocaleKeys.password.tr(),
               onChanged: (value) {
                 password = value;
               },
               validator: (value) {
                 if (value?.isEmpty ?? true) {
-                  return 'Enter Your Password';
+                  return LocaleKeys.enteryourpassword.tr();
                 } else {
                   return null;
                 }
@@ -79,7 +79,7 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
             ),
             const SizedBox(height: 30),
             CustomButton(
-              title: 'Login',
+              title: LocaleKeys.login.tr(),
               onTap: () {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();
@@ -149,7 +149,7 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
               style: ButtonStyle(
                   foregroundColor: WidgetStatePropertyAll(kPrimaryColor)),
               child: Text(
-                'Use Video\'s Code directly',
+                LocaleKeys.useVideoCode.tr(),
                 style: TextStyle(color: kPrimaryColor, fontSize: 18),
               ),
             ),
@@ -157,15 +157,15 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  'Login as ',
+                Text(
+                  LocaleKeys.login.tr(),
                   style: TextStyle(fontSize: 18),
                 ),
                 GestureDetector(
                   onTap: () =>
                       GoRouter.of(context).push(AppRouter.kTeacherLoginView),
                   child: Text(
-                    'Teacher ',
+                    LocaleKeys.teacher.tr(),
                     style: TextStyle(
                         fontSize: 18,
                         color: kPrimaryColor,
@@ -174,14 +174,14 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
                   ),
                 ),
                 Text(
-                  'or ',
+                  LocaleKeys.or.tr(),
                   style: TextStyle(fontSize: 18),
                 ),
                 GestureDetector(
                   onTap: () =>
                       GoRouter.of(context).push(AppRouter.kAssistantLoginView),
                   child: Text(
-                    'Assistant',
+                    LocaleKeys.assistant.tr(),
                     style: TextStyle(
                         fontSize: 18,
                         color: kPrimaryColor,

@@ -119,4 +119,7 @@ abstract class LocaleKeys {
   static const emptyList = 'emptyList';
   static const loginas = 'login_as';
   static const or = 'or';
+  static const myLectures = 'myLectures';
+  static const enteryourcode = "enteryourcode";
+  static const enteryourpassword = "enteryourpassword";
 }

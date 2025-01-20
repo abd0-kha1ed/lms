@@ -10,7 +10,7 @@
   "useVideoCode": "Use Video's Code directly",
   "email": "Email",
   "password": "Password",
-  "login": "Login",
+  "login": " Login",
   "seven": "1st Prep",
   "eight": "2nd Prep",
   "nine": "3rd Prep",
@@ -116,6 +116,8 @@
   "studentCodeExists": "There's an existing student with this code",
   "emptyList": "Teacher List is Empty",
   "loginas":"Login as",
-  "or":"or"
-
+  "or":" or ",
+  "myLectures":"My Lectures",
+  "enteryourcode":"Enter your Code",
+  "enteryourpassword":"Enter your PassWord"
 }

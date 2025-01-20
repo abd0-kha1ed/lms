@@ -6,6 +6,9 @@ class LoginAsTeacherView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: [],
+      ),
       body: LoginAsTeacherViewBody(),
     );
   }

@@ -26,7 +26,7 @@ class CodegenLoader extends AssetLoader {
     "useVideoCode": "استخدام كود الفيديو مباشرة",
     "email": "البريد الإلكتروني",
     "password": "كلمة السر",
-    "login": "تسجيل الدخول",
+    "login": " تسجيل الدخول",
     "seven": "الأول الإعدادي",
     "eight": "الثاني الإعدادي",
     "nine": "الثالث الإعدادي",
@@ -132,7 +132,10 @@ class CodegenLoader extends AssetLoader {
     "studentCodeExists": "هناك طالب الفعل مُعرف من خلال هذا الكود",
     "emptyList": "لا يوجد معلمين",
     "loginas": "تسجيل الدخول كا",
-    "or": "او"
+    "or": " او ",
+    "myLectures": "محاضراتي",
+    "enteryourcode": "قم بادخال الكود",
+    "enteryourpassword": "قم بادخال كلمة السر"
   };
   static const Map<String, dynamic> en = {
     "currentLanguage": "عربي",
@@ -146,7 +149,7 @@ class CodegenLoader extends AssetLoader {
     "useVideoCode": "Use Video's Code directly",
     "email": "Email",
     "password": "Password",
-    "login": "Login",
+    "login": " Login",
     "seven": "1st Prep",
     "eight": "2nd Prep",
     "nine": "3rd Prep",
@@ -254,7 +257,10 @@ class CodegenLoader extends AssetLoader {
     "studentCodeExists": "There's an existing student with this code",
     "emptyList": "Teacher List is Empty",
     "loginas": "Login as",
-    "or": "or"
+    "or": " or ",
+    "myLectures": "My Lectures",
+    "enteryourcode": "Enter your Code",
+    "enteryourpassword": "Enter your PassWord"
   };
   static const Map<String, Map<String, dynamic>> mapLocales = {
     "ar": ar,
