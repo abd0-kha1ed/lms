@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
 import 'package:video_player_app/core/widget/custom_text_form_field.dart';
 import 'package:video_player_app/feature/auth/presentation/view/widget/custom_login_container.dart';
+import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class LoginAsAssistantViewBody extends StatefulWidget {
   const LoginAsAssistantViewBody({super.key});
@@ -31,20 +33,20 @@ class _LoginAsAssistantViewBodyState extends State<LoginAsAssistantViewBody> {
             Icon(FontAwesomeIcons.video, color: kPrimaryColor, size: 120),
             const SizedBox(height: 20),
             Center(
-              child: const Text(
-                'Dashboard',
+              child: Text(
+                LocaleKeys.dashboard.tr(),
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(height: 30),
             Center(
                 child: CustomLoginContainer(
-              title: 'Assistant',
+              title: LocaleKeys.assistant.tr(),
               icon: Icons.assignment_ind,
             )),
             const SizedBox(height: 35),
             CustomTextFormField(
-              hintText: 'Code',
+              hintText: LocaleKeys.code.tr(),
               onChanged: (value) {
                 code = value;
               },
@@ -58,7 +60,7 @@ class _LoginAsAssistantViewBodyState extends State<LoginAsAssistantViewBody> {
             ),
             const SizedBox(height: 15),
             CustomTextFormField(
-              hintText: 'Password',
+              hintText: LocaleKeys.password.tr(),
               onChanged: (value) {
                 password = value;
               },
@@ -82,7 +84,7 @@ class _LoginAsAssistantViewBodyState extends State<LoginAsAssistantViewBody> {
             ),
             const SizedBox(height: 30),
             CustomButton(
-              title: 'Login',
+              title: LocaleKeys.login.tr(),
               onTap: () {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();
