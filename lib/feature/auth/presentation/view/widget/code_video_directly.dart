@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player_app/constant.dart';
@@ -20,13 +19,11 @@ class CodeVideoDirectly extends StatelessWidget {
           children: [
             const SizedBox(height: 20),
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(LocaleKeys.code.tr(),
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold)),
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 Icon(
                   Icons.close,
                   color: Colors.red,
@@ -40,8 +37,8 @@ class CodeVideoDirectly extends StatelessWidget {
                 hintStyle: TextStyle(color: Colors.grey),
                 filled: true,
                 fillColor: Colors.grey[200],
-                contentPadding: EdgeInsets.symmetric(
-                    vertical: 16, horizontal: 16),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide.none,
                   borderRadius: BorderRadius.circular(8),
