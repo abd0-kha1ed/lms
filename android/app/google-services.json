@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "108550346269",
+    "project_id": "video-player-f696b",
+    "storage_bucket": "video-player-f696b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:108550346269:android:fb1f1ca77452f44190d8f4",
+        "android_client_info": {
+          "package_name": "com.example.video_player_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdclwIHjH-CYBUg1opSMuXo2RsgSOxCto"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
