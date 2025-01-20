@@ -1,15 +1,28 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:video_player_app/core/utils/app_router.dart';
 import 'package:video_player_app/firebase_options.dart';
+import 'package:video_player_app/generated/codegen_loader.g.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(SecureVideoPlayer());
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
+  runApp(
+    EasyLocalization(
+        supportedLocales: [Locale('en'), Locale('ar')],
+        path:
+            'assets/translations', // <-- change the path of the translation files
+        fallbackLocale: Locale('en'),
+        assetLoader: CodegenLoader(),
+        child: SecureVideoPlayer()),
+  );
 }
 
 class SecureVideoPlayer extends StatelessWidget {
@@ -17,6 +30,9 @@ class SecureVideoPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       routerConfig: AppRouter.routes,
       builder: (context, child) => ResponsiveWrapper.builder(child,
           maxWidth: 1200,
