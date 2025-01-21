@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/services/auth_services.dart';
+import 'package:video_player_app/core/utils/app_router.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
 import 'package:video_player_app/core/widget/custom_text_form_field.dart';
 import 'package:video_player_app/feature/auth/presentation/view/widget/custom_login_container.dart';
@@ -99,8 +101,7 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
                       code!, password!);
                   if (user != null) {
                     // Handle successful login (e.g., navigate to another screen)
-                    Navigator.pushReplacementNamed(
-                        context, '/teacherDashboard'); // Example navigation
+                    GoRouter.of(context).go(AppRouter.kTeacherHomeView); // Example navigation
                   } else {
                     // Handle failed login (show an error message)
                     ScaffoldMessenger.of(context).showSnackBar(
