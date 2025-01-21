@@ -101,7 +101,9 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
                       code!, password!);
                   if (user != null) {
                     // Handle successful login (e.g., navigate to another screen)
-                    GoRouter.of(context).go(AppRouter.kTeacherHomeView); // Example navigation
+                    GoRouter.of(context).go(AppRouter.kTeacherHomeView);
+                    //
+                    //
                   } else {
                     // Handle failed login (show an error message)
                     ScaffoldMessenger.of(context).showSnackBar(
