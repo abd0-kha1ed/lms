@@ -7,8 +7,9 @@ class LoginAsStudentView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: [
-        GestureDetector(
+      appBar: AppBar(
+        actions: [
+          GestureDetector(
               onTap: () {
                 if (context.locale == Locale('en')) {
                   context.setLocale(Locale('ar'));
@@ -31,7 +32,8 @@ class LoginAsStudentView extends StatelessWidget {
                   ),
                 ),
               ))
-      ],),
+        ],
+      ),
       body: LoginAsStudentViewBody(),
     );
   }

@@ -7,9 +7,7 @@ class LoginAsAssistantView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          
-        ],
+        actions: [],
       ),
       body: LoginAsAssistantViewBody(),
     );

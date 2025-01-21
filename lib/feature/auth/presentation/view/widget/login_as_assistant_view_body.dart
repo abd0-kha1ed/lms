@@ -2,10 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:video_player_app/constant.dart';
+import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
 import 'package:video_player_app/core/widget/custom_text_form_field.dart';
 import 'package:video_player_app/feature/auth/presentation/view/widget/custom_login_container.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
+// Import AuthService
 
 class LoginAsAssistantViewBody extends StatefulWidget {
   const LoginAsAssistantViewBody({super.key});
@@ -20,6 +22,9 @@ class _LoginAsAssistantViewBodyState extends State<LoginAsAssistantViewBody> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   String? code, password;
   bool _isPasswordVisible = false;
+  final AuthService _authService =
+      AuthService(); // Create an instance of AuthService
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -85,9 +90,23 @@ class _LoginAsAssistantViewBodyState extends State<LoginAsAssistantViewBody> {
             const SizedBox(height: 30),
             CustomButton(
               title: LocaleKeys.login.tr(),
-              onTap: () {
+              onTap: () async {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();
+
+                  // Call the signIn method from AuthService for assistant login
+                  final user = await _authService.signInWithCodeAndPassword(
+                      code!, password!);
+                  if (user != null) {
+                    // Handle successful login (e.g., navigate to assistant dashboard)
+                    Navigator.pushReplacementNamed(
+                        context, '/assistantDashboard'); // Example navigation
+                  } else {
+                    // Handle failed login (show an error message)
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(LocaleKeys.noCodeWasFound.tr())),
+                    );
+                  }
                 } else {
                   autovalidateMode = AutovalidateMode.always;
                   setState(() {});
