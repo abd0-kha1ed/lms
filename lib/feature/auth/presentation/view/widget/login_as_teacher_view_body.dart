@@ -83,6 +83,7 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
             ),
             const SizedBox(height: 30),
             CustomButton(
+              color: kPrimaryColor,
               title: LocaleKeys.login.tr(),
               onTap: () {
                 if (formKey.currentState!.validate()) {

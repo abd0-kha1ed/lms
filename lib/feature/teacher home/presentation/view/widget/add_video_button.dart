@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-class CustomButton extends StatelessWidget {
-  const CustomButton({super.key, required this.title, this.onTap,required this.color});
+class AddVideoButton extends StatelessWidget {
+  const AddVideoButton(
+      {super.key, required this.title, this.onTap, required this.color});
   final String title;
   final void Function()? onTap;
   final Color color;
@@ -10,8 +11,8 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
         height: 50,
-        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(10),
