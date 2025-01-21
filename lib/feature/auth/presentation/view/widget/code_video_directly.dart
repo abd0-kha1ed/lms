@@ -80,6 +80,7 @@ class _CodeVideoDirectlyState extends State<CodeVideoDirectly> {
               ),
               const SizedBox(height: 50),
               CustomButton(
+                color: kPrimaryColor,
                 title: LocaleKeys.confirmText.tr(),
                 onTap: () {
                   if (formKey.currentState!.validate()) {
