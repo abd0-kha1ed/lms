@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:video_player_app/constant.dart';
+import 'package:video_player_app/core/utils/app_router.dart';
 import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/add_video_button.dart';
 import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/grade_list_view.dart';
 import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/video_item_list_view.dart';
@@ -45,10 +47,19 @@ class TeacherHomeViewBody extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AddVideoButton(
-                    title: LocaleKeys.addNewVideo.tr(), color: Colors.black),
+                  title: LocaleKeys.addNewVideo.tr(),
+                  color: Colors.black,
+                  onTap: () {
+                    GoRouter.of(context).push(AppRouter.kAddNewVideoView);
+                  },
+                ),
                 AddVideoButton(
-                    title: LocaleKeys.addNewEncryptedVideo.tr(),
-                    color: Colors.teal),
+                  title: LocaleKeys.addNewEncryptedVideo.tr(),
+                  color: Colors.teal,
+                  onTap: () {
+                    GoRouter.of(context).push(AppRouter.kAddEncryptedVideoView);
+                  },
+                ),
               ],
             ),
           ),
@@ -98,4 +109,3 @@ class TeacherHomeViewBody extends StatelessWidget {
     );
   }
 }
-
