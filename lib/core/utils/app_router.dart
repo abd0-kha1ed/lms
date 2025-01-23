@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:video_player_app/feature/assistant/presentation/view/addnew_assistant_view.dart';
 import 'package:video_player_app/feature/auth/presentation/view/login_as_assistant_view.dart';
 import 'package:video_player_app/feature/auth/presentation/view/login_as_student_view.dart';
 import 'package:video_player_app/feature/auth/presentation/view/login_as_teacher_view.dart';
@@ -41,11 +42,14 @@ abstract class AppRouter {
     GoRoute(
       path: kAddEncryptedVideoView,
       builder: (context, state) => AddEncryptedVideo(),
-      
     ),
     GoRoute(
       path: kStudentView,
       builder: (context, state) => StudentView(),
+    ),
+    GoRoute(
+      path: kAddnewAssistantView,
+      builder: (context, state) => AddnewAssistantView(),
     ),
   ]);
 }
