@@ -92,7 +92,7 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
 
                   // Call the signIn method from AuthService for student login
                   final user = await _authService.signInWithCodeAndPassword(
-                      code!, password!);
+                      code!, password!, context);
                   if (user != null) {
                     // Handle successful login (e.g., navigate to student dashboard)
                     Navigator.pushReplacementNamed(

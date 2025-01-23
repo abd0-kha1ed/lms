@@ -97,7 +97,7 @@ class _LoginAsAssistantViewBodyState extends State<LoginAsAssistantViewBody> {
 
                   // Call the signIn method from AuthService for assistant login
                   final user = await _authService.signInWithCodeAndPassword(
-                      code!, password!);
+                      code!, password!, context);
                   if (user != null) {
                     // Handle successful login (e.g., navigate to assistant dashboard)
                     Navigator.pushReplacementNamed(
