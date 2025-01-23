@@ -18,7 +18,11 @@ class _TeacherHomeViewState extends State<TeacherHomeView> {
     TeacherHomeViewBody(),
     AssistantsView(),
     ReportView(),
-    SettingsView()
+    SettingsView(
+      userName: 'Omar Yehia',
+      userRole: 'Teacher',
+      userCode: '0000',
+    )
   ];
 
   void _onItemTapped(int index) {
