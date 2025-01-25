@@ -1,15 +1,65 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-
 import 'package:go_router/go_router.dart';
-
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/utils/app_router.dart';
 import 'package:video_player_app/feature/report/presentation/view/widget/circular_state.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
-class ReportView extends StatelessWidget {
+class ReportView extends StatefulWidget {
   const ReportView({super.key});
+
+  @override
+  State<ReportView> createState() => _ReportViewState();
+}
+
+class _ReportViewState extends State<ReportView> {
+  int _studentCount = 0; // Student count state
+  int _videoCount = 0; // Video count state
+  bool _isLoadingStudents = true; // Loading state for student count
+  bool _isLoadingVideos = true; // Loading state for video count
+
+  @override
+  void initState() {
+    super.initState();
+    fetchStudentCount(); // Fetch student count
+    fetchVideoCount(); // Fetch video count
+  }
+
+  Future<void> fetchStudentCount() async {
+    try {
+      QuerySnapshot snapshot =
+          await FirebaseFirestore.instance.collection('students').get();
+
+      setState(() {
+        _studentCount = snapshot.docs.length; // Update student count
+        _isLoadingStudents = false; // Stop loading
+      });
+    } catch (e) {
+      // print("Error fetching student count: $e");
+      setState(() {
+        _isLoadingStudents = false; // Stop loading in case of error
+      });
+    }
+  }
+
+  Future<void> fetchVideoCount() async {
+    try {
+      QuerySnapshot snapshot =
+          await FirebaseFirestore.instance.collection('videos').get();
+
+      setState(() {
+        _videoCount = snapshot.docs.length; // Update video count
+        _isLoadingVideos = false; // Stop loading
+      });
+    } catch (e) {
+      // print("Error fetching video count: $e");
+      setState(() {
+        _isLoadingVideos = false; // Stop loading in case of error
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +86,7 @@ class ReportView extends StatelessWidget {
               children: [
                 Text(
                   LocaleKeys.reports.tr(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -51,7 +101,6 @@ class ReportView extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          // Grade Chips Section
 
           // Circular Stats Section
           Padding(
@@ -60,19 +109,29 @@ class ReportView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CircularState(
-                  count: 90,
+                  count: _isLoadingStudents
+                      ? 0
+                      : _studentCount, // Dynamic student count
                   color: kPrimaryColor,
-                  lable: 'stuent count',
+                  lable: 'Student Count',
                   onTap: () {
                     GoRouter.of(context).push(AppRouter.kStudentView);
                   },
                 ),
                 CircularState(
-                    count: 10, color: Colors.green, lable: 'video count')
+                  count:
+                      _isLoadingVideos ? 0 : _videoCount, // Dynamic video count
+                  color: Colors.green,
+                  lable: 'Video Count',
+                  onTap: () {
+                    // GoRouter.of(context).push(AppRouter.kVideoView); // Navigate to video view
+                  },
+                ),
               ],
             ),
           ),
           const SizedBox(height: 20),
+
           // Stats Cards Section
           Expanded(
             child: GridView.count(

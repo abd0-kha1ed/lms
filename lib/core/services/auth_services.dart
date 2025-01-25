@@ -1,34 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player_app/feature/auth/data/model/assistant_model.dart';
 import 'package:video_player_app/feature/auth/data/model/student_model.dart';
+import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Register Assistant
-  Future<User?> registerAssistant(
-    AssistantModel assistant,
-  ) async {
+  Future<User?> registerAssistant(AssistantModel assistant) async {
     try {
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
         email: assistant.email,
-        password: assistant.email,
+        password: assistant.password,
       );
 
       User? user = userCredential.user;
 
       if (user != null) {
-        // Update assistant model with the generated UID
         AssistantModel updatedAssistant = AssistantModel(
           id: user.uid,
           code: assistant.code,
           name: assistant.name,
           phone: assistant.phone,
           email: assistant.email,
-          password: assistant.email,
+          password: assistant.password,
           teacherCode: assistant.teacherCode,
           lastCheckedInAt: Timestamp.now(),
         );
@@ -36,25 +35,15 @@ class AuthService {
         await FirebaseFirestore.instance
             .collection('assistants')
             .doc(user.uid)
-            .set(updatedAssistant.toJson());
+            .set({
+          "role": "assistant",
+          ...updatedAssistant.toJson(),
+        });
       }
 
       return user;
     } catch (e) {
       throw Exception("Registration failed: $e");
-    }
-  }
-
-  // Update Assistant
-  Future<void> updateAssistantDetails(AssistantModel updatedAssistant) async {
-    try {
-      DocumentReference assistantDoc = FirebaseFirestore.instance
-          .collection('assistants')
-          .doc(updatedAssistant.id);
-
-      await assistantDoc.update(updatedAssistant.toJson());
-    } catch (e) {
-      throw Exception("Failed to update assistant details: $e");
     }
   }
 
@@ -71,7 +60,6 @@ class AuthService {
       User? user = userCredential.user;
 
       if (user != null) {
-        // Update student model with the generated UID
         StudentModel updatedStudent = StudentModel(
           id: user.uid,
           code: student.code,
@@ -86,7 +74,10 @@ class AuthService {
         await FirebaseFirestore.instance
             .collection('students')
             .doc(user.uid)
-            .set(updatedStudent.toJson());
+            .set({
+          "role": "student",
+          ...updatedStudent.toJson(),
+        });
       }
 
       return user;
@@ -95,7 +86,7 @@ class AuthService {
     }
   }
 
-  // Update Student
+  // Update Student Details
   Future<void> updateStudentDetails(StudentModel updatedStudent) async {
     try {
       DocumentReference studentDoc = FirebaseFirestore.instance
@@ -108,27 +99,83 @@ class AuthService {
     }
   }
 
+  // Register Teacher
+  // Future<User?> registerTeacher(
+  //     String email, String password, String name) async {
+  //   try {
+  //     UserCredential userCredential =
+  //         await _auth.createUserWithEmailAndPassword(
+  //       email: email,
+  //       password: password,
+  //     );
+
+  //     User? user = userCredential.user;
+
+  //     if (user != null) {
+  //       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+  //         "role": "teacher",
+  //         "id": user.uid,
+  //         "name": name,
+  //         "email": email,
+  //         "createdAt": Timestamp.now(),
+  //       });
+  //     }
+
+  //     return user;
+  //   } catch (e) {
+  //     throw Exception("Registration failed: $e");
+  //   }
+  // }
+
   // Sign in with code and password
-  Future<User?> signInWithCodeAndPassword(
+  // ignore: body_might_complete_normally_nullable
+  Future<Map<String, dynamic>?> signInWithCodeAndPassword(
       String code, String password, BuildContext context) async {
     try {
       String email = "$code@gmail.com"; // Custom email format
+      // print("Attempting to log in with email: $email");
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      return userCredential.user;
-    } catch (e) {
-      if (e is FirebaseAuthException) {
-        String errorMessage;
-        if (e.code == 'user-not-found') {
-          errorMessage = "No account found for the provided code.";
-        } else {
-          errorMessage = "Login failed: ${e.message}";
+
+      User? user = userCredential.user;
+
+      if (user != null) {
+        // print("Login successful. UID: ${user.uid}");
+
+        // Define the collections to search
+        final List<String> collections = ['students', 'assistants', 'teachers'];
+
+        for (String collection in collections) {
+          DocumentSnapshot userDoc = await FirebaseFirestore.instance
+              .collection(collection)
+              .doc(user.uid)
+              .get();
+
+          if (userDoc.exists) {
+            // print("User document found in $collection: ${userDoc.data()}");
+            final data = userDoc.data() as Map<String, dynamic>?;
+            return data; // Return the user data
+          }
         }
-        throw Exception(errorMessage);
+
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(LocaleKeys.noCodeWasFound.tr())),
+        );
+
+        throw Exception("User data not found.");
       }
+
       return null;
+    } catch (e) {
+      // print("Error during login: $e");
+
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(LocaleKeys.noCodeWasFound.tr())),
+      );
     }
   }
 
@@ -142,17 +189,22 @@ class AuthService {
     final User? user = _auth.currentUser;
     if (user != null) {
       try {
-        DocumentSnapshot userDoc = await FirebaseFirestore.instance
-            .collection('users') // Unified user collection
-            .doc(user.uid)
-            .get();
+        // Define the collections to search
+        final List<String> collections = ['students', 'assistants', 'teachers'];
 
-        if (userDoc.exists) {
-          final data = userDoc.data() as Map<String, dynamic>?;
-          return data?['role'] as String?;
-        } else {
-          return null; // Document does not exist
+        for (String collection in collections) {
+          DocumentSnapshot userDoc = await FirebaseFirestore.instance
+              .collection(collection)
+              .doc(user.uid)
+              .get();
+
+          if (userDoc.exists) {
+            final data = userDoc.data() as Map<String, dynamic>?;
+            return data?['role'] as String?; // Return the role if found
+          }
         }
+
+        return null; // User not found in any collection
       } catch (e) {
         throw Exception("Error fetching user role: $e");
       }

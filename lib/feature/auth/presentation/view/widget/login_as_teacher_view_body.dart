@@ -1,16 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/services/auth_services.dart';
-import 'package:video_player_app/core/utils/app_router.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
 import 'package:video_player_app/core/widget/custom_text_form_field.dart';
 import 'package:video_player_app/feature/auth/presentation/view/widget/custom_login_container.dart';
 import 'package:video_player_app/feature/teacher%20home/presentation/view/teacher_home_view.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
-// Import AuthService
 
 class LoginAsTeacherViewBody extends StatefulWidget {
   const LoginAsTeacherViewBody({super.key});
@@ -24,8 +23,51 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   String? code, password;
   bool _isPasswordVisible = false;
-  final AuthService _authService =
-      AuthService(); // Create an instance of AuthService
+  bool _isLoading = false; // Loading state for login button
+
+  final AuthService _authService = AuthService();
+
+  Future<void> login(BuildContext context, String code, String password) async {
+    if (!formKey.currentState!.validate()) {
+      return; // Form is not valid
+    }
+
+    setState(() {
+      _isLoading = true; // Show loading indicator
+    });
+
+    try {
+      Map<String, dynamic>? userData =
+          await _authService.signInWithCodeAndPassword(code, password, context);
+
+      if (userData != null) {
+        String role = userData['role'];
+        if (role == 'teacher') {
+          // Navigate to Teacher Home View
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const TeacherHomeView()),
+          );
+        }
+      } else {
+        // No user data found
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(LocaleKeys.noCodeWasFound.tr())),
+        );
+      }
+    } catch (e) {
+      // Handle login error
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(LocaleKeys.noCodeWasFound.tr())),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false; // Hide loading indicator
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +84,8 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
             Center(
               child: Text(
                 LocaleKeys.dashboard.tr(),
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(height: 30),
@@ -90,33 +133,18 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
               },
             ),
             const SizedBox(height: 30),
-            CustomButton(
-              color: kPrimaryColor,
-              title: LocaleKeys.login.tr(),
-              onTap: () async {
-                if (formKey.currentState!.validate()) {
-                  formKey.currentState!.save();
-
-                  // Call the signIn method from AuthService
-                  final user = await _authService.signInWithCodeAndPassword(
-                      code!, password!, context);
-                  if (user != null) {
-                    // Handle successful login (e.g., navigate to another screen)
-                    GoRouter.of(context).go(AppRouter.kTeacherHomeView);
-                    //
-                    //
-                  } else {
-                    // Handle failed login (show an error message)
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(LocaleKeys.noCodeWasFound.tr())),
-                    );
-                  }
-                } else {
-                  autovalidateMode = AutovalidateMode.always;
-                  setState(() {});
-                }
-              },
-            ),
+            _isLoading
+                ? Center(child: const CircularProgressIndicator())
+                : CustomButton(
+                    color: kPrimaryColor,
+                    title: LocaleKeys.login.tr(),
+                    onTap: () async {
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState!.save();
+                        await login(context, code!, password!);
+                      }
+                    },
+                  ),
           ],
         ),
       ),

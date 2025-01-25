@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +12,7 @@ import 'package:video_player_app/feature/auth/data/model/student_model.dart';
 import 'package:video_player_app/feature/students/add_new_student_view.dart';
 // Fixed typo: 'edti_student.dart' -> 'edit_student.dart'
 import 'package:video_player_app/feature/students/presentation/views/edti_student.dart';
-import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/grade_list_view.dart';
+
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class StudentView extends StatefulWidget {
@@ -149,6 +151,42 @@ class _StudentViewState extends State<StudentView> {
                         onSelected: (selected) {
                           setState(() {
                             _selectedGrade = "1st Secondary";
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: FilterChip(
+                        label: Text("3rd Prep"),
+                        selected: _selectedGrade == "3rd Prep",
+                        onSelected: (selected) {
+                          setState(() {
+                            _selectedGrade = "3rd Prep";
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: FilterChip(
+                        label: Text("2nd Prep"),
+                        selected: _selectedGrade == "2nd Prep",
+                        onSelected: (selected) {
+                          setState(() {
+                            _selectedGrade = "2nd Prep";
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: FilterChip(
+                        label: Text("1st Prep"),
+                        selected: _selectedGrade == "1st Prep",
+                        onSelected: (selected) {
+                          setState(() {
+                            _selectedGrade = "1st Prep";
                           });
                         },
                       ),

@@ -1,25 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:video_player_app/feature/assistant/presentation/view/assistants_view.dart';
-import 'package:video_player_app/feature/report/presentation/view/report_view.dart';
-import 'package:video_player_app/feature/settings/presentation/view/settings_view.dart';
-import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/teacher_home_view_body.dart';
 
-class TeacherHomeView extends StatefulWidget {
-  const TeacherHomeView({super.key});
+import 'package:video_player_app/feature/settings/presentation/view/settings_view.dart';
+import 'package:video_player_app/feature/user_as_student/presentation/view/widgets/user_as_student_view_body.dart';
+
+class UserAsStudentView extends StatefulWidget {
+  const UserAsStudentView({super.key});
 
   @override
-  State<TeacherHomeView> createState() => _TeacherHomeViewState();
+  State<UserAsStudentView> createState() => _TeacherHomeViewState();
 }
 
-class _TeacherHomeViewState extends State<TeacherHomeView> {
+class _TeacherHomeViewState extends State<UserAsStudentView> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = [
-    TeacherHomeViewBody(),
-    AssistantsView(),
-    ReportView(),
-    SettingsView()
-  ];
+  final List<Widget> _pages = [UserAsStudentViewBody(), SettingsView()];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -38,14 +32,6 @@ class _TeacherHomeViewState extends State<TeacherHomeView> {
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.group),
-              label: 'Assistants',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.article),
-              label: 'Reports',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:video_player_app/feature/auth/data/model/socialmedia_model.dart';
 
 class Teacher {
@@ -5,8 +6,8 @@ class Teacher {
   String name;
   String code;
   String platform;
-  String grade;
   bool isActive;
+  Timestamp createdAt;
   SocialMedia socialMedia;
 
   Teacher({
@@ -14,8 +15,8 @@ class Teacher {
     required this.name,
     required this.code,
     required this.platform,
-    required this.grade,
     required this.isActive,
+    required this.createdAt,
     required this.socialMedia,
   });
 
@@ -25,8 +26,8 @@ class Teacher {
       name: json['name'],
       code: json['code'],
       platform: json['platform'],
-      grade: json['grade'],
       isActive: json['isActive'],
+      createdAt: json['createdAt'],
       socialMedia: SocialMedia.fromJson(json['socialMedia']),
     );
   }
@@ -37,8 +38,8 @@ class Teacher {
       'name': name,
       'code': code,
       'platform': platform,
-      'grade': grade,
       'isActive': isActive,
+      'createdAt': createdAt,
       'socialMedia': socialMedia.toJson(),
     };
   }
