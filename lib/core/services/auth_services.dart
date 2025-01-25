@@ -1,12 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
-=======
 import 'package:video_player_app/feature/auth/data/model/assistant_model.dart';
 import 'package:video_player_app/feature/auth/data/model/student_model.dart';
->>>>>>> 58e7d88da89a24b3ce83d28872b54aa0f60bd8dc
 
 class FirebaseServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -178,7 +175,7 @@ class FirebaseServices {
   Future<List<VideoModel>> fetchVideos() async {
   final querySnapshot = await videosCollection.get();
   return querySnapshot.docs
-      .map((doc) => VideoModel.fromMap(doc.data() as Map<String, dynamic>, doc.id))
+      .map((doc) => VideoModel.fromMap(doc.data() as Map<String, dynamic>))
       .toList();
 }
 

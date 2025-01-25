@@ -158,207 +158,211 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
       child: Form(
         key: formKey,
         autovalidateMode: autovalidateMode,
-        child: Column(
-          children: [
-            CustomizeTextfield(
-              text: LocaleKeys.videoLink.tr(),
-              color: kPrimaryColor,
-              onChanged: (value) {
-                videoUrl = value;
-              },
-              validator: (value) {
-                if (value?.isEmpty ?? true) {
-                  return 'Enter video URL';
-                } else {
-                  return null;
-                }
-              },
-            ),
-            const SizedBox(height: 10),
-            CustomizeTextfield(
-              text: LocaleKeys.videoTitle.tr(),
-              color: kPrimaryColor,
-              onChanged: (value) {
-                title = value;
-              },
-              validator: (value) {
-                if (value?.isEmpty ?? true) {
-                  return 'Enter video title';
-                } else {
-                  return null;
-                }
-              },
-            ),
-            const SizedBox(height: 10),
-            CustomizeTextfield(
-              text: LocaleKeys.videoDescription.tr(),
-              color: kPrimaryColor,
-              maxLines: 6,
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(LocaleKeys.grade.tr()),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.35,
-                  child: DropdownButtonFormField<String>(
-                    validator: (level) {
-                      return level == null ? 'Choose grade' : null;
-                    },
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: kPrimaryColor,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none),
-                    ),
-                    value: selectedGrade,
-                    hint: const Text('Choose grade',
-                        style: TextStyle(color: Colors.white)),
-                    items: [
-                      LocaleKeys.seven.tr(),
-                      LocaleKeys.eight.tr(),
-                      LocaleKeys.nine.tr(),
-                      LocaleKeys.ten.tr(),
-                      LocaleKeys.eleven.tr(),
-                      LocaleKeys.twelve.tr(),
-                    ]
-                        .map(
-                          (level) => DropdownMenuItem<String>(
-                            value: level,
-                            child: Text(level),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (level) {
-                      setState(() {
-                        selectedGrade = level;
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(LocaleKeys.videoDuration.tr()),
-                GestureDetector(
-                  onTap: () {
-                    showDurationPicker(context);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: kPrimaryColor),
-                    child: Text(
-                      videoDuration,
-                      style: TextStyle(color: Colors.white),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              CustomizeTextfield(
+                text: LocaleKeys.videoLink.tr(),
+                color: kPrimaryColor,
+                onChanged: (value) {
+                  videoUrl = value;
+                },
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Enter video URL';
+                  } else {
+                    return null;
+                  }
+                },
+              ),
+              const SizedBox(height: 10),
+              CustomizeTextfield(
+                text: LocaleKeys.videoTitle.tr(),
+                color: kPrimaryColor,
+                onChanged: (value) {
+                  title = value;
+                },
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Enter video title';
+                  } else {
+                    return null;
+                  }
+                },
+              ),
+              const SizedBox(height: 10),
+              CustomizeTextfield(
+                text: LocaleKeys.videoDescription.tr(),
+                color: kPrimaryColor,
+                maxLines: 6,
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(LocaleKeys.grade.tr()),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.35,
+                    child: DropdownButtonFormField<String>(
+                      validator: (level) {
+                        return level == null ? 'Choose grade' : null;
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: kPrimaryColor,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none),
+                      ),
+                      value: selectedGrade,
+                      hint: const Text('Choose grade',
+                          style: TextStyle(color: Colors.white)),
+                      items: [
+                        LocaleKeys.seven.tr(),
+                        LocaleKeys.eight.tr(),
+                        LocaleKeys.nine.tr(),
+                        LocaleKeys.ten.tr(),
+                        LocaleKeys.eleven.tr(),
+                        LocaleKeys.twelve.tr(),
+                      ]
+                          .map(
+                            (level) => DropdownMenuItem<String>(
+                              value: level,
+                              child: Text(level),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (level) {
+                        setState(() {
+                          selectedGrade = level;
+                        });
+                      },
                     ),
                   ),
-                )
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(LocaleKeys.visibility.tr()),
-                Switch(
-                  value: isVideoVisible,
-                  onChanged: (bool value) {
-                    setState(() {
-                      isVideoVisible = value;
-                    });
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(LocaleKeys.canBeExpired.tr()),
-                Switch(
-                  value: isVideoExpirable,
-                  onChanged: (bool value) {
-                    setState(() {
-                      isVideoExpirable = value;
-                    });
-                    if (value) {
-                      showExpiryDatePicker(context);
-                    }
-                  },
-                ),
-              ],
-            ),
-            if (isVideoExpirable && expiryDate != null)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(LocaleKeys.expiryDate.tr()),
-                    Container(
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(LocaleKeys.videoDuration.tr()),
+                  GestureDetector(
+                    onTap: () {
+                      showDurationPicker(context);
+                    },
+                    child: Container(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           color: kPrimaryColor),
                       child: Text(
-                        "${expiryDate?.toLocal().toString().split(' ')[0]} ${expiryDate?.hour}:${expiryDate?.minute}",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
+                        videoDuration,
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
-                  ],
-                ),
+                  )
+                ],
               ),
-            const SizedBox(height: 15),
-            BlocConsumer<VideoCubit, VideoState>(
-              listener: (context, state) {
-                if (state is VideoAddedSuccessfully) {
-                  customSnackBar(context, 'Video was added successfully');
-                }
-              },
-              builder: (context, state) {
-                if (state is VideoLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                }
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(LocaleKeys.visibility.tr()),
+                  Switch(
+                    value: isVideoVisible,
+                    onChanged: (bool value) {
+                      setState(() {
+                        isVideoVisible = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(LocaleKeys.canBeExpired.tr()),
+                  Switch(
+                    value: isVideoExpirable,
+                    onChanged: (bool value) {
+                      setState(() {
+                        isVideoExpirable = value;
+                      });
+                      if (value) {
+                        showExpiryDatePicker(context);
+                      }
+                    },
+                  ),
+                ],
+              ),
+              if (isVideoExpirable && expiryDate != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(LocaleKeys.expiryDate.tr()),
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: kPrimaryColor),
+                        child: Text(
+                          "${expiryDate?.toLocal().toString().split(' ')[0]} ${expiryDate?.hour}:${expiryDate?.minute}",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              const SizedBox(height: 15),
+              BlocConsumer<VideoCubit, VideoState>(
+                listener: (context, state) {
+                  if (state is VideoAddedSuccessfully) {
+                    customSnackBar(context, 'Video was added successfully');
+                  }
+                },
+                builder: (context, state) {
+                  if (state is VideoLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
 
-                return CustomButton(
-                  title: LocaleKeys.add.tr(),
-                  color: Colors.deepPurple,
-                  onTap: () {
-                    if (formKey.currentState!.validate()) {
-                      formKey.currentState!.save();
+                  return CustomButton(
+                    title: LocaleKeys.add.tr(),
+                    color: Colors.deepPurple,
+                    onTap: () {
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState!.save();
 
-                      final video = VideoModel(
-                        createdAt: Timestamp.now(),
-                        id: UniqueKey().toString(),
-                        title: title!,
-                        description: description ?? '',
-                        videoUrl: videoUrl!,
-                        grade: selectedGrade!,
-                        videoDuration: videoDuration,
-                        isVideoVisible: isVideoVisible,
-                        isVideoExpirable: isVideoExpirable,
-                        expiryDate: expiryDate,
-                      );
+                        final video = VideoModel(
+                          createdAt: Timestamp.now(),
+                          id: UniqueKey().toString(),
+                          title: title!,
+                          description: description ?? '',
+                          videoUrl: videoUrl!,
+                          grade: selectedGrade!,
+                          videoDuration: videoDuration,
+                          isVideoVisible: isVideoVisible,
+                          isVideoExpirable: isVideoExpirable,
+                          expiryDate: expiryDate,
+                        );
 
-                      context.read<VideoCubit>().addVideo(video);
-                    } else {
-                      autovalidateMode = AutovalidateMode.always;
-                      setState(() {});
-                    }
-                  },
-                );
-              },
-            )
-          ],
+                        context.read<VideoCubit>().addVideo(video);
+                        // GoRouter.of(context).pop();
+                      } else {
+                        autovalidateMode = AutovalidateMode.always;
+                        setState(() {});
+                      }
+                    },
+                  );
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

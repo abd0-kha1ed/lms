@@ -14,7 +14,6 @@ class VideoCubit extends Cubit<VideoState> {
     try {
       await firebaseServices.addVideo(video);
       emit(VideoAddedSuccessfully());
-      print('video added successfully');
     } catch (e) {
       emit(VideoError(e.toString()));
     }

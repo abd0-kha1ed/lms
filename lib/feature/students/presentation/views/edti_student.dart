@@ -7,7 +7,6 @@ import 'package:video_player_app/core/widget/custom_dropdown.dart';
 import 'package:video_player_app/core/widget/custom_text_form_field.dart';
 import 'package:video_player_app/feature/auth/data/model/student_model.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EditStudent extends StatefulWidget {
   const EditStudent({super.key, required this.studentModel});
@@ -63,7 +62,7 @@ class _EditStudentState extends State<EditStudent> {
       );
 
       // Call the update function
-      await AuthService().updateStudentDetails(updatedStudent);
+      await FirebaseServices().updateStudentDetails(updatedStudent);
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Student updated successfully!")),

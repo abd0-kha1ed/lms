@@ -36,13 +36,9 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
     });
 
     try {
-<<<<<<< HEAD
-      await FirebaseServices().registerStudent(
-=======
       // Create a StudentModel from the form inputs
       final student = StudentModel(
         id: '', // Will be set by Firebase
->>>>>>> 58e7d88da89a24b3ce83d28872b54aa0f60bd8dc
         code: _codeController.text.trim(),
         name: _nameController.text.trim(),
         phone: _phoneController.text.trim(),
@@ -53,7 +49,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
       );
 
       // Call the AuthService to register the student
-      await AuthService().registerStudent(
+      await FirebaseServices().registerStudent(
         student,
       );
 

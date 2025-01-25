@@ -40,7 +40,7 @@ class VideoModel {
     };
   }
 
-  factory VideoModel.fromMap(Map<String, dynamic> map, String id) {
+  factory VideoModel.fromMap(Map<String, dynamic> map) {
     return VideoModel(
       id: map['id'],
       title: map['title'],
@@ -52,7 +52,7 @@ class VideoModel {
       isVideoExpirable: map['isVideoExpirable'],
       expiryDate:
           map['expiryDate'] != null ? DateTime.parse(map['expiryDate']) : null,
-      createdAt: map['createdAt'],
+      createdAt: map['createdAt'] as Timestamp,
     );
   }
 }
