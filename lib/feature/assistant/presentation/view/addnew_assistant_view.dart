@@ -1,17 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/core/widget/custom_text_form_field.dart';
+import 'package:video_player_app/feature/auth/data/model/assistant_model.dart';
 
-class AddnewAssistantView extends StatefulWidget {
-  const AddnewAssistantView({super.key});
+class AddNewAssistantView extends StatefulWidget {
+  const AddNewAssistantView({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _AddnewAssistantViewState createState() => _AddnewAssistantViewState();
+  _AddNewAssistantViewState createState() => _AddNewAssistantViewState();
 }
 
-class _AddnewAssistantViewState extends State<AddnewAssistantView> {
+class _AddNewAssistantViewState extends State<AddNewAssistantView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _codeController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -25,16 +26,25 @@ class _AddnewAssistantViewState extends State<AddnewAssistantView> {
   Future<void> _registerAssistant() async {
     if (_formKey.currentState!.validate()) {
       try {
-        await _authService.registerAssistant(
-          code: _codeController.text,
-          email: _emailController.text,
-          password: _passwordController.text,
-          name: _nameController.text,
-          phone: _phoneController.text,
-          teacherCode: _teacherCodeController.text,
+        // Construct AssistantModel
+        final assistant = AssistantModel(
+          id: '', // Will be set by Firebase
+          code: _codeController.text.trim(),
+          name: _nameController.text.trim(),
+          phone: _phoneController.text.trim(),
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(), // Not stored in the model
+          teacherCode: _teacherCodeController.text.trim(),
+          lastCheckedInAt: Timestamp.now(),
         );
+
+        // Register Assistant
+        await _authService.registerAssistant(
+          assistant,
+        );
+
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Assistant registered successfully')),
+          const SnackBar(content: Text('Assistant registered successfully')),
         );
         Navigator.pop(context);
       } catch (e) {
@@ -49,99 +59,101 @@ class _AddnewAssistantViewState extends State<AddnewAssistantView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add New Assistant'),
+        title: const Text('Add New Assistant'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: Column(
-            children: [
-              CustomTextFormField(
-                controller: _codeController,
-                hintText: 'Code',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Code is required';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
-              CustomTextFormField(
-                controller: _nameController,
-                hintText: 'Name',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Name is required';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
-              CustomTextFormField(
-                controller: _phoneController,
-                hintText: 'Phone Number',
-                keyboardType: TextInputType.number,
-                maxLength: 11,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Phone number is required';
-                  } else if (value.length != 11) {
-                    return 'Phone number must be exactly 11 digits';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
-              CustomTextFormField(
-                controller: _emailController,
-                hintText: 'Email',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Email is required';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
-              CustomTextFormField(
-                controller: _passwordController,
-                hintText: 'Password',
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Password is required';
-                  } else if (value.length < 6) {
-                    return 'Password must be at least 6 characters';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
-              CustomTextFormField(
-                controller: _teacherCodeController,
-                hintText: 'Teacher Code',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Teacher Code is required';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _registerAssistant,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: kPrimaryColor,
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  child: Text('Add'),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                CustomTextFormField(
+                  controller: _codeController,
+                  hintText: 'Code',
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Code is required';
+                    }
+                    return null;
+                  },
                 ),
-              ),
-            ],
+                const SizedBox(height: 16),
+                CustomTextFormField(
+                  controller: _nameController,
+                  hintText: 'Name',
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Name is required';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                CustomTextFormField(
+                  controller: _phoneController,
+                  hintText: 'Phone Number',
+                  keyboardType: TextInputType.number,
+                  maxLength: 11,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Phone number is required';
+                    } else if (value.length != 11) {
+                      return 'Phone number must be exactly 11 digits';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                CustomTextFormField(
+                  controller: _emailController,
+                  hintText: 'Email',
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Email is required';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                CustomTextFormField(
+                  controller: _passwordController,
+                  hintText: 'Password',
+                  obscureText: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Password is required';
+                    } else if (value.length < 6) {
+                      return 'Password must be at least 6 characters';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                CustomTextFormField(
+                  controller: _teacherCodeController,
+                  hintText: 'Teacher Code',
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Teacher Code is required';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _registerAssistant,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: kPrimaryColor,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
+                    child: const Text('Add'),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

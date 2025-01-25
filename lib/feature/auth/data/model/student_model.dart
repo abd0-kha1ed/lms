@@ -1,4 +1,6 @@
-class Student {
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class StudentModel {
   String id;
   String name;
   String code;
@@ -6,27 +8,28 @@ class Student {
   String grade;
   String teacherCode;
   String password;
+  Timestamp createdAt;
 
-  Student({
-    required this.id,
-    required this.name,
-    required this.code,
-    required this.phone,
-    required this.grade,
-    required this.teacherCode,
-    required this.password,
-  });
+  StudentModel(
+      {required this.id,
+      required this.name,
+      required this.code,
+      required this.phone,
+      required this.grade,
+      required this.teacherCode,
+      required this.password,
+      required this.createdAt});
 
-  factory Student.fromJson(Map<String, dynamic> json) {
-    return Student(
-      id: json['id'],
-      name: json['name'],
-      code: json['code'],
-      phone: json['phone'],
-      grade: json['grade'],
-      teacherCode: json['teacherCode'],
-      password: json['password'],
-    );
+  factory StudentModel.fromJson(Map<String, dynamic> json) {
+    return StudentModel(
+        id: json['id'],
+        name: json['name'],
+        code: json['code'],
+        phone: json['phone'],
+        grade: json['grade'],
+        teacherCode: json['teacherCode'],
+        password: json['password'],
+        createdAt: json['createdAt']);
   }
 
   Map<String, dynamic> toJson() {
@@ -38,6 +41,7 @@ class Student {
       'grade': grade,
       'teacherCode': teacherCode,
       'password': password,
+      'createdAt': createdAt,
     };
   }
 }

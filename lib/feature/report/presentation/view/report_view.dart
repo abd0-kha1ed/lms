@@ -1,6 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:go_router/go_router.dart';
+=======
+
+import 'package:go_router/go_router.dart';
+
+>>>>>>> 58e7d88da89a24b3ce83d28872b54aa0f60bd8dc
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/utils/app_router.dart';
 import 'package:video_player_app/feature/report/presentation/view/widget/circular_state.dart';

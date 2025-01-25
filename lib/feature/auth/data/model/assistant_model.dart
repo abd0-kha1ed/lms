@@ -12,7 +12,7 @@ class AssistantModel extends Equatable {
   final String teacherCode;
 
   @JsonKey(fromJson: _lastCheckFromJson, toJson: _lastCheckToJson)
-  final Timestamp lastCheckedInAt;
+  final Timestamp? lastCheckedInAt;
 
   const AssistantModel({
     required this.id,

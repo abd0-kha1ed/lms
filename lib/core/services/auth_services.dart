@@ -1,7 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
+=======
+import 'package:video_player_app/feature/auth/data/model/assistant_model.dart';
+import 'package:video_player_app/feature/auth/data/model/student_model.dart';
+>>>>>>> 58e7d88da89a24b3ce83d28872b54aa0f60bd8dc
 
 class FirebaseServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -9,40 +14,35 @@ class FirebaseServices {
       FirebaseFirestore.instance.collection('videos');
 
   // Register Assistant
-  Future<User?> registerAssistant({
-    required String code,
-    required String email,
-    required String password,
-    required String name,
-    required String phone,
-    required String teacherCode,
-  }) async {
+  Future<User?> registerAssistant(
+    AssistantModel assistant,
+  ) async {
     try {
-      // Create the user in Firebase Authentication
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
+        email: assistant.email,
+        password: assistant.email,
       );
 
       User? user = userCredential.user;
 
-      // Store assistant details in Firestore
       if (user != null) {
+        // Update assistant model with the generated UID
+        AssistantModel updatedAssistant = AssistantModel(
+          id: user.uid,
+          code: assistant.code,
+          name: assistant.name,
+          phone: assistant.phone,
+          email: assistant.email,
+          password: assistant.email,
+          teacherCode: assistant.teacherCode,
+          lastCheckedInAt: Timestamp.now(),
+        );
+
         await FirebaseFirestore.instance
             .collection('assistants')
             .doc(user.uid)
-            .set({
-          'id': user.uid,
-          'code': code,
-          'name': name,
-          'phone': phone,
-          'email': email,
-          'password': password,
-          'teacherCode': teacherCode,
-          'role': 'assistant',
-          'createdAt': FieldValue.serverTimestamp(),
-        });
+            .set(updatedAssistant.toJson());
       }
 
       return user;
@@ -51,47 +51,66 @@ class FirebaseServices {
     }
   }
 
-  // Register Student
-  Future<User?> registerStudent({
-    required String code,
-    required String name,
-    required String phone,
-    required String grade,
-    required String teacherCode,
-    required String password,
-  }) async {
+  // Update Assistant
+  Future<void> updateAssistantDetails(AssistantModel updatedAssistant) async {
     try {
-      // Create the user in Firebase Authentication
-      String email = "$code@gmail.com"; // Custom email format for students
+      DocumentReference assistantDoc = FirebaseFirestore.instance
+          .collection('assistants')
+          .doc(updatedAssistant.id);
+
+      await assistantDoc.update(updatedAssistant.toJson());
+    } catch (e) {
+      throw Exception("Failed to update assistant details: $e");
+    }
+  }
+
+  // Register Student
+  Future<User?> registerStudent(StudentModel student) async {
+    try {
+      String email = "${student.code}@gmail.com"; // Custom email format
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
         email: email,
-        password: password,
+        password: student.password,
       );
 
       User? user = userCredential.user;
 
-      // Store student details in Firestore
       if (user != null) {
+        // Update student model with the generated UID
+        StudentModel updatedStudent = StudentModel(
+          id: user.uid,
+          code: student.code,
+          name: student.name,
+          phone: student.phone,
+          grade: student.grade,
+          teacherCode: student.teacherCode,
+          password: student.password,
+          createdAt: Timestamp.now(),
+        );
+
         await FirebaseFirestore.instance
             .collection('students')
             .doc(user.uid)
-            .set({
-          'id': user.uid,
-          'code': code,
-          'name': name,
-          'phone': phone,
-          'grade': grade,
-          'teacherCode': teacherCode,
-          'password': password,
-          'role': 'student',
-          'createdAt': FieldValue.serverTimestamp(),
-        });
+            .set(updatedStudent.toJson());
       }
 
       return user;
     } catch (e) {
       throw Exception("Registration failed: $e");
+    }
+  }
+
+  // Update Student
+  Future<void> updateStudentDetails(StudentModel updatedStudent) async {
+    try {
+      DocumentReference studentDoc = FirebaseFirestore.instance
+          .collection('students')
+          .doc(updatedStudent.id);
+
+      await studentDoc.update(updatedStudent.toJson());
+    } catch (e) {
+      throw Exception("Failed to update student details: $e");
     }
   }
 
@@ -99,8 +118,7 @@ class FirebaseServices {
   Future<User?> signInWithCodeAndPassword(
       String code, String password, BuildContext context) async {
     try {
-      // Convert code to email for authentication
-      final String email = "$code@gmail.com"; // Custom email format
+      String email = "$code@gmail.com"; // Custom email format
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,

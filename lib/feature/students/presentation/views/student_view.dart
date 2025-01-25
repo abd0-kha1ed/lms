@@ -1,5 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player_app/constant.dart';
+// Import StudentModel
+import 'package:video_player_app/core/widget/custom_icon_button.dart';
+import 'package:video_player_app/core/widget/custom_show_diolog.dart';
+import 'package:video_player_app/feature/assistant/presentation/view/widget/whats_phone.dart';
+import 'package:video_player_app/feature/auth/data/model/student_model.dart';
+import 'package:video_player_app/feature/students/add_new_student_view.dart';
+// Fixed typo: 'edti_student.dart' -> 'edit_student.dart'
+import 'package:video_player_app/feature/students/presentation/views/edti_student.dart';
+import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/grade_list_view.dart';
+import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class StudentView extends StatefulWidget {
   const StudentView({super.key});
@@ -11,18 +23,24 @@ class StudentView extends StatefulWidget {
 class _StudentViewState extends State<StudentView> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = "";
+  String _selectedGrade = ""; // Variable to store the selected grade
 
   Stream<QuerySnapshot> _getStudentsStream() {
     final studentsCollection =
         FirebaseFirestore.instance.collection('students');
-    if (_searchQuery.isEmpty) {
-      return studentsCollection.snapshots();
-    } else {
-      return studentsCollection
+    Query query = studentsCollection;
+
+    if (_searchQuery.isNotEmpty) {
+      query = query
           .where('name', isGreaterThanOrEqualTo: _searchQuery)
-          .where('name', isLessThanOrEqualTo: '$_searchQuery\uf8ff')
-          .snapshots();
+          .where('name', isLessThanOrEqualTo: '$_searchQuery\uf8ff');
     }
+
+    if (_selectedGrade.isNotEmpty) {
+      query = query.where('grade', isEqualTo: _selectedGrade);
+    }
+
+    return query.snapshots();
   }
 
   void _deleteStudent(String id) async {
@@ -41,7 +59,9 @@ class _StudentViewState extends State<StudentView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
+        backgroundColor: Colors.grey[100],
         title: Text("Students List"),
       ),
       body: Padding(
@@ -79,25 +99,63 @@ class _StudentViewState extends State<StudentView> {
               ],
             ),
             SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                FilterChip(
-                  label: Text("All Grades"),
-                  onSelected: (value) {},
-                  selected: true,
+            SizedBox(
+              height: 45,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: FilterChip(
+                        label: Text(LocaleKeys.allGrades.tr()),
+                        selected: _selectedGrade.isEmpty,
+                        onSelected: (selected) {
+                          setState(() {
+                            _selectedGrade = "";
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: FilterChip(
+                        label: Text("3rd Secondary"),
+                        selected: _selectedGrade == "3rd Secondary",
+                        onSelected: (selected) {
+                          setState(() {
+                            _selectedGrade = "3rd Secondary";
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: FilterChip(
+                        label: Text("2nd Secondary"),
+                        selected: _selectedGrade == "2nd Secondary",
+                        onSelected: (selected) {
+                          setState(() {
+                            _selectedGrade = "2nd Secondary";
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: FilterChip(
+                        label: Text("1st Secondary"),
+                        selected: _selectedGrade == "1st Secondary",
+                        onSelected: (selected) {
+                          setState(() {
+                            _selectedGrade = "1st Secondary";
+                          });
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                FilterChip(
-                  label: Text("3rd Secondary"),
-                  onSelected: (value) {},
-                  selected: false,
-                ),
-                FilterChip(
-                  label: Text("2nd Secondary"),
-                  onSelected: (value) {},
-                  selected: false,
-                ),
-              ],
+              ),
             ),
             SizedBox(height: 16),
             Expanded(
@@ -117,47 +175,68 @@ class _StudentViewState extends State<StudentView> {
                   return ListView.builder(
                     itemCount: students.length,
                     itemBuilder: (context, index) {
-                      final student =
+                      final studentData =
                           students[index].data() as Map<String, dynamic>;
+                      final student = StudentModel.fromJson(studentData);
                       final id = students[index].id;
                       return Card(
+                        elevation: 3,
                         margin: EdgeInsets.symmetric(vertical: 8),
                         child: ListTile(
                           leading: Container(
                             padding: EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: Colors.green,
+                              color: kPrimaryColor,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
-                              student['code'] ?? "",
+                              student.code,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
-                          title: Text(student['name'] ?? "Unknown"),
-                          subtitle: Text(student['phone'] ?? ""),
+                          title: Text(student.name),
+                          subtitle: Text(student.phone),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
+                              WhatsPhone(phoneNumber: student.phone),
                               IconButton(
-                                icon: Icon(Icons.phone, color: Colors.green),
-                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.edit,
+                                  color: Colors.green,
+                                  size: 30,
+                                ),
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return EditStudent(
+                                      studentModel: student,
+                                    );
+                                  }));
+                                },
                               ),
-                              IconButton(
-                                icon: Icon(Icons.wechat_sharp,
-                                    color: Colors.green),
-                                onPressed: () {},
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.edit, color: Colors.green),
-                                onPressed: () {},
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.delete, color: Colors.red),
-                                onPressed: () => _deleteStudent(id),
-                              ),
+                              CustomIconButton(
+                                onPressed: () async {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return CustomShowDialog(
+                                        onPressed: () async {
+                                          _deleteStudent(id);
+                                          Navigator.of(context).pop();
+                                        },
+                                      );
+                                    },
+                                  );
+                                },
+                                icon: const Icon(
+                                  Icons.delete_forever,
+                                  size: 35,
+                                  color: Colors.red,
+                                ),
+                              )
                             ],
                           ),
                         ),
@@ -172,12 +251,19 @@ class _StudentViewState extends State<StudentView> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.pushNamed(
-              context, '/add_student'); // Navigate to Add Student page
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return AddStudentScreen();
+          })); // Navigate to Add Student page
         },
-        label: Text("Add New Student"),
-        icon: Icon(Icons.add),
-        backgroundColor: Colors.green,
+        label: Text(
+          "Add New Student",
+          style: TextStyle(color: Colors.white),
+        ),
+        icon: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        backgroundColor: kPrimaryColor,
       ),
     );
   }

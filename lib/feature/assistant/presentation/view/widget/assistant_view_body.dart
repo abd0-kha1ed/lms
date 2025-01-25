@@ -4,8 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/utils/app_router.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
-
+// Import AssistantModel
 import 'package:video_player_app/feature/assistant/presentation/view/widget/assistant_item.dart';
+import 'package:video_player_app/feature/auth/data/model/assistant_model.dart';
 
 class AssistantViewBody extends StatelessWidget {
   const AssistantViewBody({super.key});
@@ -35,16 +36,18 @@ class AssistantViewBody extends StatelessWidget {
                 return ListView.builder(
                   itemCount: assistants.length,
                   itemBuilder: (context, index) {
-                    final assistant = assistants[index];
+                    final assistantData =
+                        assistants[index].data() as Map<String, dynamic>;
+                    final assistant = AssistantModel.fromJson(assistantData);
                     return AssistantWidget(
-                      name: assistant['name'],
-                      code: assistant['code'],
-                      email: assistant['email'],
-                      phone: assistant['phone'],
+                      name: assistant.name,
+                      code: assistant.code,
+                      email: assistant.email,
+                      phone: assistant.phone,
                       onDelete: () async {
                         await FirebaseFirestore.instance
                             .collection('assistants')
-                            .doc(assistant.id)
+                            .doc(assistants[index].id)
                             .delete();
                       },
                     );
@@ -53,12 +56,15 @@ class AssistantViewBody extends StatelessWidget {
               },
             ),
           ),
-          CustomButton(
-            title: 'Add New Assistant',
-            color: kPrimaryColor,
-            onTap: () {
-              GoRouter.of(context).push(AppRouter.kAddnewAssistantView);
-            },
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
+            child: CustomButton(
+              title: 'Add New Assistant',
+              color: kPrimaryColor,
+              onTap: () {
+                GoRouter.of(context).push(AppRouter.kAddnewAssistantView);
+              },
+            ),
           ),
         ],
       ),
