@@ -1,79 +1,132 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:video_player_app/core/utils/app_router.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
 import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/video_container.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class VideoItemListView extends StatelessWidget {
   const VideoItemListView({super.key});
+
+  String? getThumbnailUrl(String videoUrl) {
+    final videoId = YoutubePlayer.convertUrlToId(videoUrl);
+    if (videoId != null) {
+      return 'https://img.youtube.com/vi/$videoId/hqdefault.jpg';
+    } else {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: 3,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.27,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                        'https://yt3.googleusercontent.com/96CYBF7jrMfaFOYsiKRCUvBj_MHw1mytQyPo-SItjAn-LkrUO77ZVusowBiyGa5PrXtmnic9=s900-c-k-c0x00ffffff-no-rj',
-                      )),
-                  borderRadius: BorderRadius.circular(8),
+    return BlocBuilder<VideoCubit, VideoState>(
+      builder: (context, state) {
+        if (state is VideoLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is VideoLoaded) {
+          final videos = state.videos;
+
+          if (videos.isEmpty) {
+            return const Center(child: Text('No Videos Available'));
+          }
+
+          return ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: videos.length,
+            itemBuilder: (context, index) {
+              final thumbnailUrl = getThumbnailUrl(videos[index].videoUrl);
+
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: GestureDetector(
+                  onTap: () {
+                    GoRouter.of(context).push(AppRouter.kYoutubeVideoPlayerView,
+                        extra: videos[index]);
+                  },
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      thumbnailUrl != null
+                          ? CachedNetworkImage(
+                            
+                              imageUrl: thumbnailUrl,
+                              fit: BoxFit.fill,
+                              placeholder: (context, url) => const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Center(
+                                child: Icon(Icons.broken_image,
+                                    size: 50, color: Colors.grey),
+                              ),
+                            )
+                          : const Center(
+                              child: Icon(Icons.broken_image,
+                                  size: 50, color: Colors.grey),
+                            ),
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            videos[index].title,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
+                          ),
+                          IconButton(
+                              onPressed: () {}, icon: const Icon(Icons.edit))
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(LocaleKeys.videoUploadedBy.tr()),
+                          const Text(
+                            'Abdo Khaled',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          const Spacer(),
+                          Text(videos[index].createdAt.toDate().toString()),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          VideoContainer(
+                              text: videos[index].grade, color: Colors.red),
+                          VideoContainer(
+                            text: videos[index].isVideoVisible == true
+                                ? LocaleKeys.visible.tr()
+                                : '',
+                            color: Colors.teal,
+                            icon: Icons.visibility,
+                          ),
+                          VideoContainer(
+                            text: LocaleKeys.approved.tr(),
+                            color: Colors.green,
+                            icon: Icons.check,
+                          ),
+                          const Icon(Icons.lock_open, size: 30),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'title',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  IconButton(onPressed: () {}, icon: Icon(Icons.edit))
-                ],
-              ),
-              Row(
-                children: [
-                  Text(LocaleKeys.videoUploadedBy.tr()),
-                  const Text(
-                    'Abdo Khaled',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const Spacer(),
-                  Text('6 months ago'),
-                ],
-              ),
-              const SizedBox(height: 5),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  VideoContainer(
-                      text: LocaleKeys.twelve.tr(), color: Colors.red),
-                  VideoContainer(
-                    text: LocaleKeys.visible.tr(),
-                    color: Colors.teal,
-                    icon: Icons.visibility,
-                  ),
-                  VideoContainer(
-                    text: LocaleKeys.approved.tr(),
-                    color: Colors.green,
-                    icon: Icons.check,
-                  ),
-                  Icon(Icons.lock_open, size: 30),
-                ],
-              ),
-              const SizedBox(height: 20),
-            ],
-          ),
-        );
+              );
+            },
+          );
+        } else if (state is VideoError) {
+          return Center(child: Text('There was an error ${state.error}'));
+        } else {
+          return const Center(child: Text('refresh'));
+        }
       },
     );
   }
 }
-

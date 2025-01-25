@@ -64,7 +64,7 @@ class _EditStudentState extends State<EditStudent> {
       );
 
       // Call the update function
-      await AuthService().updateStudentDetails(updatedStudent);
+      await FirebaseServices().updateStudentDetails(updatedStudent);
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Student updated successfully!")),

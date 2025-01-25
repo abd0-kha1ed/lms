@@ -63,7 +63,7 @@ class _CustomAlertDialogWidgetState extends State<CustomAlertDialogWidget> {
               TextButton(
                 onPressed: () async {
                   try {
-                    await AuthService().signOut();
+                    await FirebaseServices().signOut();
 
                     // Navigate to login page
                     GoRouter.of(context).go(

@@ -52,7 +52,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
       );
 
       // Call the AuthService to register the student
-      await AuthService().registerStudent(
+      await FirebaseServices().registerStudent(
         student,
       );
 

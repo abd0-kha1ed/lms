@@ -31,9 +31,15 @@ class TeacherHomeViewBody extends StatelessWidget {
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Text(
-              'Abdo Khaled',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(onPressed: (){}, icon: Icon(Icons.refresh)),
+                Text(
+                  'Abdo Khaled',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
           ),
         ),

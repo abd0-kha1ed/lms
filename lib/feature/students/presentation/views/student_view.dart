@@ -4,21 +4,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player_app/constant.dart';
-// Import StudentModel
 import 'package:video_player_app/core/widget/custom_icon_button.dart';
 import 'package:video_player_app/core/widget/custom_show_diolog.dart';
 import 'package:video_player_app/feature/assistant/presentation/view/widget/whats_phone.dart';
 import 'package:video_player_app/feature/auth/data/model/student_model.dart';
 import 'package:video_player_app/feature/students/add_new_student_view.dart';
-// Fixed typo: 'edti_student.dart' -> 'edit_student.dart'
 import 'package:video_player_app/feature/students/presentation/views/edti_student.dart';
-
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class StudentView extends StatefulWidget {
   const StudentView({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _StudentViewState createState() => _StudentViewState();
 }
 
