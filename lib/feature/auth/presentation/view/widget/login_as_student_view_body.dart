@@ -23,10 +23,9 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   String? code, password;
   bool _isPasswordVisible = false;
-<<<<<<< HEAD
   bool _isLoading = false; // Loading state for login button
 
-  final AuthService _authService = AuthService();
+  final FirebaseServices _authService = FirebaseServices();
 
   Future<void> login(BuildContext context, String code, String password) async {
     if (!formKey.currentState!.validate()) {
@@ -64,10 +63,6 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
       });
     }
   }
-=======
-  final FirebaseServices _authService =
-      FirebaseServices(); // Create an instance of AuthService
->>>>>>> a503750f58cf8d83edc430b52a1b89f82b48ef99
 
   @override
   Widget build(BuildContext context) {

@@ -3,8 +3,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/services/auth_services.dart';
+import 'package:video_player_app/core/utils/app_router.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
 import 'package:video_player_app/core/widget/custom_text_form_field.dart';
 import 'package:video_player_app/feature/auth/presentation/view/widget/custom_login_container.dart';
@@ -22,10 +24,9 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   String? code, password;
   bool _isPasswordVisible = false;
-<<<<<<< HEAD
   bool _isLoading = false; // Loading state for login button
 
-  final AuthService _authService = AuthService();
+  final FirebaseServices _authService = FirebaseServices();
 
   Future<void> login(BuildContext context, String code, String password) async {
     if (!formKey.currentState!.validate()) {
@@ -44,10 +45,7 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
         String role = userData['role'];
         if (role == 'teacher') {
           // Navigate to Teacher Home View
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const TeacherHomeView()),
-          );
+          GoRouter.of(context).push(AppRouter.kTeacherHomeView);
         }
       } else {
         // No user data found
@@ -68,10 +66,6 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
       });
     }
   }
-=======
-  final FirebaseServices _authService =
-      FirebaseServices(); // Create an instance of AuthService
->>>>>>> a503750f58cf8d83edc430b52a1b89f82b48ef99
 
   @override
   Widget build(BuildContext context) {
