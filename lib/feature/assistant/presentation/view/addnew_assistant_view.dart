@@ -20,7 +20,7 @@ class _AddnewAssistantViewState extends State<AddnewAssistantView> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _teacherCodeController = TextEditingController();
 
-  final AuthService _authService = AuthService();
+  final FirebaseServices _authService = FirebaseServices();
 
   Future<void> _registerAssistant() async {
     if (_formKey.currentState!.validate()) {

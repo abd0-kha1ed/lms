@@ -8,7 +8,6 @@ import 'package:video_player_app/core/utils/app_router.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
 import 'package:video_player_app/core/widget/custom_text_form_field.dart';
 import 'package:video_player_app/feature/auth/presentation/view/widget/custom_login_container.dart';
-import 'package:video_player_app/feature/teacher%20home/presentation/view/teacher_home_view.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 // Import AuthService
 
@@ -24,8 +23,8 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   String? code, password;
   bool _isPasswordVisible = false;
-  final AuthService _authService =
-      AuthService(); // Create an instance of AuthService
+  final FirebaseServices _authService =
+      FirebaseServices(); // Create an instance of AuthService
 
   @override
   Widget build(BuildContext context) {

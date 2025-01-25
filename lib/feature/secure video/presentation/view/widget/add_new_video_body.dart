@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player_app/constant.dart';
+import 'package:video_player_app/core/utils/function/custom_snack_bar.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
-import 'package:video_player_app/core/widget/custom_dropdown.dart';
+import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
+import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
 import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/customize_textfield.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
@@ -17,9 +21,9 @@ class AddNewVideoBody extends StatefulWidget {
 class _AddNewVideoBodyState extends State<AddNewVideoBody> {
   final GlobalKey<FormState> formKey = GlobalKey();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-  String? videoUrl, title, description, grade;
+  String? videoUrl, title, description;
   String videoDuration = "00:00:00";
-  String? selectedExperienceLevel;
+  String? selectedGrade;
   bool isVideoVisible = true;
   bool isVideoExpirable = false;
   DateTime? expiryDate;
@@ -198,28 +202,42 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                 Text(LocaleKeys.grade.tr()),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.35,
-                  child: CustomDropdown(
-                      onChanged: (value) {
-                        setState(() {
-                          selectedExperienceLevel = value;
-                        });
-                      },
-                      validator: (value) {
-                        if (value?.isEmpty ?? true) {
-                          return 'Choose grade';
-                        } else {
-                          return null;
-                        }
-                      },
-                      items: [
-                        LocaleKeys.seven.tr(),
-                        LocaleKeys.eight.tr(),
-                        LocaleKeys.nine.tr(),
-                        LocaleKeys.ten.tr(),
-                        LocaleKeys.eleven.tr(),
-                        LocaleKeys.twelve.tr(),
-                      ]),
-                )
+                  child: DropdownButtonFormField<String>(
+                    validator: (level) {
+                      return level == null ? 'Choose grade' : null;
+                    },
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: kPrimaryColor,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none),
+                    ),
+                    value: selectedGrade,
+                    hint: const Text('Choose grade',
+                        style: TextStyle(color: Colors.white)),
+                    items: [
+                      LocaleKeys.seven.tr(),
+                      LocaleKeys.eight.tr(),
+                      LocaleKeys.nine.tr(),
+                      LocaleKeys.ten.tr(),
+                      LocaleKeys.eleven.tr(),
+                      LocaleKeys.twelve.tr(),
+                    ]
+                        .map(
+                          (level) => DropdownMenuItem<String>(
+                            value: level,
+                            child: Text(level),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (level) {
+                      setState(() {
+                        selectedGrade = level;
+                      });
+                    },
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 10),
@@ -300,18 +318,44 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                 ),
               ),
             const SizedBox(height: 15),
-            CustomButton(
-              title: LocaleKeys.add.tr(),
-              color: Colors.deepPurple,
-              onTap: () {
-                if (formKey.currentState!.validate()) {
-                  formKey.currentState!.save();
-                } else {
-                  autovalidateMode = AutovalidateMode.always;
-                  setState(() {
-                    
-                  });
+            BlocConsumer<VideoCubit, VideoState>(
+              listener: (context, state) {
+                if (state is VideoAddedSuccessfully) {
+                  customSnackBar(context, 'Video was added successfully');
                 }
+              },
+              builder: (context, state) {
+                if (state is VideoLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                return CustomButton(
+                  title: LocaleKeys.add.tr(),
+                  color: Colors.deepPurple,
+                  onTap: () {
+                    if (formKey.currentState!.validate()) {
+                      formKey.currentState!.save();
+
+                      final video = VideoModel(
+                        createdAt: Timestamp.now(),
+                        id: UniqueKey().toString(),
+                        title: title!,
+                        description: description ?? '',
+                        videoUrl: videoUrl!,
+                        grade: selectedGrade!,
+                        videoDuration: videoDuration,
+                        isVideoVisible: isVideoVisible,
+                        isVideoExpirable: isVideoExpirable,
+                        expiryDate: expiryDate,
+                      );
+
+                      context.read<VideoCubit>().addVideo(video);
+                    } else {
+                      autovalidateMode = AutovalidateMode.always;
+                      setState(() {});
+                    }
+                  },
+                );
               },
             )
           ],

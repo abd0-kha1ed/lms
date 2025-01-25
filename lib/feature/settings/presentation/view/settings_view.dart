@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/widget/custom_alert_dioalog.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
@@ -11,11 +10,11 @@ class SettingsView extends StatelessWidget {
   final String userCode;
 
   const SettingsView({
-    Key? key,
+    super.key,
     required this.userName,
     required this.userRole,
     required this.userCode,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

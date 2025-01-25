@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
 
-class AuthService {
+class FirebaseServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final CollectionReference videosCollection =
+      FirebaseFirestore.instance.collection('videos');
 
   // Register Assistant
   Future<User?> registerAssistant({
@@ -147,4 +150,18 @@ class AuthService {
 
   // Auth state changes
   Stream<User?> get authStateChanges => _auth.authStateChanges();
+
+  Future<void> addVideo(VideoModel video) async {
+  final docRef = videosCollection.doc(); 
+  await docRef.set(video.toMap());
+}
+
+
+  Future<List<VideoModel>> fetchVideos() async {
+  final querySnapshot = await videosCollection.get();
+  return querySnapshot.docs
+      .map((doc) => VideoModel.fromMap(doc.data() as Map<String, dynamic>, doc.id))
+      .toList();
+}
+
 }

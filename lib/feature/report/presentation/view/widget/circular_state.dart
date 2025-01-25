@@ -3,12 +3,12 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class CircularState extends StatelessWidget {
   const CircularState({
-    Key? key,
+    super.key,
     required this.count,
     required this.color,
     required this.lable,
     this.onTap,
-  }) : super(key: key);
+  });
   final int count;
   final Color color;
   final String lable;

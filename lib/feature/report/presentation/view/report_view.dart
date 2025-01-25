@@ -1,14 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/utils/app_router.dart';
 import 'package:video_player_app/feature/report/presentation/view/widget/circular_state.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class ReportView extends StatelessWidget {
+  const ReportView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

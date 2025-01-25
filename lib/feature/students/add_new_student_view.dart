@@ -3,6 +3,8 @@ import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/core/widget/custom_text_form_field.dart';
 
 class AddStudentScreen extends StatefulWidget {
+  const AddStudentScreen({super.key});
+
   @override
   _AddStudentScreenState createState() => _AddStudentScreenState();
 }
@@ -27,7 +29,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
     });
 
     try {
-      await AuthService().registerStudent(
+      await FirebaseServices().registerStudent(
         code: _codeController.text.trim(),
         name: _nameController.text.trim(),
         phone: _phoneController.text.trim(),

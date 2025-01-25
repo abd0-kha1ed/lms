@@ -22,8 +22,8 @@ class _LoginAsAssistantViewBodyState extends State<LoginAsAssistantViewBody> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   String? code, password;
   bool _isPasswordVisible = false;
-  final AuthService _authService =
-      AuthService(); // Create an instance of AuthService
+  final FirebaseServices _authService =
+      FirebaseServices(); // Create an instance of AuthService
 
   @override
   Widget build(BuildContext context) {
