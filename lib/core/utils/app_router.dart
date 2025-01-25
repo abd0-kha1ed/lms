@@ -49,7 +49,7 @@ abstract class AppRouter {
     ),
     GoRoute(
       path: kAddnewAssistantView,
-      builder: (context, state) => AddnewAssistantView(),
+      builder: (context, state) => AddNewAssistantView(),
     ),
   ]);
 }
