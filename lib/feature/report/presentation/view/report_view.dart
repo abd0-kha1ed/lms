@@ -140,10 +140,18 @@ class _ReportViewState extends State<ReportView> {
               crossAxisSpacing: 16,
               padding: const EdgeInsets.all(16.0),
               children: [
-                buildStatCard("Approved Videos", 8, Colors.teal, Icons.check),
-                buildStatCard("Rejected Videos", 1, Colors.red, Icons.close),
-                buildStatCard(
-                    "Pending Videos", 0, Colors.orange, Icons.pending),
+                buildStatCard("Approved Videos", 8, Colors.teal, Icons.check,
+                    () {
+                  GoRouter.of(context).push(AppRouter.kApprovedVideo);
+                }),
+                buildStatCard("Rejected Videos", 1, Colors.red, Icons.close,
+                    () {
+                  GoRouter.of(context).push(AppRouter.kRejectedVideo);
+                }),
+                buildStatCard("Pending Videos", 0, Colors.orange, Icons.pending,
+                    () {
+                  GoRouter.of(context).push(AppRouter.kPendingVideo);
+                }),
               ],
             ),
           ),
@@ -152,40 +160,44 @@ class _ReportViewState extends State<ReportView> {
     );
   }
 
-  Widget buildStatCard(String label, int count, Color color, IconData icon) {
-    return Card(
-      elevation: 3,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(
-              icon,
-              color: color,
-              size: 32,
-            ),
-            const SizedBox(height: 10),
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const Spacer(),
-            Text(
-              "$count",
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
+  Widget buildStatCard(
+      String label, int count, Color color, IconData icon, Function()? onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        elevation: 3,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                icon,
                 color: color,
+                size: 32,
               ),
-            ),
-          ],
+              const SizedBox(height: 10),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Spacer(),
+              Text(
+                "$count",
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: color,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

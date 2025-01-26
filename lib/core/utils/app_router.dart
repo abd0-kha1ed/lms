@@ -5,6 +5,9 @@ import 'package:video_player_app/feature/assistant/presentation/view/addnew_assi
 import 'package:video_player_app/feature/auth/presentation/view/login_as_assistant_view.dart';
 import 'package:video_player_app/feature/auth/presentation/view/login_as_student_view.dart';
 import 'package:video_player_app/feature/auth/presentation/view/login_as_teacher_view.dart';
+import 'package:video_player_app/feature/report/presentation/view/approved_video.dart';
+import 'package:video_player_app/feature/report/presentation/view/pending_video.dart';
+import 'package:video_player_app/feature/report/presentation/view/rejected_video.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/edit_video_view.dart';
 import 'package:video_player_app/feature/splash/presentation/splash_view.dart';
 import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
@@ -30,6 +33,9 @@ abstract class AppRouter {
   static const kUserAsStudentView = '/UserAsStudentView';
   static const kYoutubeVideoPlayerView = '/youtubeVideo';
   static const kEditVideoView = '/editVideoView';
+  static const kApprovedVideo = '/ApprovedVideo';
+  static const kRejectedVideo = '/RejectedVideo';
+  static const kPendingVideo = '/PendingVideo';
 
   static final routes = GoRouter(routes: [
     GoRoute(
@@ -89,6 +95,18 @@ abstract class AppRouter {
         create: (context) => VideoCubit(FirebaseServices()),
         child: EditVideoView(videoModel: state.extra as VideoModel),
       ),
+    ),
+    GoRoute(
+      path: kApprovedVideo,
+      builder: (context, state) => ApprovedVideo(),
+    ),
+    GoRoute(
+      path: kRejectedVideo,
+      builder: (context, state) => RejectedVideo(),
+    ),
+    GoRoute(
+      path: kPendingVideo,
+      builder: (context, state) => PendingVideo(),
     ),
   ]);
 }

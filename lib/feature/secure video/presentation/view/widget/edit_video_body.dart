@@ -358,6 +358,7 @@ class _EditVideoBodyState extends State<EditVideoBody> {
                         final updatedVideo = VideoModel(
                           createdAt: widget.videoModel.createdAt,
                           id: widget.videoModel.id,
+                          uploaderName: widget.videoModel.uploaderName,
                           title: titleController.text.trim(),
                           description: descController.text.trim(),
                           videoUrl: urlController.text.trim(),

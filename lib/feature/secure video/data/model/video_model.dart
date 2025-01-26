@@ -7,6 +7,8 @@ class VideoModel {
   final String videoUrl;
   final String grade;
   final String videoDuration;
+  final String uploaderName;
+  final bool? isApproved;
   final bool isVideoVisible;
   final bool isVideoExpirable;
   final DateTime? expiryDate;
@@ -18,9 +20,11 @@ class VideoModel {
     required this.description,
     required this.videoUrl,
     required this.grade,
+    required this.uploaderName,
     required this.videoDuration,
     required this.isVideoVisible,
     required this.isVideoExpirable,
+    this.isApproved,
     this.expiryDate,
     required this.createdAt,
   });
@@ -32,7 +36,9 @@ class VideoModel {
       'title': title,
       'description': description ?? '',
       'videoUrl': videoUrl,
+      'isApproved': isApproved,
       'grade': grade,
+      'uploaderName': uploaderName,
       'videoDuration': videoDuration,
       'isVideoVisible': isVideoVisible,
       'isVideoExpirable': isVideoExpirable,
@@ -48,7 +54,9 @@ class VideoModel {
       title: map['title'],
       description: map['description'],
       videoUrl: map['videoUrl'],
+      isApproved: map['isApproved'],
       grade: map['grade'],
+      uploaderName: map['uploaderName'],
       videoDuration: map['videoDuration'],
       isVideoVisible: map['isVideoVisible'],
       isVideoExpirable: map['isVideoExpirable'],
