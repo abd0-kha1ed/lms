@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,22 +10,35 @@ import 'package:video_player_app/feature/secure%20video/presentation/view/manger
 import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/customize_textfield.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
-class AddNewVideoBody extends StatefulWidget {
-  const AddNewVideoBody({super.key});
+class EditVideoBody extends StatefulWidget {
+  const EditVideoBody({super.key, required this.videoModel});
+  final VideoModel videoModel;
 
   @override
-  State<AddNewVideoBody> createState() => _AddNewVideoBodyState();
+  State<EditVideoBody> createState() => _EditVideoBodyState();
 }
 
-class _AddNewVideoBodyState extends State<AddNewVideoBody> {
+class _EditVideoBodyState extends State<EditVideoBody> {
   final GlobalKey<FormState> formKey = GlobalKey();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  final TextEditingController urlController = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descController = TextEditingController();
+
   String? videoUrl, title, description;
-  String videoDuration = "00:00:00";
+  String? videoDuration;
   String? selectedGrade;
-  bool isVideoVisible = true;
-  bool isVideoExpirable = false;
+  bool? isVideoVisible;
+  bool? isVideoExpirable;
   DateTime? expiryDate;
+
+  @override
+  void initState() {
+    urlController.text = widget.videoModel.videoUrl;
+    titleController.text = widget.videoModel.title;
+    descController.text = widget.videoModel.description!;
+    super.initState();
+  }
 
   void showDurationPicker(BuildContext context) {
     int selectedHour = 0;
@@ -162,6 +174,7 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
           child: Column(
             children: [
               CustomizeTextfield(
+                controller: urlController,
                 text: LocaleKeys.videoLink.tr(),
                 color: kPrimaryColor,
                 onChanged: (value) {
@@ -178,6 +191,7 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
               const SizedBox(height: 10),
               CustomizeTextfield(
                 text: LocaleKeys.videoTitle.tr(),
+                controller: titleController,
                 color: kPrimaryColor,
                 onChanged: (value) {
                   title = value;
@@ -193,13 +207,11 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
               const SizedBox(height: 10),
               CustomizeTextfield(
                 text: LocaleKeys.videoDescription.tr(),
+                controller: descController,
                 color: kPrimaryColor,
                 maxLines: 6,
-                onChanged: (value) {
-                  description = value;
-                },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -217,7 +229,7 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide.none),
                       ),
-                      value: selectedGrade,
+                      value: widget.videoModel.grade,
                       hint: const Text('Choose grade',
                           style: TextStyle(color: Colors.white)),
                       items: [
@@ -260,7 +272,7 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                           borderRadius: BorderRadius.circular(8),
                           color: kPrimaryColor),
                       child: Text(
-                        videoDuration,
+                        videoDuration ?? widget.videoModel.videoDuration,
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
@@ -273,7 +285,7 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                 children: [
                   Text(LocaleKeys.visibility.tr()),
                   Switch(
-                    value: isVideoVisible,
+                    value: isVideoVisible ?? widget.videoModel.isVideoVisible,
                     onChanged: (bool value) {
                       setState(() {
                         isVideoVisible = value;
@@ -288,7 +300,8 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                 children: [
                   Text(LocaleKeys.canBeExpired.tr()),
                   Switch(
-                    value: isVideoExpirable,
+                    value:
+                        isVideoExpirable ?? widget.videoModel.isVideoExpirable,
                     onChanged: (bool value) {
                       setState(() {
                         isVideoExpirable = value;
@@ -300,7 +313,8 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                   ),
                 ],
               ),
-              if (isVideoExpirable && expiryDate != null)
+              if (isVideoExpirable ??
+                  widget.videoModel.isVideoExpirable && expiryDate != null)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   child: Row(
@@ -325,8 +339,8 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
               const SizedBox(height: 15),
               BlocConsumer<VideoCubit, VideoState>(
                 listener: (context, state) {
-                  if (state is VideoAddedSuccessfully) {
-                    customSnackBar(context, 'Video was added successfully');
+                  if (state is VideoUpdatedSuccessfully) {
+                    customSnackBar(context, 'Video was updated successfully');
                   }
                 },
                 builder: (context, state) {
@@ -335,27 +349,32 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                   }
 
                   return CustomButton(
-                    title: LocaleKeys.add.tr(),
+                    title: LocaleKeys.update.tr(),
                     color: Colors.deepPurple,
                     onTap: () {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
 
-                        final video = VideoModel(
-                          id: '',
-                          createdAt: Timestamp.now(),
-                          title: title!,
-                          description: description!,
-                          videoUrl: videoUrl!,
-                          grade: selectedGrade!,
-                          videoDuration: videoDuration,
-                          isVideoVisible: isVideoVisible,
-                          isVideoExpirable: isVideoExpirable,
-                          expiryDate: expiryDate,
+                        final updatedVideo = VideoModel(
+                          createdAt: widget.videoModel.createdAt,
+                          id: widget.videoModel.id,
+                          title: titleController.text.trim(),
+                          description: descController.text.trim(),
+                          videoUrl: urlController.text.trim(),
+                          grade: selectedGrade ?? widget.videoModel.grade,
+                          videoDuration:
+                              videoDuration ?? widget.videoModel.videoDuration,
+                          isVideoVisible: isVideoVisible ??
+                              widget.videoModel.isVideoVisible,
+                          isVideoExpirable: isVideoExpirable ??
+                              widget.videoModel.isVideoExpirable,
+                          expiryDate:
+                              expiryDate ?? widget.videoModel.expiryDate,
                         );
 
-                        context.read<VideoCubit>().addVideo(video);
-                        // GoRouter.of(context).pop();
+                        context
+                            .read<VideoCubit>()
+                            .editVideoDetails(updatedVideo);
                       } else {
                         autovalidateMode = AutovalidateMode.always;
                         setState(() {});

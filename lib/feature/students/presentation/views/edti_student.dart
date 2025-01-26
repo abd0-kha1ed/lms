@@ -2,6 +2,7 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
@@ -32,7 +33,6 @@ class _EditStudentState extends State<EditStudent> {
   @override
   void initState() {
     super.initState();
-    // Pre-fill the form fields with the existing student data
     _nameController.text = widget.studentModel.name;
     _codeController.text = widget.studentModel.code;
     _phoneController.text = widget.studentModel.phone;
@@ -70,7 +70,7 @@ class _EditStudentState extends State<EditStudent> {
         SnackBar(content: Text("Student updated successfully!")),
       );
 
-      Navigator.pop(context); // Go back to the previous screen
+      GoRouter.of(context).pop(); // Go back to the previous screen
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Update failed: $e")),

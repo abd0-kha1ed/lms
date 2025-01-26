@@ -74,30 +74,32 @@ class _YouTubeVideoPlayerState extends State<YouTubeVideoPlayer> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          GestureDetector(
-            onDoubleTapDown: (details) {
-              final screenWidth = MediaQuery.of(context).size.width;
-              final tapPosition = details.localPosition.dx;
+          Stack(children: [
+            GestureDetector(
+              onDoubleTapDown: (details) {
+                final screenWidth = MediaQuery.of(context).size.width;
+                final tapPosition = details.localPosition.dx;
 
-              if (tapPosition < screenWidth / 2) {
-                // If the left part of the screen is clicked -> Delay
-                skipBackward();
-              } else {
-                // If the left part of the screen is clicked -> Progress
-                skipForward();
-              }
-            },
-            child: YoutubePlayer(
-              controller: _controller,
-              showVideoProgressIndicator: true,
-              onReady: () {
-                print('Player is ready.');
+                if (tapPosition < screenWidth / 2) {
+                  // If the left part of the screen is clicked -> Delay
+                  skipBackward();
+                } else {
+                  // If the left part of the screen is clicked -> Progress
+                  skipForward();
+                }
               },
-              onEnded: (data) {
-                print('Video has ended.');
-              },
+              child: YoutubePlayer(
+                controller: _controller,
+                showVideoProgressIndicator: true,
+                onReady: () {
+                  print('Player is ready.');
+                },
+                onEnded: (data) {
+                  print('Video has ended.');
+                },
+              ),
             ),
-          ),
+          ]),
           if (showOverlay)
             Positioned(
               child: Container(

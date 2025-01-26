@@ -18,7 +18,8 @@ class VideoLoaded extends VideoState {
 }
 
 class VideoAddedSuccessfully extends VideoState {}
-
+class VideoUpdatedSuccessfully extends VideoState {}
+class VideoDeletedSuccessfully extends VideoState {}
 class VideoError extends VideoState {
   final String error;
 
