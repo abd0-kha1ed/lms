@@ -33,57 +33,80 @@ class _UserAsStudentViewBodyState extends State<UserAsStudentViewBody> {
       child: Scaffold(
           body: ListView(
         children: [
-          Row(
-            children: [
-              Text(
-                LocaleKeys.welcome.tr(),
-                style: TextStyle(fontSize: 22, color: kPrimaryColor),
-              ),
-              Spacer(),
-              IconButton(
-                  onPressed: () {
-                    context.read<VideoCubit>().fetchVideos();
-                  },
-                  icon: Icon(Icons.refresh)),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                Text(
+                  LocaleKeys.welcome.tr(),
+                  style: TextStyle(fontSize: 22, color: kPrimaryColor),
+                ),
+                Spacer(),
+                IconButton(
+                    onPressed: () {
+                      context.read<VideoCubit>().fetchVideos();
+                    },
+                    icon: Icon(Icons.refresh)),
+              ],
+            ),
           ),
           SizedBox(
             height: 16,
           ),
-          Row(
-            children: [
-              isLoading
-                  ? CircularProgressIndicator()
-                  : Text(
-                      userName ?? '',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-              Spacer(),
-              Container(
-                  decoration: BoxDecoration(
-                      color: kPrimaryColor,
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Center(
-                      child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: isLoading
-                        ? CircularProgressIndicator()
-                        : Text(
-                            grade ?? '',
-                            style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
-                  ))),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                isLoading
+                    ? CircularProgressIndicator()
+                    : Text(
+                        userName ?? '',
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                Spacer(),
+                Container(
+                    decoration: BoxDecoration(
+                        color: kPrimaryColor,
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Center(
+                        child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      child: isLoading
+                          ? CircularProgressIndicator()
+                          : Text(
+                              grade ?? '',
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                    ))),
+              ],
+            ),
           ),
           const SizedBox(
             height: 24,
           ),
-          VideoItemListView(),
+          BlocBuilder<VideoCubit, VideoState>(
+            builder: (context, state) {
+              if (state is VideoLoading) {
+                return Center();
+              } else if (state is VideoLoaded) {
+                return VideoItemListView(videos: state.videos);
+              } else if (state is VideoError) {
+                return Center(
+                  child: Text(
+                    state.error,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                );
+              } else {
+                return Center(child: Text("No Videos Available"));
+              }
+            },
+          ),
         ],
       )),
     );
@@ -103,9 +126,12 @@ class _UserAsStudentViewBodyState extends State<UserAsStudentViewBody> {
             final data = userDoc.data() as Map<String, dynamic>;
             setState(() {
               userName = data['name'] ?? 'Unknown Name';
-              grade = data['grade'] ?? 'UnKnow Name';
+              grade = data['grade'] ?? 'Unknown Grade';
               isLoading = false;
             });
+
+            // Pass the grade to the VideoCubit for filtering
+            context.read<VideoCubit>().setGrade(grade!);
             return;
           }
         }
@@ -117,7 +143,6 @@ class _UserAsStudentViewBodyState extends State<UserAsStudentViewBody> {
         });
       }
     } catch (e) {
-      // print("Error fetching user data: $e");
       setState(() {
         userName = 'Error';
         grade = 'Error';
