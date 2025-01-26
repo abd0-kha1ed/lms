@@ -226,6 +226,7 @@ class FirebaseServices {
       description: video.description,
       videoUrl: video.videoUrl,
       grade: video.grade,
+      uploaderName: video.uploaderName,
       videoDuration: video.videoDuration,
       isVideoVisible: video.isVideoVisible,
       isVideoExpirable: video.isVideoExpirable,
@@ -251,6 +252,17 @@ class FirebaseServices {
       await videoDoc.update(updatedVideo.toMap());
     } catch (e) {
       throw Exception("Failed to update student details: $e");
+    }
+  }
+
+  void approveVideo(String videoId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('videos')
+          .doc(videoId)
+          .update({'isApproved': true, 'isVideoVisible': true});
+    } catch (e) {
+      print("Error approving video: $e");
     }
   }
 

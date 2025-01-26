@@ -97,8 +97,9 @@ class VideoItemListView extends StatelessWidget {
                                 if (userRole == 'teacher')
                                   IconButton(
                                     onPressed: () {
-                                      GoRouter.of(context)
-                                          .push(AppRouter.kEditVideoView, extra: videos[index]);
+                                      GoRouter.of(context).push(
+                                          AppRouter.kEditVideoView,
+                                          extra: videos[index]);
                                     },
                                     icon: const Icon(Icons.edit),
                                   ),
@@ -107,8 +108,9 @@ class VideoItemListView extends StatelessWidget {
                             Row(
                               children: [
                                 Text(LocaleKeys.videoUploadedBy.tr()),
-                                const Text(
-                                  'Abdo Khaled',
+                                Text(
+                                  videos[index]
+                                      .uploaderName, // Display the uploader's name here,
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 const Spacer(),
@@ -133,7 +135,9 @@ class VideoItemListView extends StatelessWidget {
                                         ? LocaleKeys.visible.tr()
                                         : '',
                                     color: Colors.teal,
-                                    icon: videos[index].isVideoVisible == true? Icons.visibility : Icons.visibility_off,
+                                    icon: videos[index].isVideoVisible == true
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
                                   ),
                                   VideoContainer(
                                     text: LocaleKeys.approved.tr(),

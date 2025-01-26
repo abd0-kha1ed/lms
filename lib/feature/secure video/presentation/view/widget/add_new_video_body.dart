@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player_app/constant.dart';
+import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/core/utils/function/custom_snack_bar.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
 import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
@@ -21,12 +23,55 @@ class AddNewVideoBody extends StatefulWidget {
 class _AddNewVideoBodyState extends State<AddNewVideoBody> {
   final GlobalKey<FormState> formKey = GlobalKey();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-  String? videoUrl, title, description;
+  String? videoUrl, title, description, uploaderName;
   String videoDuration = "00:00:00";
   String? selectedGrade;
+  String? uploaderRole;
   bool isVideoVisible = true;
   bool isVideoExpirable = false;
   DateTime? expiryDate;
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch the role once when the widget is initialized
+    fetchUploaderDetails();
+  }
+
+  Future<void> fetchUploaderDetails() async {
+    try {
+      // Determine the uploader's role (teacher or assistant)
+      final role = await FirebaseServices()
+          .getUserRole(); // Assuming this returns 'teacher' or 'assistant'
+      String? uploaderName;
+
+      // Fetch uploader name based on their role
+      if (role == 'teacher') {
+        final teacherSnapshot = await FirebaseFirestore.instance
+            .collection('teachers')
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .get();
+        uploaderName = teacherSnapshot['name'];
+      } else if (role == 'assistant') {
+        final assistantSnapshot = await FirebaseFirestore.instance
+            .collection('assistants')
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .get();
+        uploaderName = assistantSnapshot['name'];
+      }
+
+      setState(() {
+        uploaderRole = role;
+        this.uploaderName = uploaderName ?? "Unknown";
+      });
+    } catch (e) {
+      print("Error fetching uploader details: $e");
+      setState(() {
+        uploaderRole = "Unknown";
+        uploaderName = "Unknown";
+      });
+    }
+  }
 
   void showDurationPicker(BuildContext context) {
     int selectedHour = 0;
@@ -341,6 +386,9 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
 
+                        // Determine approval status based on uploader role
+                        final isApproved = uploaderRole == 'teacher';
+
                         final video = VideoModel(
                           id: '',
                           createdAt: Timestamp.now(),
@@ -348,14 +396,27 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                           description: description!,
                           videoUrl: videoUrl!,
                           grade: selectedGrade!,
+                          uploaderName: uploaderName!,
                           videoDuration: videoDuration,
-                          isVideoVisible: isVideoVisible,
+                          isVideoVisible: false, // Only visible if approved
                           isVideoExpirable: isVideoExpirable,
                           expiryDate: expiryDate,
+                          isApproved: isApproved, // Store approval status
                         );
 
+                        // Save the video to Firestore or via Cubit
                         context.read<VideoCubit>().addVideo(video);
-                        // GoRouter.of(context).pop();
+
+                        // Show a message based on the approval status
+                        customSnackBar(
+                          context,
+                          isApproved
+                              ? 'Video uploaded and visible.'
+                              : 'Video uploaded and pending teacher approval.',
+                        );
+
+                        // Close the form or reset
+                        // GoRouter.of(context).pop(); // Uncomment if using GoRouter
                       } else {
                         autovalidateMode = AutovalidateMode.always;
                         setState(() {});
