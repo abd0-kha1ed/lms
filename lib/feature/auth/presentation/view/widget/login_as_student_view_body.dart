@@ -9,6 +9,7 @@ import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/core/utils/app_router.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
 import 'package:video_player_app/core/widget/custom_text_form_field.dart';
+import 'package:video_player_app/feature/auth/presentation/view/widget/code_video_directly.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class LoginAsStudentViewBody extends StatefulWidget {
@@ -135,6 +136,17 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
                     },
                   ),
             const SizedBox(height: 30),
+            TextButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return CodeVideoDirectly();
+                    });
+                },
+                style: ButtonStyle(
+                    foregroundColor: WidgetStatePropertyAll(kPrimaryColor)),
+                child: Text(LocaleKeys.useVideoCode)),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
