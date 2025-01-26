@@ -41,8 +41,20 @@ class VideoCubit extends Cubit<VideoState> {
     } catch (e) {
       emit(VideoError(e.toString()));
     }
+  }
+
   void setGrade(String grade) {
-    selectedGrade = grade; // Update the selected grade
-    fetchVideos(); // Refetch videos based on the new filter
+    selectedGrade = grade;
+    fetchVideos();
+  }
+
+  Future<void> deleteVideo(String id) async {
+    emit(VideoLoading());
+    try {
+      await firebaseServices.deleteVideo(id);
+      emit(VideoDeletedSuccessfully());
+    } catch (e) {
+      emit(VideoError(e.toString()));
+    }
   }
 }

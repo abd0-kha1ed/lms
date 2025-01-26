@@ -219,23 +219,34 @@ class FirebaseServices {
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
   Future<void> addVideo(VideoModel video) async {
-  // final docRef = videosCollection.doc(); 
-  await videosCollection.add(video.toMap());
-}
-
+    final docRef = videosCollection.doc(); // Generate a unique ID
+    final newVideo = VideoModel(
+      id: docRef.id, // Assign the generated ID
+      title: video.title,
+      description: video.description,
+      videoUrl: video.videoUrl,
+      grade: video.grade,
+      videoDuration: video.videoDuration,
+      isVideoVisible: video.isVideoVisible,
+      isVideoExpirable: video.isVideoExpirable,
+      expiryDate: video.expiryDate,
+      createdAt: Timestamp.now(),
+    );
+    await docRef.set(newVideo.toMap());
+  }
 
   Future<List<VideoModel>> fetchVideos() async {
-  final querySnapshot = await videosCollection.get();
-  return querySnapshot.docs
-      .map((doc) => VideoModel.fromMap(doc.data() as Map<String, dynamic>))
-      .toList();
-}
+    final querySnapshot = await videosCollection.get();
+    return querySnapshot.docs
+        .map((doc) => VideoModel.fromMap(doc.data() as Map<String, dynamic>)
+          ..id = doc.id) // Ensure the id is set properly from Firestore
+        .toList();
+  }
 
-Future<void> updateVideoDetails(VideoModel updatedVideo) async {
+  Future<void> updateVideoDetails(VideoModel updatedVideo) async {
     try {
-      DocumentReference videoDoc = FirebaseFirestore.instance
-          .collection('videos')
-          .doc(updatedVideo.id);
+      DocumentReference videoDoc =
+          FirebaseFirestore.instance.collection('videos').doc(updatedVideo.id);
 
       await videoDoc.update(updatedVideo.toMap());
     } catch (e) {
@@ -243,4 +254,7 @@ Future<void> updateVideoDetails(VideoModel updatedVideo) async {
     }
   }
 
+  Future<void> deleteVideo(String id) async {
+    videosCollection.doc(id).delete();
+  }
 }

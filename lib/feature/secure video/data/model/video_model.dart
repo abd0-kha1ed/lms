@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class VideoModel {
-   String id;
+  String id; // id is mutable to allow setting it later
   final String title;
-  final String description;
+  final String? description;
   final String videoUrl;
   final String grade;
   final String videoDuration;
@@ -12,8 +12,8 @@ class VideoModel {
   final DateTime? expiryDate;
   final Timestamp createdAt;
 
-  VideoModel(  {
-     required this.id,
+  VideoModel({
+    required this.id,
     required this.title,
     required this.description,
     required this.videoUrl,
@@ -25,24 +25,26 @@ class VideoModel {
     required this.createdAt,
   });
 
+  /// Convert to Map for Firestore
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'title': title,
-      'description': description,
+      'description': description ?? '',
       'videoUrl': videoUrl,
       'grade': grade,
       'videoDuration': videoDuration,
       'isVideoVisible': isVideoVisible,
       'isVideoExpirable': isVideoExpirable,
       'expiryDate': expiryDate?.toIso8601String(),
-      'createdAt': createdAt
+      'createdAt': createdAt,
     };
   }
 
+  /// Create from Map (Firestore data)
   factory VideoModel.fromMap(Map<String, dynamic> map) {
     return VideoModel(
-      id: map['id'],
+      id: map['id'] ?? '', // Default to empty string if id is missing
       title: map['title'],
       description: map['description'],
       videoUrl: map['videoUrl'],

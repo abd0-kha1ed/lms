@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -61,7 +60,7 @@ class DescriptionSection extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 color: const Color.fromARGB(255, 226, 217, 217)),
-            child: Text(videoModel.description),
+            child: Text(videoModel.description!),
           ),
           const SizedBox(height: 5),
           const Divider(),

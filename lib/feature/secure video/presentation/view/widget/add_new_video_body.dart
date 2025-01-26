@@ -195,8 +195,11 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                 text: LocaleKeys.videoDescription.tr(),
                 color: kPrimaryColor,
                 maxLines: 6,
+                onChanged: (value) {
+                  description = value;
+                },
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -339,10 +342,10 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                         formKey.currentState!.save();
 
                         final video = VideoModel(
+                          id: '',
                           createdAt: Timestamp.now(),
-                          id: UniqueKey().toString(),
                           title: title!,
-                          description: description ?? '',
+                          description: description!,
                           videoUrl: videoUrl!,
                           grade: selectedGrade!,
                           videoDuration: videoDuration,

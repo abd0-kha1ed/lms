@@ -79,8 +79,9 @@ class VideoItemListView extends StatelessWidget {
                           ),
                           IconButton(
                               onPressed: () {
-                                GoRouter.of(context)
-                                    .push(AppRouter.kEditVideoView, extra: videos[index]);
+                                GoRouter.of(context).push(
+                                    AppRouter.kEditVideoView,
+                                    extra: videos[index]);
                               },
                               icon: const Icon(Icons.edit))
                         ],
@@ -107,7 +108,9 @@ class VideoItemListView extends StatelessWidget {
                                 ? LocaleKeys.visible.tr()
                                 : '',
                             color: Colors.teal,
-                            icon: Icons.visibility,
+                            icon: videos[index].isVideoVisible == true
+                                ? Icons.visibility
+                                : Icons.visibility_off,
                           ),
                           VideoContainer(
                             text: LocaleKeys.approved.tr(),

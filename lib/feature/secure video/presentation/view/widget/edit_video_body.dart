@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,7 +36,7 @@ class _EditVideoBodyState extends State<EditVideoBody> {
   void initState() {
     urlController.text = widget.videoModel.videoUrl;
     titleController.text = widget.videoModel.title;
-    descController.text = widget.videoModel.description;
+    descController.text = widget.videoModel.description!;
     super.initState();
   }
 
@@ -369,11 +368,13 @@ class _EditVideoBodyState extends State<EditVideoBody> {
                               widget.videoModel.isVideoVisible,
                           isVideoExpirable: isVideoExpirable ??
                               widget.videoModel.isVideoExpirable,
-                          expiryDate: expiryDate ?? widget.videoModel.expiryDate,
+                          expiryDate:
+                              expiryDate ?? widget.videoModel.expiryDate,
                         );
 
-                        context.read<VideoCubit>().editVideoDetails(updatedVideo);
-                        // GoRouter.of(context).pop();
+                        context
+                            .read<VideoCubit>()
+                            .editVideoDetails(updatedVideo);
                       } else {
                         autovalidateMode = AutovalidateMode.always;
                         setState(() {});
