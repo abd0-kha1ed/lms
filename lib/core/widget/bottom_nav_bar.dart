@@ -5,6 +5,7 @@ class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _BottomNavBarState createState() => _BottomNavBarState();
 }
 
@@ -13,7 +14,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   final List<Widget> _pages = [
     TeacherHomeView(),
-    
   ];
 
   void _onItemTapped(int index) {
@@ -25,7 +25,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,

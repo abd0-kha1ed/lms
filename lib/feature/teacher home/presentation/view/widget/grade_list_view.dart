@@ -5,6 +5,7 @@ class HorizontalButtonList extends StatefulWidget {
   final List<String> items;
 
   @override
+  // ignore: library_private_types_in_public_api
   _HorizontalButtonListState createState() => _HorizontalButtonListState();
 }
 

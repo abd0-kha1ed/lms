@@ -5,6 +5,7 @@ import 'package:video_player_app/feature/assistant/presentation/view/addnew_assi
 import 'package:video_player_app/feature/auth/presentation/view/login_as_assistant_view.dart';
 import 'package:video_player_app/feature/auth/presentation/view/login_as_student_view.dart';
 import 'package:video_player_app/feature/auth/presentation/view/login_as_teacher_view.dart';
+import 'package:video_player_app/feature/splash/presentation/splash_view.dart';
 import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/youtube_video_player.dart';
@@ -12,6 +13,8 @@ import 'package:video_player_app/feature/teacher%20home/presentation/view/add_en
 import 'package:video_player_app/feature/secure%20video/presentation/view/add_new_video.dart';
 import 'package:video_player_app/feature/students/presentation/views/student_view.dart';
 import 'package:video_player_app/feature/teacher%20home/presentation/view/teacher_home_view.dart';
+import 'package:video_player_app/feature/user%20as%20assistant/presentation/view/user_as_assistant_view.dart';
+import 'package:video_player_app/feature/user_as_student/presentation/view/user_as_student_view.dart';
 
 abstract class AppRouter {
   static const kTeacherLoginView = '/teacherLoginView';
@@ -20,11 +23,17 @@ abstract class AppRouter {
   static const kAddNewVideoView = '/addNewVideoView';
   static const kAddEncryptedVideoView = '/addEncryptedVideoView';
   static const kAddnewAssistantView = '/AddnewAssistantView';
-  static const kLoginAsStudentView = '/';
+  static const kLoginAsStudentView = '/LoginAsStudentView';
   static const kStudentView = '/StudentView';
+  static const kUserAsAssistantView = '/UserAsAssistantView';
+  static const kUserAsStudentView = '/UserAsStudentView';
   static const kYoutubeVideoPlayerView = '/youtubeVideo';
 
   static final routes = GoRouter(routes: [
+    GoRoute(
+      path: '/',
+      builder: (context, state) => SplashView(),
+    ),
     GoRoute(
       path: kLoginAsStudentView,
       builder: (context, state) => LoginAsStudentView(),
@@ -57,6 +66,14 @@ abstract class AppRouter {
     GoRoute(
       path: kAddnewAssistantView,
       builder: (context, state) => AddNewAssistantView(),
+    ),
+    GoRoute(
+      path: kUserAsAssistantView,
+      builder: (context, state) => UserAsAssistantView(),
+    ),
+    GoRoute(
+      path: kUserAsStudentView,
+      builder: (context, state) => UserAsStudentView(),
     ),
     GoRoute(
       path: kYoutubeVideoPlayerView,

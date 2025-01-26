@@ -1,9 +1,13 @@
+// ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/core/widget/custom_text_form_field.dart';
 import 'package:video_player_app/feature/auth/data/model/assistant_model.dart';
+import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class AddNewAssistantView extends StatefulWidget {
   const AddNewAssistantView({super.key});
@@ -59,7 +63,8 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add New Assistant'),
+        centerTitle: true,
+        title: Text(LocaleKeys.addNewAssistant.tr()),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -70,7 +75,7 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
               children: [
                 CustomTextFormField(
                   controller: _codeController,
-                  hintText: 'Code',
+                  hintText: LocaleKeys.code.tr(),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Code is required';

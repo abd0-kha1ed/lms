@@ -1,6 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/core/utils/app_router.dart';
 
 class CustomAlertDialogWidget extends StatefulWidget {
@@ -60,7 +63,7 @@ class _CustomAlertDialogWidgetState extends State<CustomAlertDialogWidget> {
               TextButton(
                 onPressed: () async {
                   try {
-                    await FirebaseAuth.instance.signOut();
+                    await FirebaseServices().signOut();
 
                     // Navigate to login page
                     GoRouter.of(context).go(

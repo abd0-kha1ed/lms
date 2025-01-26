@@ -22,14 +22,15 @@ class StudentModel {
 
   factory StudentModel.fromJson(Map<String, dynamic> json) {
     return StudentModel(
-        id: json['id'],
-        name: json['name'],
-        code: json['code'],
-        phone: json['phone'],
-        grade: json['grade'],
-        teacherCode: json['teacherCode'],
-        password: json['password'],
-        createdAt: json['createdAt']);
+      id: json['id'],
+      name: json['name'],
+      code: json['code'],
+      phone: json['phone'],
+      grade: json['grade'],
+      teacherCode: json['teacherCode'],
+      password: json['password'],
+      createdAt: json['createdAt'],
+    );
   }
 
   Map<String, dynamic> toJson() {

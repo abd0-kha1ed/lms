@@ -15,6 +15,7 @@ class CustomDropdown extends StatefulWidget {
   final StudentModel? studentModel;
 
   @override
+  // ignore: library_private_types_in_public_api
   _CustomDropdownState createState() => _CustomDropdownState();
 }
 
