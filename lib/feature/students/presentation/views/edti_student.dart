@@ -108,14 +108,14 @@ class _EditStudentState extends State<EditStudent> {
                 ),
                 SizedBox(height: 10),
                 CustomTextFormField(
-                  hintText: widget.studentModel.name,
+                  hintText: LocaleKeys.name.tr(),
                   controller: _nameController,
                   validator: (value) =>
                       value!.isEmpty ? "Please enter the name" : null,
                 ),
                 SizedBox(height: 10),
                 CustomTextFormField(
-                  hintText: widget.studentModel.password,
+                  hintText: LocaleKeys.password.tr(),
                   controller: _passwordController,
                   obscureText: false,
                   validator: (value) =>
@@ -124,7 +124,7 @@ class _EditStudentState extends State<EditStudent> {
                 SizedBox(height: 10),
                 CustomTextFormField(
                   controller: _phoneController,
-                  hintText: widget.studentModel.phone,
+                  hintText: LocaleKeys.phone.tr(),
                   keyboardType: TextInputType.number,
                   maxLength: 11,
                   validator: (value) {
