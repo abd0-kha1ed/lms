@@ -7,6 +7,7 @@ part 'video_state.dart';
 
 class VideoCubit extends Cubit<VideoState> {
   final FirebaseServices firebaseServices;
+  String selectedGrade = ""; // To track the selected grade for filtering
 
   VideoCubit(this.firebaseServices) : super(VideoInitial());
 
@@ -23,7 +24,10 @@ class VideoCubit extends Cubit<VideoState> {
     emit(VideoLoading());
     try {
       final videos = await firebaseServices.fetchVideos();
-      emit(VideoLoaded(videos));
+      final filteredVideos = selectedGrade.isEmpty
+          ? videos
+          : videos.where((video) => video.grade == selectedGrade).toList();
+      emit(VideoLoaded(filteredVideos));
     } catch (e) {
       emit(VideoError(e.toString()));
     }
@@ -37,5 +41,8 @@ class VideoCubit extends Cubit<VideoState> {
     } catch (e) {
       emit(VideoError(e.toString()));
     }
+  void setGrade(String grade) {
+    selectedGrade = grade; // Update the selected grade
+    fetchVideos(); // Refetch videos based on the new filter
   }
 }
