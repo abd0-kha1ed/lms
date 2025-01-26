@@ -2,6 +2,7 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:video_player_app/constant.dart';
@@ -10,6 +11,7 @@ import 'package:video_player_app/core/utils/app_router.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
 import 'package:video_player_app/core/widget/custom_text_form_field.dart';
 import 'package:video_player_app/feature/auth/presentation/view/widget/custom_login_container.dart';
+import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class LoginAsTeacherViewBody extends StatefulWidget {
@@ -140,6 +142,7 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         await login(context, code!, password!);
+                        context.read<VideoCubit>().fetchVideos();
                       }
                     },
                   ),
