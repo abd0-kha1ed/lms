@@ -39,11 +39,9 @@ abstract class AppRouter {
     ),
     GoRoute(
       path: kTeacherHomeView,
-      builder: (context, state) => BlocProvider(
-        create: (context) => VideoCubit(FirebaseServices())..fetchVideos(),
-        child: TeacherHomeView(),
+      builder: (context, state) =>  TeacherHomeView(),
       ),
-    ),
+    
     GoRoute(
       path: kAddNewVideoView,
       builder: (context, state) => AddNewVideo(),
@@ -65,7 +63,7 @@ abstract class AppRouter {
       builder: (context, state) => BlocProvider(
         create: (context) => VideoCubit(FirebaseServices()),
         child: YouTubeVideoPlayer(videoModel: state.extra as VideoModel),
-      ),
-    ),
+      
+    ),)
   ]);
 }

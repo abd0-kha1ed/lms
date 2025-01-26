@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/utils/app_router.dart';
+import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
 import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/add_video_button.dart';
 import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/grade_list_view.dart';
 import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/video_item_list_view.dart';
@@ -34,11 +36,15 @@ class TeacherHomeViewBody extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(onPressed: (){}, icon: Icon(Icons.refresh)),
                 Text(
                   'Abdo Khaled',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
+                IconButton(
+                    onPressed: () {
+                      context.read<VideoCubit>().fetchVideos();
+                    },
+                    icon: Icon(Icons.refresh)),
               ],
             ),
           ),
