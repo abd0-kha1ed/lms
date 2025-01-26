@@ -28,4 +28,14 @@ class VideoCubit extends Cubit<VideoState> {
       emit(VideoError(e.toString()));
     }
   }
+
+  Future<void> editVideoDetails(VideoModel updatedVideo) async {
+    emit(VideoLoading());
+    try {
+      await firebaseServices.updateVideoDetails(updatedVideo);
+      emit(VideoUpdatedSuccessfully());
+    } catch (e) {
+      emit(VideoError(e.toString()));
+    }
+  }
 }

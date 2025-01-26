@@ -53,7 +53,6 @@ class VideoItemListView extends StatelessWidget {
                       const SizedBox(height: 20),
                       thumbnailUrl != null
                           ? CachedNetworkImage(
-                            
                               imageUrl: thumbnailUrl,
                               fit: BoxFit.fill,
                               placeholder: (context, url) => const Center(
@@ -79,7 +78,11 @@ class VideoItemListView extends StatelessWidget {
                                 fontWeight: FontWeight.bold, fontSize: 18),
                           ),
                           IconButton(
-                              onPressed: () {}, icon: const Icon(Icons.edit))
+                              onPressed: () {
+                                GoRouter.of(context)
+                                    .push(AppRouter.kEditVideoView, extra: videos[index]);
+                              },
+                              icon: const Icon(Icons.edit))
                         ],
                       ),
                       Row(

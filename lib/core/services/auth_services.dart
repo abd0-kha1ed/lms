@@ -219,8 +219,8 @@ class FirebaseServices {
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
   Future<void> addVideo(VideoModel video) async {
-  final docRef = videosCollection.doc(); 
-  await docRef.set(video.toMap());
+  // final docRef = videosCollection.doc(); 
+  await videosCollection.add(video.toMap());
 }
 
 
@@ -230,5 +230,17 @@ class FirebaseServices {
       .map((doc) => VideoModel.fromMap(doc.data() as Map<String, dynamic>))
       .toList();
 }
+
+Future<void> updateVideoDetails(VideoModel updatedVideo) async {
+    try {
+      DocumentReference videoDoc = FirebaseFirestore.instance
+          .collection('videos')
+          .doc(updatedVideo.id);
+
+      await videoDoc.update(updatedVideo.toMap());
+    } catch (e) {
+      throw Exception("Failed to update student details: $e");
+    }
+  }
 
 }

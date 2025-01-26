@@ -120,11 +120,11 @@ class _StudentViewState extends State<StudentView> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
-                        label: Text("3rd Secondary"),
-                        selected: _selectedGrade == "3rd Secondary",
+                        label: Text(LocaleKeys.twelve.tr()),
+                        selected: _selectedGrade == LocaleKeys.twelve.tr(),
                         onSelected: (selected) {
                           setState(() {
-                            _selectedGrade = "3rd Secondary";
+                            _selectedGrade = LocaleKeys.twelve.tr();
                           });
                         },
                       ),
@@ -132,11 +132,11 @@ class _StudentViewState extends State<StudentView> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
-                        label: Text("2nd Secondary"),
-                        selected: _selectedGrade == "2nd Secondary",
+                        label: Text(LocaleKeys.eleven.tr()),
+                        selected: _selectedGrade == LocaleKeys.eleven.tr(),
                         onSelected: (selected) {
                           setState(() {
-                            _selectedGrade = "2nd Secondary";
+                            _selectedGrade = LocaleKeys.eleven.tr();
                           });
                         },
                       ),
@@ -144,11 +144,11 @@ class _StudentViewState extends State<StudentView> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
-                        label: Text("1st Secondary"),
-                        selected: _selectedGrade == "1st Secondary",
+                        label: Text(LocaleKeys.ten.tr()),
+                        selected: _selectedGrade == LocaleKeys.ten.tr(),
                         onSelected: (selected) {
                           setState(() {
-                            _selectedGrade = "1st Secondary";
+                            _selectedGrade = LocaleKeys.ten.tr();
                           });
                         },
                       ),
@@ -156,11 +156,11 @@ class _StudentViewState extends State<StudentView> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
-                        label: Text("3rd Prep"),
-                        selected: _selectedGrade == "3rd Prep",
+                        label: Text(LocaleKeys.nine.tr()),
+                        selected: _selectedGrade == LocaleKeys.nine.tr(),
                         onSelected: (selected) {
                           setState(() {
-                            _selectedGrade = "3rd Prep";
+                            _selectedGrade = LocaleKeys.nine.tr();
                           });
                         },
                       ),
@@ -168,11 +168,11 @@ class _StudentViewState extends State<StudentView> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
-                        label: Text("2nd Prep"),
-                        selected: _selectedGrade == "2nd Prep",
+                        label: Text(LocaleKeys.eight.tr()),
+                        selected: _selectedGrade == LocaleKeys.eight.tr(),
                         onSelected: (selected) {
                           setState(() {
-                            _selectedGrade = "2nd Prep";
+                            _selectedGrade = LocaleKeys.eight.tr();
                           });
                         },
                       ),
@@ -180,11 +180,11 @@ class _StudentViewState extends State<StudentView> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
-                        label: Text("1st Prep"),
-                        selected: _selectedGrade == "1st Prep",
+                        label: Text(LocaleKeys.seven.tr()),
+                        selected: _selectedGrade == LocaleKeys.seven.tr(),
                         onSelected: (selected) {
                           setState(() {
-                            _selectedGrade = "1st Prep";
+                            _selectedGrade = LocaleKeys.seven.tr();
                           });
                         },
                       ),

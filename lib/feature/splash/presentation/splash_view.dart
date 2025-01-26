@@ -20,10 +20,7 @@ class SplashView extends StatelessWidget {
         body: BlocBuilder<AuthCubit, AuthState>(
           builder: (context, state) {
             if (state is AuthLoading) {
-              // Show loading spinner while checking authentication state
-              // return const Center(
-              //   child: CircularProgressIndicator(),
-              // );
+             
             } else if (state is AuthAuthenticated) {
               // Navigate based on role
               Future.microtask(() {

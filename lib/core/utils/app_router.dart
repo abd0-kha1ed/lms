@@ -5,6 +5,7 @@ import 'package:video_player_app/feature/assistant/presentation/view/addnew_assi
 import 'package:video_player_app/feature/auth/presentation/view/login_as_assistant_view.dart';
 import 'package:video_player_app/feature/auth/presentation/view/login_as_student_view.dart';
 import 'package:video_player_app/feature/auth/presentation/view/login_as_teacher_view.dart';
+import 'package:video_player_app/feature/secure%20video/presentation/view/edit_video_view.dart';
 import 'package:video_player_app/feature/splash/presentation/splash_view.dart';
 import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
@@ -28,6 +29,7 @@ abstract class AppRouter {
   static const kUserAsAssistantView = '/UserAsAssistantView';
   static const kUserAsStudentView = '/UserAsStudentView';
   static const kYoutubeVideoPlayerView = '/youtubeVideo';
+  static const kEditVideoView = '/editVideoView';
 
   static final routes = GoRouter(routes: [
     GoRoute(
@@ -48,9 +50,8 @@ abstract class AppRouter {
     ),
     GoRoute(
       path: kTeacherHomeView,
-      builder: (context, state) =>  TeacherHomeView(),
-      ),
-    
+      builder: (context, state) => TeacherHomeView(),
+    ),
     GoRoute(
       path: kAddNewVideoView,
       builder: (context, state) => AddNewVideo(),
@@ -80,7 +81,14 @@ abstract class AppRouter {
       builder: (context, state) => BlocProvider(
         create: (context) => VideoCubit(FirebaseServices()),
         child: YouTubeVideoPlayer(videoModel: state.extra as VideoModel),
-      
-    ),)
+      ),
+    ),
+    GoRoute(
+      path: kEditVideoView,
+      builder: (context, state) => BlocProvider(
+        create: (context) => VideoCubit(FirebaseServices()),
+        child: EditVideoView(videoModel: state.extra as VideoModel),
+      ),
+    ),
   ]);
 }

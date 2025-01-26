@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class VideoModel {
-  final String id;
+   String id;
   final String title;
   final String description;
   final String videoUrl;
@@ -13,7 +13,7 @@ class VideoModel {
   final Timestamp createdAt;
 
   VideoModel(  {
-    required this.id,
+     required this.id,
     required this.title,
     required this.description,
     required this.videoUrl,
