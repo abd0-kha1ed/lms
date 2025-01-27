@@ -67,6 +67,12 @@ class VideoItemListView extends StatelessWidget {
                               AppRouter.kYoutubeVideoPlayerView,
                               extra: approvedVideos[index]);
                         },
+                        onLongPress: () {
+                          if (approvedVideos[index].hasCodes == true) {
+                            GoRouter.of(context).push(AppRouter.kCodeView,
+                                extra: approvedVideos[index]);
+                          }
+                        },
                         child: Column(
                           children: [
                             const SizedBox(height: 20),
