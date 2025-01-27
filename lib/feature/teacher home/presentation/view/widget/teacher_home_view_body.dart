@@ -196,6 +196,11 @@ class _TeacherHomeViewBodyState extends State<TeacherHomeViewBody> {
           child: SizedBox(height: 10),
         ),
         SliverToBoxAdapter(
+          child: const SizedBox(
+            height: 10,
+          ),
+        ),
+        SliverToBoxAdapter(
           child: VideoItemListView(),
         )
       ],

@@ -7,7 +7,8 @@ part 'video_state.dart';
 
 class VideoCubit extends Cubit<VideoState> {
   final FirebaseServices firebaseServices;
-  String selectedGrade = ""; // To track the selected grade for filtering
+  String selectedGrade = "";
+  bool? hascode; // To track the selected grade for filtering
 
   VideoCubit(this.firebaseServices) : super(VideoInitial());
 
@@ -38,6 +39,26 @@ class VideoCubit extends Cubit<VideoState> {
     try {
       await firebaseServices.updateVideoDetails(updatedVideo);
       emit(VideoUpdatedSuccessfully());
+    } catch (e) {
+      emit(VideoError(e.toString()));
+    }
+  }
+
+  void setFiletrdEncrypted(bool? hascode) {
+    hascode = this.hascode;
+    fetchVideosencrypted();
+  }
+
+  Future<void> fetchVideosencrypted() async {
+    emit(VideoLoading());
+    try {
+      final videos = await firebaseServices.fetchVideos();
+      final filteredVideos = videos.where((video) {
+        final gradeMatch = selectedGrade.isEmpty || video.hasCodes == hascode;
+        final codeMatch = hascode == null || video.hasCodes == hascode;
+        return gradeMatch && codeMatch;
+      }).toList();
+      emit(VideoLoaded(filteredVideos));
     } catch (e) {
       emit(VideoError(e.toString()));
     }
