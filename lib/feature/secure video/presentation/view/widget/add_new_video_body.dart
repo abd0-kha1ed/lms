@@ -30,6 +30,7 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
   bool isVideoVisible = true;
   bool isVideoExpirable = false;
   DateTime? expiryDate;
+  bool? isapproved;
 
   @override
   void initState() {
@@ -385,25 +386,29 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                     onTap: () {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
+                        final isteacher = uploaderRole == 'teacher';
+                        print(
+                            'Uploader role: $uploaderRole, isTeacher: $isteacher');
 
                         final video = VideoModel(
-                          id: '',
-                          createdAt: Timestamp.now(),
-                          title: title!,
-                          description: description ??'',
-                          videoUrl: videoUrl!,
-                          grade: selectedGrade!,
-                          uploaderName: uploaderName!,
-                          videoDuration: videoDuration,
-                          isVideoVisible: isVideoVisible,
-                          isVideoExpirable: isVideoExpirable,
-                          expiryDate: expiryDate,
-                           hasCodes: false, isViewableOnPlatformIfEncrypted: false, // Store approval status
-                        );
+                            id: '',
+                            createdAt: Timestamp.now(),
+                            title: title!,
+                            description: description ?? '',
+                            videoUrl: videoUrl!,
+                            grade: selectedGrade!,
+                            uploaderName: uploaderName!,
+                            videoDuration: videoDuration,
+                            isVideoVisible: isVideoVisible,
+                            isVideoExpirable: isVideoExpirable,
+                            expiryDate: expiryDate,
+                            hasCodes: false,
+                            isViewableOnPlatformIfEncrypted: false,
+                            isApproved:
+                                isteacher ? true : null // Store approval status
+                            );
 
                         context.read<VideoCubit>().addVideo(video);
-
-                        
                       } else {
                         autovalidateMode = AutovalidateMode.always;
                         setState(() {});

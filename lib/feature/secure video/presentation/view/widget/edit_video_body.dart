@@ -356,25 +356,25 @@ class _EditVideoBodyState extends State<EditVideoBody> {
                         formKey.currentState!.save();
 
                         final updatedVideo = VideoModel(
-                          createdAt: widget.videoModel.createdAt,
-                          id: widget.videoModel.id,
-                          uploaderName: widget.videoModel.uploaderName,
-                          title: titleController.text.trim(),
-                          description: descController.text.trim(),
-                          videoUrl: urlController.text.trim(),
-                          grade: selectedGrade ?? widget.videoModel.grade,
-                          videoDuration:
-                              videoDuration ?? widget.videoModel.videoDuration,
-                          isVideoVisible: isVideoVisible ??
-                              widget.videoModel.isVideoVisible,
-                          isVideoExpirable: isVideoExpirable ??
-                              widget.videoModel.isVideoExpirable,
-                          expiryDate:
-                              expiryDate ?? widget.videoModel.expiryDate,
-                          hasCodes: widget.videoModel.hasCodes,
-                          isViewableOnPlatformIfEncrypted:
-                              widget.videoModel.isViewableOnPlatformIfEncrypted,
-                        );
+                            createdAt: widget.videoModel.createdAt,
+                            id: widget.videoModel.id,
+                            uploaderName: widget.videoModel.uploaderName,
+                            title: titleController.text.trim(),
+                            description: descController.text.trim(),
+                            videoUrl: urlController.text.trim(),
+                            grade: selectedGrade ?? widget.videoModel.grade,
+                            videoDuration: videoDuration ??
+                                widget.videoModel.videoDuration,
+                            isVideoVisible: isVideoVisible ??
+                                widget.videoModel.isVideoVisible,
+                            isVideoExpirable: isVideoExpirable ??
+                                widget.videoModel.isVideoExpirable,
+                            expiryDate:
+                                expiryDate ?? widget.videoModel.expiryDate,
+                            hasCodes: widget.videoModel.hasCodes,
+                            isViewableOnPlatformIfEncrypted: widget
+                                .videoModel.isViewableOnPlatformIfEncrypted,
+                            isApproved: widget.videoModel.isApproved);
 
                         context
                             .read<VideoCubit>()

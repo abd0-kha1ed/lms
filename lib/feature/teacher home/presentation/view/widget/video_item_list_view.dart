@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/core/utils/app_router.dart';
@@ -42,19 +42,22 @@ class VideoItemListView extends StatelessWidget {
               if (state is VideoLoading) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is VideoLoaded) {
-                final videos = state.videos;
+                // Filter the videos where isApprove is true
+                final approvedVideos = state.videos
+                    .where((video) => video.isApproved == true)
+                    .toList();
 
-                if (videos.isEmpty) {
+                if (approvedVideos.isEmpty) {
                   return const Center(child: Text('No Videos Available'));
                 }
 
                 return ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: videos.length,
+                  itemCount: approvedVideos.length,
                   itemBuilder: (context, index) {
                     final thumbnailUrl =
-                        getThumbnailUrl(videos[index].videoUrl);
+                        getThumbnailUrl(approvedVideos[index].videoUrl);
 
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -62,7 +65,7 @@ class VideoItemListView extends StatelessWidget {
                         onTap: () {
                           GoRouter.of(context).push(
                               AppRouter.kYoutubeVideoPlayerView,
-                              extra: videos[index]);
+                              extra: approvedVideos[index]);
                         },
                         child: Column(
                           children: [
@@ -72,13 +75,11 @@ class VideoItemListView extends StatelessWidget {
                                     imageUrl: thumbnailUrl,
                                     fit: BoxFit.fill,
                                     placeholder: (context, url) => const Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
+                                        child: CircularProgressIndicator()),
                                     errorWidget: (context, url, error) =>
                                         const Center(
-                                      child: Icon(Icons.broken_image,
-                                          size: 50, color: Colors.grey),
-                                    ),
+                                            child: Icon(Icons.broken_image,
+                                                size: 50, color: Colors.grey)),
                                   )
                                 : const Center(
                                     child: Icon(Icons.broken_image,
@@ -89,7 +90,7 @@ class VideoItemListView extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  videos[index].title,
+                                  approvedVideos[index].title,
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18),
@@ -97,14 +98,15 @@ class VideoItemListView extends StatelessWidget {
                                 if (userRole == 'teacher')
                                   IconButton(
                                     onPressed: () {
-                                      if (videos[index].hasCodes == false) {
+                                      if (approvedVideos[index].hasCodes ==
+                                          false) {
                                         GoRouter.of(context).push(
                                             AppRouter.kEditVideoView,
-                                            extra: videos[index]);
+                                            extra: approvedVideos[index]);
                                       } else {
                                         GoRouter.of(context).push(
                                             AppRouter.kEditEncryptedVideo,
-                                            extra: videos[index]);
+                                            extra: approvedVideos[index]);
                                       }
                                     },
                                     icon: const Icon(Icons.edit),
@@ -115,12 +117,12 @@ class VideoItemListView extends StatelessWidget {
                               children: [
                                 Text(LocaleKeys.videoUploadedBy.tr()),
                                 Text(
-                                  videos[index]
-                                      .uploaderName, // Display the uploader's name here,
+                                  approvedVideos[index]
+                                      .uploaderName, // Display the uploader's name here
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 const Spacer(),
-                                Text(videos[index]
+                                Text(approvedVideos[index]
                                     .createdAt
                                     .toDate()
                                     .toString()),
@@ -134,23 +136,27 @@ class VideoItemListView extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   VideoContainer(
-                                      text: videos[index].grade,
+                                      text: approvedVideos[index].grade,
                                       color: Colors.red),
                                   VideoContainer(
-                                    text: videos[index].isVideoVisible == true
-                                        ? LocaleKeys.visible.tr()
-                                        : '',
+                                    text:
+                                        approvedVideos[index].isVideoVisible ==
+                                                true
+                                            ? LocaleKeys.visible.tr()
+                                            : '',
                                     color: Colors.teal,
-                                    icon: videos[index].isVideoVisible == true
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
+                                    icon:
+                                        approvedVideos[index].isVideoVisible ==
+                                                true
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
                                   ),
                                   VideoContainer(
                                     text: LocaleKeys.approved.tr(),
                                     color: Colors.green,
                                     icon: Icons.check,
                                   ),
-                                  Icon(videos[index].hasCodes == false
+                                  Icon(approvedVideos[index].hasCodes == false
                                       ? Icons.lock_open
                                       : Icons.lock),
                                 ],

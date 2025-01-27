@@ -231,6 +231,7 @@ class FirebaseServices {
       isVideoVisible: video.isVideoVisible,
       isVideoExpirable: video.isVideoExpirable,
       expiryDate: video.expiryDate,
+      isApproved: video.isApproved,
       createdAt: Timestamp.now(), hasCodes: false,
       isViewableOnPlatformIfEncrypted: false,
     );
@@ -288,6 +289,7 @@ class FirebaseServices {
       hasCodes: video.hasCodes,
       isViewableOnPlatformIfEncrypted: video.isViewableOnPlatformIfEncrypted,
       codes: video.codes,
+      isApproved: video.isApproved,
       approvedAt: DateTime.now(),
     );
     await docRef.set(newVideo.toMap());
