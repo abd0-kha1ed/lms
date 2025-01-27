@@ -97,9 +97,15 @@ class VideoItemListView extends StatelessWidget {
                                 if (userRole == 'teacher')
                                   IconButton(
                                     onPressed: () {
-                                      GoRouter.of(context).push(
-                                          AppRouter.kEditVideoView,
-                                          extra: videos[index]);
+                                      if (videos[index].hasCodes == false) {
+                                        GoRouter.of(context).push(
+                                            AppRouter.kEditVideoView,
+                                            extra: videos[index]);
+                                      } else {
+                                        GoRouter.of(context).push(
+                                            AppRouter.kEditEncryptedVideo,
+                                            extra: videos[index]);
+                                      }
                                     },
                                     icon: const Icon(Icons.edit),
                                   ),
@@ -144,7 +150,9 @@ class VideoItemListView extends StatelessWidget {
                                     color: Colors.green,
                                     icon: Icons.check,
                                   ),
-                                  const Icon(Icons.lock_open, size: 30),
+                                  Icon(videos[index].hasCodes == false
+                                      ? Icons.lock_open
+                                      : Icons.lock),
                                 ],
                               ),
                             const SizedBox(height: 20),

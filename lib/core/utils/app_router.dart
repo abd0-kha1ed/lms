@@ -8,12 +8,13 @@ import 'package:video_player_app/feature/auth/presentation/view/login_as_teacher
 import 'package:video_player_app/feature/report/presentation/view/approved_video.dart';
 import 'package:video_player_app/feature/report/presentation/view/pending_video.dart';
 import 'package:video_player_app/feature/report/presentation/view/rejected_video.dart';
+import 'package:video_player_app/feature/secure%20video/presentation/view/add_encrypted_video.dart';
+import 'package:video_player_app/feature/secure%20video/presentation/view/edit_encrypted_video_view.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/edit_video_view.dart';
 import 'package:video_player_app/feature/splash/presentation/splash_view.dart';
 import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/youtube_video_player.dart';
-import 'package:video_player_app/feature/teacher%20home/presentation/view/add_encrypted_video.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/add_new_video.dart';
 import 'package:video_player_app/feature/students/presentation/views/student_view.dart';
 import 'package:video_player_app/feature/teacher%20home/presentation/view/teacher_home_view.dart';
@@ -26,7 +27,7 @@ abstract class AppRouter {
   static const kTeacherHomeView = '/teacherHomeView';
   static const kAddNewVideoView = '/addNewVideoView';
   static const kAddEncryptedVideoView = '/addEncryptedVideoView';
-  static const kAddnewAssistantView = '/AddnewAssistantView';
+  static const kAddNewAssistantView = '/AddNewAssistantView';
   static const kLoginAsStudentView = '/LoginAsStudentView';
   static const kStudentView = '/StudentView';
   static const kUserAsAssistantView = '/UserAsAssistantView';
@@ -36,6 +37,7 @@ abstract class AppRouter {
   static const kApprovedVideo = '/ApprovedVideo';
   static const kRejectedVideo = '/RejectedVideo';
   static const kPendingVideo = '/PendingVideo';
+  static const kEditEncryptedVideo = '/editEncryptedVideo';
 
   static final routes = GoRouter(routes: [
     GoRoute(
@@ -71,7 +73,7 @@ abstract class AppRouter {
       builder: (context, state) => StudentView(),
     ),
     GoRoute(
-      path: kAddnewAssistantView,
+      path: kAddNewAssistantView,
       builder: (context, state) => AddNewAssistantView(),
     ),
     GoRoute(
@@ -107,6 +109,13 @@ abstract class AppRouter {
     GoRoute(
       path: kPendingVideo,
       builder: (context, state) => PendingVideo(),
+    ),
+    GoRoute(
+      path: kEditEncryptedVideo,
+      builder: (context, state) => BlocProvider(
+        create: (context) => VideoCubit(FirebaseServices(), ),
+        child: EditEncryptedVideoView(videoModel: state.extra as VideoModel,),
+      ),
     ),
   ]);
 }

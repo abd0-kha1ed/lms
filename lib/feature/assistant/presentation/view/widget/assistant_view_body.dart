@@ -62,7 +62,7 @@ class AssistantViewBody extends StatelessWidget {
               title: 'Add New Assistant',
               color: kPrimaryColor,
               onTap: () {
-                GoRouter.of(context).push(AppRouter.kAddnewAssistantView);
+                GoRouter.of(context).push(AppRouter.kAddNewAssistantView);
               },
             ),
           ),

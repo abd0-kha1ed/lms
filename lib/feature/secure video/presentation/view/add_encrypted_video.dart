@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/add_encrypted_video_body.dart';
+import 'package:video_player_app/feature/secure%20video/presentation/view/widget/add_encrypted_video_body.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class AddEncryptedVideo extends StatelessWidget {

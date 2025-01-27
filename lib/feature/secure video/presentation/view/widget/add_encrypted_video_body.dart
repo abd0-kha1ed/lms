@@ -1,9 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player_app/constant.dart';
+import 'package:video_player_app/core/services/auth_services.dart';
+import 'package:video_player_app/core/utils/function/custom_snack_bar.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
 import 'package:video_player_app/core/widget/custom_dropdown.dart';
+import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
+import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
+import 'package:video_player_app/feature/secure%20video/presentation/view/widget/code_generator.dart';
 import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/customize_textfield.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
@@ -17,13 +25,15 @@ class AddEncryptedVideoBody extends StatefulWidget {
 class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
   final GlobalKey<FormState> formKey = GlobalKey();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-  String? videoUrl, title, description, grade;
+  String? videoUrl, title, description, grade, uploaderName, uploaderRole;
+
   String videoDuration = "00:00:00";
-  int generatedCodesCount = 0;
-  String? selectedExperienceLevel;
+  int generatedCodesCount = 50;
+  String? selectedGrade;
   bool isVideoVisible = true;
   bool isVideoExpirable = false;
-  bool isVideoAvailableForPlatform = true;
+  bool isVideoAvailableForPlatform = false;
+  bool hasCode = true;
   DateTime? expiryDate;
   void showExpiryDatePicker(BuildContext context) {
     showModalBottomSheet(
@@ -207,6 +217,48 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
     );
   }
 
+  Future<void> fetchUploaderDetails() async {
+    try {
+      // Determine the uploader's role (teacher or assistant)
+      final role = await FirebaseServices()
+          .getUserRole(); // Assuming this returns 'teacher' or 'assistant'
+      String? uploaderName;
+
+      // Fetch uploader name based on their role
+      if (role == 'teacher') {
+        final teacherSnapshot = await FirebaseFirestore.instance
+            .collection('teachers')
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .get();
+        uploaderName = teacherSnapshot['name'];
+      } else if (role == 'assistant') {
+        final assistantSnapshot = await FirebaseFirestore.instance
+            .collection('assistants')
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .get();
+        uploaderName = assistantSnapshot['name'];
+      }
+
+      setState(() {
+        uploaderRole = role;
+        this.uploaderName = uploaderName ?? "Unknown";
+      });
+    } catch (e) {
+      print("Error fetching uploader details: $e");
+      setState(() {
+        uploaderRole = "Unknown";
+        uploaderName = "Unknown";
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch the role once when the widget is initialized
+    fetchUploaderDetails();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -262,7 +314,7 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                     child: CustomDropdown(
                         onChanged: (value) {
                           setState(() {
-                            selectedExperienceLevel = value;
+                            selectedGrade = value;
                           });
                         },
                         validator: (value) {
@@ -321,9 +373,15 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           color: kPrimaryColor),
-                      child: Text(
-                        "$generatedCodesCount",
-                        style: TextStyle(color: Colors.white),
+                      child: Row(
+                        children: [
+                          Text(
+                            "$generatedCodesCount",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          const SizedBox(width: 5),
+                          Icon(Icons.key, color: Colors.white)
+                        ],
                       ),
                     ),
                   )
@@ -400,16 +458,51 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                   ),
                 ),
               const SizedBox(height: 15),
-              CustomButton(
-                title: LocaleKeys.add.tr(),
-                color: Colors.deepPurple,
-                onTap: () {
-                  if (formKey.currentState!.validate()) {
-                    formKey.currentState!.save();
-                  } else {
-                    autovalidateMode = AutovalidateMode.always;
-                    setState(() {});
+              BlocConsumer<VideoCubit, VideoState>(
+                listener: (context, state) {
+                  if (state is VideoAddedSuccessfully) {
+                    customSnackBar(context, 'Video was added successfully');
                   }
+                },
+                builder: (context, state) {
+                  if (state is VideoLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  return CustomButton(
+                    title: LocaleKeys.add.tr(),
+                    color: Colors.deepPurple,
+                    onTap: () {
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState!.save();
+                        final isApproved = uploaderRole == 'teacher';
+                        List<String> codes =
+                            CodeGenerator.generateCodes(generatedCodesCount);
+
+                        final video = VideoModel(
+                          id: '',
+                          createdAt: Timestamp.now(),
+                          title: title!,
+                          description: description ?? '',
+                          videoUrl: videoUrl!,
+                          grade: selectedGrade!,
+                          uploaderName: uploaderName!,
+                          videoDuration: videoDuration,
+                          isVideoVisible: false, // Only visible if approved
+                          isVideoExpirable: isVideoExpirable,
+                          expiryDate: expiryDate,
+                          isApproved: isApproved,
+                          hasCodes: hasCode,
+                          codes: codes,
+                          isViewableOnPlatformIfEncrypted:
+                              isVideoAvailableForPlatform, // Store approval status
+                        );
+                        context.read<VideoCubit>().addEncryptedVideo(video);
+                      } else {
+                        autovalidateMode = AutovalidateMode.always;
+                        setState(() {});
+                      }
+                    },
+                  );
                 },
               )
             ],

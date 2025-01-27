@@ -57,4 +57,13 @@ class VideoCubit extends Cubit<VideoState> {
       emit(VideoError(e.toString()));
     }
   }
+
+  Future<void> addEncryptedVideo(VideoModel video) async {
+    try {
+      await firebaseServices.addEncryptedVideo(video);
+      emit(VideoAddedSuccessfully());
+    } catch (e) {
+      emit(VideoError(e.toString()));
+    }
+  }
 }

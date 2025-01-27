@@ -7,23 +7,26 @@ import 'package:video_player_app/core/utils/function/custom_snack_bar.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
 import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
+import 'package:video_player_app/feature/secure%20video/presentation/view/widget/code_generator.dart';
 import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/customize_textfield.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
-class EditVideoBody extends StatefulWidget {
-  const EditVideoBody({super.key, required this.videoModel});
+class EditEncryptedVideoBody extends StatefulWidget {
+  const EditEncryptedVideoBody({super.key, required this.videoModel});
   final VideoModel videoModel;
 
   @override
-  State<EditVideoBody> createState() => _EditVideoBodyState();
+  State<EditEncryptedVideoBody> createState() => _EditEncryptedVideoBodyState();
 }
 
-class _EditVideoBodyState extends State<EditVideoBody> {
+class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
   final GlobalKey<FormState> formKey = GlobalKey();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   final TextEditingController urlController = TextEditingController();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descController = TextEditingController();
+  int? generatedCodesCount;
+  bool isVideoAvailableForPlatform = false;
 
   String? videoUrl, title, description;
   String? videoDuration;
@@ -114,6 +117,65 @@ class _EditVideoBodyState extends State<EditVideoBody> {
                   "Set Duration",
                   style: TextStyle(color: Colors.white),
                 ),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void showGeneratedCodesBottomSheet(BuildContext context) {
+    TextEditingController codeController = TextEditingController();
+
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 300,
+          padding: EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Generated Codes",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: codeController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: "Enter codes count",
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        generatedCodesCount =
+                            int.tryParse(codeController.text) ?? 0;
+                      });
+                      Navigator.pop(context);
+                    },
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.teal),
+                    child: Text(
+                      "Set",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(height: 20),
+              Text(
+                "Current Count: $generatedCodesCount",
+                style: TextStyle(fontSize: 16),
               )
             ],
           ),
@@ -283,12 +345,55 @@ class _EditVideoBodyState extends State<EditVideoBody> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  Text("Generated Codes Count"),
+                  GestureDetector(
+                    onTap: () {
+                      showGeneratedCodesBottomSheet(context);
+                    },
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: kPrimaryColor),
+                      child: Row(
+                        children: [
+                          Text(
+                            "${generatedCodesCount ?? widget.videoModel.codes!.length}",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          const SizedBox(width: 5),
+                          Icon(Icons.key, color: Colors.white)
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
                   Text(LocaleKeys.visibility.tr()),
                   Switch(
                     value: isVideoVisible ?? widget.videoModel.isVideoVisible,
                     onChanged: (bool value) {
                       setState(() {
                         isVideoVisible = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Will the video be available for platform?"),
+                  Switch(
+                    value: isVideoAvailableForPlatform,
+                    onChanged: (bool value) {
+                      setState(() {
+                        isVideoAvailableForPlatform = value;
                       });
                     },
                   ),
@@ -354,6 +459,9 @@ class _EditVideoBodyState extends State<EditVideoBody> {
                     onTap: () {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
+                        List<String> codes = CodeGenerator.generateCodes(
+                            generatedCodesCount ??
+                                widget.videoModel.codes!.length);
 
                         final updatedVideo = VideoModel(
                           createdAt: widget.videoModel.createdAt,
@@ -374,6 +482,8 @@ class _EditVideoBodyState extends State<EditVideoBody> {
                           hasCodes: widget.videoModel.hasCodes,
                           isViewableOnPlatformIfEncrypted:
                               widget.videoModel.isViewableOnPlatformIfEncrypted,
+                          codes: codes,
+                          approvedAt: widget.videoModel.approvedAt,
                         );
 
                         context

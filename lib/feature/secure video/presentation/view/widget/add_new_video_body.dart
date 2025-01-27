@@ -393,7 +393,7 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                           id: '',
                           createdAt: Timestamp.now(),
                           title: title!,
-                          description: description!,
+                          description: description ??'',
                           videoUrl: videoUrl!,
                           grade: selectedGrade!,
                           uploaderName: uploaderName!,
@@ -401,22 +401,13 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                           isVideoVisible: false, // Only visible if approved
                           isVideoExpirable: isVideoExpirable,
                           expiryDate: expiryDate,
-                          isApproved: isApproved, // Store approval status
+                          isApproved: isApproved, hasCodes: false, isViewableOnPlatformIfEncrypted: false, // Store approval status
                         );
 
                         // Save the video to Firestore or via Cubit
                         context.read<VideoCubit>().addVideo(video);
 
-                        // Show a message based on the approval status
-                        customSnackBar(
-                          context,
-                          isApproved
-                              ? 'Video uploaded and visible.'
-                              : 'Video uploaded and pending teacher approval.',
-                        );
-
-                        // Close the form or reset
-                        // GoRouter.of(context).pop(); // Uncomment if using GoRouter
+                        
                       } else {
                         autovalidateMode = AutovalidateMode.always;
                         setState(() {});

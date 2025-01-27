@@ -231,7 +231,8 @@ class FirebaseServices {
       isVideoVisible: video.isVideoVisible,
       isVideoExpirable: video.isVideoExpirable,
       expiryDate: video.expiryDate,
-      createdAt: Timestamp.now(),
+      createdAt: Timestamp.now(), hasCodes: false,
+      isViewableOnPlatformIfEncrypted: false,
     );
     await docRef.set(newVideo.toMap());
   }
@@ -268,5 +269,27 @@ class FirebaseServices {
 
   Future<void> deleteVideo(String id) async {
     videosCollection.doc(id).delete();
+  }
+
+  Future<void> addEncryptedVideo(VideoModel video) async {
+    final docRef = videosCollection.doc(); // Generate a unique ID
+    final newVideo = VideoModel(
+      id: docRef.id, // Assign the generated ID
+      title: video.title,
+      description: video.description,
+      videoUrl: video.videoUrl,
+      grade: video.grade,
+      uploaderName: video.uploaderName,
+      videoDuration: video.videoDuration,
+      isVideoVisible: video.isVideoVisible,
+      isVideoExpirable: video.isVideoExpirable,
+      expiryDate: video.expiryDate,
+      createdAt: Timestamp.now(),
+      hasCodes: video.hasCodes,
+      isViewableOnPlatformIfEncrypted: video.isViewableOnPlatformIfEncrypted,
+      codes: video.codes,
+      approvedAt: DateTime.now(),
+    );
+    await docRef.set(newVideo.toMap());
   }
 }
