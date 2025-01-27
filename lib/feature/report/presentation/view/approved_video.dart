@@ -5,10 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:video_player_app/core/utils/app_router.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ApprovedVideo extends StatelessWidget {
-  const ApprovedVideo({Key? key}) : super(key: key);
+  const ApprovedVideo({super.key});
 
   // Function to fetch the YouTube thumbnail
   String? getThumbnailUrl(String videoUrl) {

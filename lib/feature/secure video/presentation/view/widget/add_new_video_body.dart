@@ -66,7 +66,7 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
         this.uploaderName = uploaderName ?? "Unknown";
       });
     } catch (e) {
-      print("Error fetching uploader details: $e");
+      // print("Error fetching uploader details: $e");
       setState(() {
         uploaderRole = "Unknown";
         uploaderName = "Unknown";
@@ -387,8 +387,8 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         final isteacher = uploaderRole == 'teacher';
-                        print(
-                            'Uploader role: $uploaderRole, isTeacher: $isteacher');
+                        // print(
+                        //     'Uploader role: $uploaderRole, isTeacher: $isteacher');
 
                         final video = VideoModel(
                             id: '',

@@ -17,8 +17,8 @@ class DescriptionSection extends StatelessWidget {
       }
     }
 
-    void lunchCustomUrl(String Url) async {
-      Uri customUrl = Uri.parse(Url);
+    void lunchCustomUrl(String url) async {
+      Uri customUrl = Uri.parse(url);
       if (await canLaunchUrl(customUrl)) {
         await launchUrl(customUrl);
       } else {
@@ -26,8 +26,8 @@ class DescriptionSection extends StatelessWidget {
       }
     }
 
-    void lunchYoutube(String Url) async {
-      Uri customUrl = Uri.parse(Url);
+    void lunchYoutube(String url) async {
+      Uri customUrl = Uri.parse(url);
       if (await canLaunchUrl(customUrl)) {
         await launchUrl(customUrl);
       } else {
@@ -35,8 +35,8 @@ class DescriptionSection extends StatelessWidget {
       }
     }
 
-    void lunchFacebook(String Url) async {
-      Uri customUrl = Uri.parse(Url);
+    void lunchFacebook(String url) async {
+      Uri customUrl = Uri.parse(url);
       if (await canLaunchUrl(customUrl)) {
         await launchUrl(customUrl);
       } else {

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -9,7 +11,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PendingVideo extends StatefulWidget {
-  const PendingVideo({Key? key}) : super(key: key);
+  const PendingVideo({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -52,7 +54,7 @@ class _PendingVideoState extends State<PendingVideo> {
       // Reload the videos by triggering the Bloc's fetch method
       context.read<VideoCubit>().fetchVideos();
     } catch (e) {
-      print('Error updating video $videoId: $e');
+      // print('Error updating video $videoId: $e');
     } finally {
       setState(() {
         _isLoading = false; // Hide the loading indicator
@@ -185,7 +187,7 @@ class _PendingVideoState extends State<PendingVideo> {
           ),
           if (_isLoading)
             Container(
-              color: Colors.black.withOpacity(0.5),
+              color: Colors.black54,
               child: const Center(
                 child: CircularProgressIndicator(),
               ),

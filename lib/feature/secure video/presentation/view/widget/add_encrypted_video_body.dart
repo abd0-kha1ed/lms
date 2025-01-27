@@ -244,7 +244,7 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
         this.uploaderName = uploaderName ?? "Unknown";
       });
     } catch (e) {
-      print("Error fetching uploader details: $e");
+      // print("Error fetching uploader details: $e");
       setState(() {
         uploaderRole = "Unknown";
         uploaderName = "Unknown";
@@ -475,8 +475,8 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         final isteacher = uploaderRole == 'teacher';
-                        print(
-                            'Uploader role: $uploaderRole, isTeacher: $isteacher');
+                        // print(
+                        //     'Uploader role: $uploaderRole, isTeacher: $isteacher');
                         List<String> codes =
                             CodeGenerator.generateCodes(generatedCodesCount);
 

@@ -264,7 +264,7 @@ class FirebaseServices {
           .doc(videoId)
           .update({'isApproved': true, 'isVideoVisible': true});
     } catch (e) {
-      print("Error approving video: $e");
+      // print("Error approving video: $e");
     }
   }
 
