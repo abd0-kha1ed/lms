@@ -8,6 +8,7 @@ import 'package:video_player_app/feature/auth/presentation/view/login_as_teacher
 import 'package:video_player_app/feature/report/presentation/view/approved_video.dart';
 import 'package:video_player_app/feature/report/presentation/view/pending_video.dart';
 import 'package:video_player_app/feature/report/presentation/view/rejected_video.dart';
+import 'package:video_player_app/feature/secure%20code/presentation/view/code_view.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/add_encrypted_video.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/edit_encrypted_video_view.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/edit_video_view.dart';
@@ -38,6 +39,7 @@ abstract class AppRouter {
   static const kRejectedVideo = '/RejectedVideo';
   static const kPendingVideo = '/PendingVideo';
   static const kEditEncryptedVideo = '/editEncryptedVideo';
+  static const kCodeView = '/codeView';
 
   static final routes = GoRouter(routes: [
     GoRoute(
@@ -113,8 +115,23 @@ abstract class AppRouter {
     GoRoute(
       path: kEditEncryptedVideo,
       builder: (context, state) => BlocProvider(
-        create: (context) => VideoCubit(FirebaseServices(), ),
-        child: EditEncryptedVideoView(videoModel: state.extra as VideoModel,),
+        create: (context) => VideoCubit(
+          FirebaseServices(),
+        ),
+        child: EditEncryptedVideoView(
+          videoModel: state.extra as VideoModel,
+        ),
+      ),
+    ),
+    GoRoute(
+      path: kCodeView,
+      builder: (context, state) => BlocProvider(
+        create: (context) => VideoCubit(
+          FirebaseServices(),
+        ),
+        child: CodeView(
+          videoModel: state.extra as VideoModel,
+        ),
       ),
     ),
   ]);
