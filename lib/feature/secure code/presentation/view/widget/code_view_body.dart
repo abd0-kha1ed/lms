@@ -29,6 +29,7 @@ class _CodeViewBodyState extends State<CodeViewBody> {
           code: code.toString(),
           isUsed: false,
           videoId: videoId,
+          createdAt: Timestamp.now(),
         );
       }).toList();
     });
@@ -40,7 +41,7 @@ class _CodeViewBodyState extends State<CodeViewBody> {
       stream: getCodesForVideo(widget.videoId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasError) {
           customSnackBar(context, 'Error: ${snapshot.error}');

@@ -272,6 +272,9 @@ class FirebaseServices {
     videosCollection.doc(id).delete();
   }
 
+
+
+
   Future<void> addEncryptedVideo(VideoModel video) async {
     final docRef = videosCollection.doc(); // Generate a unique ID
     final newVideo = VideoModel(
@@ -294,4 +297,6 @@ class FirebaseServices {
     );
     await docRef.set(newVideo.toMap());
   }
+
+
 }

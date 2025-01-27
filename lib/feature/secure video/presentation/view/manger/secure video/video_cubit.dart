@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
@@ -87,4 +88,6 @@ class VideoCubit extends Cubit<VideoState> {
       emit(VideoError(e.toString()));
     }
   }
+  
+
 }

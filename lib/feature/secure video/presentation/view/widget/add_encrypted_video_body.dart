@@ -471,10 +471,10 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                   return CustomButton(
                     title: LocaleKeys.add.tr(),
                     color: Colors.deepPurple,
-                    onTap: () {
+                    onTap: ()  {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
-                        final isteacher = uploaderRole == 'teacher';
+                        final isTeacher = uploaderRole == 'teacher';
                         // print(
                         //     'Uploader role: $uploaderRole, isTeacher: $isteacher');
                         List<String> codes =
@@ -492,7 +492,7 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                           isVideoVisible: false, // Only visible if approved
                           isVideoExpirable: isVideoExpirable,
                           expiryDate: expiryDate,
-                          isApproved: isteacher ? true : null,
+                          isApproved: isTeacher ? true : null,
                           hasCodes: hasCode,
                           codes: codes,
                           isViewableOnPlatformIfEncrypted:
