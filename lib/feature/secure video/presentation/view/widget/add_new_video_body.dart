@@ -386,9 +386,6 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
 
-                        // Determine approval status based on uploader role
-                        final isApproved = uploaderRole == 'teacher';
-
                         final video = VideoModel(
                           id: '',
                           createdAt: Timestamp.now(),
@@ -398,13 +395,12 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                           grade: selectedGrade!,
                           uploaderName: uploaderName!,
                           videoDuration: videoDuration,
-                          isVideoVisible: false, // Only visible if approved
+                          isVideoVisible: isVideoVisible,
                           isVideoExpirable: isVideoExpirable,
                           expiryDate: expiryDate,
                           isApproved: isApproved, hasCodes: false, isViewableOnPlatformIfEncrypted: false, // Store approval status
                         );
 
-                        // Save the video to Firestore or via Cubit
                         context.read<VideoCubit>().addVideo(video);
 
                         
