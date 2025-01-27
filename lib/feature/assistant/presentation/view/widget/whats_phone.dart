@@ -14,7 +14,7 @@ class WhatsPhone extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void openWhatsApp(String phone) async {
-      Uri whatsappUrl = Uri.parse('https://wa.me/$phone');
+      Uri whatsappUrl = Uri.parse('https://wa.me/+20$phone');
       if (await canLaunchUrl(whatsappUrl)) {
         await launchUrl(whatsappUrl);
       } else {

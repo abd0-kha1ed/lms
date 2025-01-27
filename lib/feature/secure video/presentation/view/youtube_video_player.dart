@@ -26,6 +26,9 @@ class _YouTubeVideoPlayerState extends State<YouTubeVideoPlayer> {
       flags: const YoutubePlayerFlags(
         autoPlay: false,
         mute: false,
+        forceHD: true,
+        enableCaption: true,
+        controlsVisibleAtStart: true,
       ),
     );
   }
@@ -41,7 +44,7 @@ class _YouTubeVideoPlayerState extends State<YouTubeVideoPlayer> {
       overlayText = text;
       showOverlay = true;
     });
-// Hide text after 1 second.
+    // Hide text after 1 second.
     Future.delayed(const Duration(seconds: 1), () {
       setState(() {
         showOverlay = false;
@@ -66,58 +69,71 @@ class _YouTubeVideoPlayerState extends State<YouTubeVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(children: [
-            GestureDetector(
-              onDoubleTapDown: (details) {
-                final screenWidth = MediaQuery.of(context).size.width;
-                final tapPosition = details.localPosition.dx;
-
-                if (tapPosition < screenWidth / 2) {
-                  // If the left part of the screen is clicked -> Delay
-                  skipBackward();
-                } else {
-                  // If the left part of the screen is clicked -> Progress
-                  skipForward();
-                }
-              },
-              child: YoutubePlayer(
-                controller: _controller,
-                showVideoProgressIndicator: true,
-                onReady: () {
-                  // print('Player is ready.');
-                },
-                onEnded: (data) {
-                  // print('Video has ended.');
-                },
-              ),
-            ),
-          ]),
-          if (showOverlay)
-            Positioned(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.black54,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  overlayText ?? '',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          DescriptionSection(videoModel: widget.videoModel)
-        ],
+    return YoutubePlayerBuilder(
+      player: YoutubePlayer(
+        controller: _controller,
+        showVideoProgressIndicator: true,
+        onReady: () {
+          // Video player is ready
+        },
+        onEnded: (data) {
+          // Video has ended
+        },
       ),
+      builder: (context, player) {
+        return Scaffold(
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                flex: 0,
+                child: Stack(
+                  children: [
+                    GestureDetector(
+                      onDoubleTapDown: (details) {
+                        final screenWidth = MediaQuery.of(context).size.width;
+                        final tapPosition = details.localPosition.dx;
+
+                        if (tapPosition < screenWidth / 2) {
+                          skipBackward();
+                        } else {
+                          skipForward();
+                        }
+                      },
+                      child: player,
+                    ),
+                    if (showOverlay)
+                      Positioned(
+                        bottom: 16.0,
+                        left: 16.0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black54,
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            overlayText ?? '',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 0,
+                child: DescriptionSection(videoModel: widget.videoModel),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
