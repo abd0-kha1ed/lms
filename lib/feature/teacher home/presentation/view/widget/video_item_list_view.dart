@@ -68,8 +68,8 @@ class VideoItemListView extends StatelessWidget {
                               extra: approvedVideos[index]);
                         },
                         onLongPress: () {
-                          if (videos[index].hasCodes == true) {
-                            GoRouter.of(context).push(AppRouter.kCodeView, extra: videos[index]);
+                          if (approvedVideos[index].hasCodes == true) {
+                            GoRouter.of(context).push(AppRouter.kCodeView, extra: approvedVideos[index]);
                           }
                         },
                         child: Column(
