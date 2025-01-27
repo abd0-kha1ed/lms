@@ -398,7 +398,7 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                           isVideoVisible: isVideoVisible,
                           isVideoExpirable: isVideoExpirable,
                           expiryDate: expiryDate,
-                          isApproved: isApproved, hasCodes: false, isViewableOnPlatformIfEncrypted: false, // Store approval status
+                           hasCodes: false, isViewableOnPlatformIfEncrypted: false, // Store approval status
                         );
 
                         context.read<VideoCubit>().addVideo(video);
