@@ -44,20 +44,21 @@ class VideoCubit extends Cubit<VideoState> {
     }
   }
 
-  void setFiletrdEncrypted(bool? hascode) {
-    hascode = this.hascode;
-    fetchVideosencrypted();
+  void setFilteredEncrypted(bool? hascodeFilter) {
+    // print("Filter updated to: $hascodeFilter"); // Debug log
+    hascode = hascodeFilter; // Update filter
+    fetchVideosencrypted(); // Trigger state update
   }
 
   Future<void> fetchVideosencrypted() async {
     emit(VideoLoading());
+
     try {
       final videos = await firebaseServices.fetchVideos();
       final filteredVideos = videos.where((video) {
-        final gradeMatch = selectedGrade.isEmpty || video.hasCodes == hascode;
-        final codeMatch = hascode == null || video.hasCodes == hascode;
-        return gradeMatch && codeMatch;
+        return hascode == null || video.hasCodes == hascode;
       }).toList();
+      print("Filtered Videos Count: ${filteredVideos.length}"); // Debug log
       emit(VideoLoaded(filteredVideos));
     } catch (e) {
       emit(VideoError(e.toString()));

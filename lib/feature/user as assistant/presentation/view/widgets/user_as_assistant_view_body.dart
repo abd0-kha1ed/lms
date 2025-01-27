@@ -109,81 +109,160 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                 padding: const EdgeInsets.symmetric(horizontal: 18),
                 child: Row(
                   children: [
+                    // All Grades
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
-                        label: Text(LocaleKeys.allGrades.tr()),
+                        label: Text(
+                          LocaleKeys.allGrades.tr(),
+                          style: TextStyle(
+                            color: context
+                                    .watch<VideoCubit>()
+                                    .selectedGrade
+                                    .isEmpty
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                        ),
                         selected:
                             context.watch<VideoCubit>().selectedGrade.isEmpty,
                         onSelected: (selected) {
                           context.read<VideoCubit>().setGrade("");
                         },
+                        selectedColor: Colors.teal,
+                        backgroundColor: Colors.transparent,
                       ),
                     ),
+                    // 3rd Secondary
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
-                        label: Text("3rd Secondary"),
+                        label: Text(
+                          "3rd Secondary",
+                          style: TextStyle(
+                            color: context.watch<VideoCubit>().selectedGrade ==
+                                    "3rd Secondary"
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                        ),
                         selected: context.watch<VideoCubit>().selectedGrade ==
                             "3rd Secondary",
                         onSelected: (selected) {
                           context.read<VideoCubit>().setGrade("3rd Secondary");
                         },
+                        selectedColor: Colors.teal,
+                        backgroundColor: Colors.transparent,
                       ),
                     ),
+                    // 2nd Secondary
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
-                        label: Text("2nd Secondary"),
+                        label: Text(
+                          "2nd Secondary",
+                          style: TextStyle(
+                            color: context.watch<VideoCubit>().selectedGrade ==
+                                    "2nd Secondary"
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                        ),
                         selected: context.watch<VideoCubit>().selectedGrade ==
                             "2nd Secondary",
                         onSelected: (selected) {
                           context.read<VideoCubit>().setGrade("2nd Secondary");
                         },
+                        selectedColor: Colors.teal,
+                        backgroundColor: Colors.transparent,
                       ),
                     ),
+                    // 1st Secondary
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
-                        label: Text("1st Secondary"),
+                        label: Text(
+                          "1st Secondary",
+                          style: TextStyle(
+                            color: context.watch<VideoCubit>().selectedGrade ==
+                                    "1st Secondary"
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                        ),
                         selected: context.watch<VideoCubit>().selectedGrade ==
                             "1st Secondary",
                         onSelected: (selected) {
                           context.read<VideoCubit>().setGrade("1st Secondary");
                         },
+                        selectedColor: Colors.teal,
+                        backgroundColor: Colors.transparent,
                       ),
                     ),
+                    // 3rd Prep
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
-                        label: Text("3rd Prep"),
+                        label: Text(
+                          "3rd Prep",
+                          style: TextStyle(
+                            color: context.watch<VideoCubit>().selectedGrade ==
+                                    "3rd Prep"
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                        ),
                         selected: context.watch<VideoCubit>().selectedGrade ==
                             "3rd Prep",
                         onSelected: (selected) {
                           context.read<VideoCubit>().setGrade("3rd Prep");
                         },
+                        selectedColor: Colors.teal,
+                        backgroundColor: Colors.transparent,
                       ),
                     ),
+                    // 2nd Prep
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
-                        label: Text("2nd Prep"),
+                        label: Text(
+                          "2nd Prep",
+                          style: TextStyle(
+                            color: context.watch<VideoCubit>().selectedGrade ==
+                                    "2nd Prep"
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                        ),
                         selected: context.watch<VideoCubit>().selectedGrade ==
                             "2nd Prep",
                         onSelected: (selected) {
                           context.read<VideoCubit>().setGrade("2nd Prep");
                         },
+                        selectedColor: Colors.teal,
+                        backgroundColor: Colors.transparent,
                       ),
                     ),
+                    // 1st Prep
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
-                        label: Text("1st Prep"),
+                        label: Text(
+                          "1st Prep",
+                          style: TextStyle(
+                            color: context.watch<VideoCubit>().selectedGrade ==
+                                    "1st Prep"
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                        ),
                         selected: context.watch<VideoCubit>().selectedGrade ==
                             "1st Prep",
                         onSelected: (selected) {
                           context.read<VideoCubit>().setGrade("1st Prep");
                         },
+                        selectedColor: Colors.teal,
+                        backgroundColor: Colors.transparent,
                       ),
                     ),
                   ],
@@ -195,6 +274,89 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
         SliverToBoxAdapter(
           child: SizedBox(height: 10),
         ),
+        SliverToBoxAdapter(
+          child: SizedBox(
+            height: 45,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 26),
+                child: Row(
+                  children: [
+                    ChoiceChip(
+                      label: Text(
+                        "Both",
+                        style: TextStyle(
+                          color: context.watch<VideoCubit>().hascode == null
+                              ? Colors.white // White when selected
+                              : Colors.black87, // Black when not selected
+                        ),
+                      ),
+                      selected: context.watch<VideoCubit>().hascode == null,
+                      onSelected: (selected) {
+                        if (selected) {
+                          context
+                              .read<VideoCubit>()
+                              .setFilteredEncrypted(null); // Show all videos
+                        }
+                      },
+                      selectedColor:
+                          Colors.teal, // Background color when selected
+                      backgroundColor: Colors
+                          .transparent, // Background color when not selected
+                    ),
+                    SizedBox(width: 8),
+                    ChoiceChip(
+                      label: Text(
+                        "Open",
+                        style: TextStyle(
+                          color: context.watch<VideoCubit>().hascode == false
+                              ? Colors.white // White when selected
+                              : Colors.black87, // Black when not selected
+                        ),
+                      ),
+                      selected: context.watch<VideoCubit>().hascode == false,
+                      onSelected: (selected) {
+                        if (selected) {
+                          context
+                              .read<VideoCubit>()
+                              .setFilteredEncrypted(false); // Show open videos
+                        }
+                      },
+                      selectedColor:
+                          Colors.teal, // Background color when selected
+                      backgroundColor: Colors
+                          .transparent, // Background color when not selected
+                    ),
+                    SizedBox(width: 8),
+                    ChoiceChip(
+                      label: Text(
+                        "Encrypted",
+                        style: TextStyle(
+                          color: context.watch<VideoCubit>().hascode == true
+                              ? Colors.white // White when selected
+                              : Colors.black87, // Black when not selected
+                        ),
+                      ),
+                      selected: context.watch<VideoCubit>().hascode == true,
+                      onSelected: (selected) {
+                        if (selected) {
+                          context.read<VideoCubit>().setFilteredEncrypted(
+                              true); // Show encrypted videos
+                        }
+                      },
+                      selectedColor:
+                          Colors.teal, // Background color when selected
+                      backgroundColor: Colors
+                          .transparent, // Background color when not selected
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        SliverToBoxAdapter(child: const SizedBox(height: 1)),
         SliverToBoxAdapter(
           child: VideoItemListView(),
         )
