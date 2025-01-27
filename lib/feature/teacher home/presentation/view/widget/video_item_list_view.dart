@@ -48,7 +48,7 @@ class VideoItemListView extends StatelessWidget {
                     .toList();
 
                 if (approvedVideos.isEmpty) {
-                  return const Center(child: Text('No Videos Available'));
+                  return const Center(child: Text('No  Videos Available'));
                 }
 
                 return ListView.builder(
@@ -66,11 +66,6 @@ class VideoItemListView extends StatelessWidget {
                           GoRouter.of(context).push(
                               AppRouter.kYoutubeVideoPlayerView,
                               extra: approvedVideos[index]);
-                        },
-                        onLongPress: () {
-                          if (videos[index].hasCodes == true) {
-                            GoRouter.of(context).push(AppRouter.kCodeView, extra: videos[index]);
-                          }
                         },
                         child: Column(
                           children: [
