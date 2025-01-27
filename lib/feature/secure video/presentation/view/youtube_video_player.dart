@@ -89,10 +89,10 @@ class _YouTubeVideoPlayerState extends State<YouTubeVideoPlayer> {
                 controller: _controller,
                 showVideoProgressIndicator: true,
                 onReady: () {
-                  print('Player is ready.');
+                  // print('Player is ready.');
                 },
                 onEnded: (data) {
-                  print('Video has ended.');
+                  // print('Video has ended.');
                 },
               ),
             ),

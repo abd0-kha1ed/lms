@@ -15,6 +15,9 @@ class ReportView extends StatefulWidget {
 }
 
 class _ReportViewState extends State<ReportView> {
+  int _approvedVideos = 0; // Approved videos count
+  int _rejectedVideos = 0; // Rejected videos count
+  int _pendingVideos = 0; // Pending videos count
   int _studentCount = 0; // Student count state
   int _videoCount = 0; // Video count state
   bool _isLoadingStudents = true; // Loading state for student count
@@ -25,6 +28,40 @@ class _ReportViewState extends State<ReportView> {
     super.initState();
     fetchStudentCount(); // Fetch student count
     fetchVideoCount(); // Fetch video count
+    fetchVideoCounts();
+  }
+
+  Future<void> fetchVideoCounts() async {
+    try {
+      // Get all videos
+      QuerySnapshot snapshot =
+          await FirebaseFirestore.instance.collection('videos').get();
+
+      // Count videos based on `isApproved` field
+      int approved = 0, rejected = 0, pending = 0;
+
+      for (var doc in snapshot.docs) {
+        final data = doc.data() as Map<String, dynamic>;
+        if (data['isApproved'] == true) {
+          approved++;
+        } else if (data['isApproved'] == false) {
+          rejected++;
+        } else {
+          pending++;
+        }
+      }
+
+      setState(() {
+        _approvedVideos = approved;
+        _rejectedVideos = rejected;
+        _pendingVideos = pending;
+        _isLoadingVideos = false; // Stop loading
+      });
+    } catch (e) {
+      setState(() {
+        _isLoadingVideos = false; // Stop loading in case of error
+      });
+    }
   }
 
   Future<void> fetchStudentCount() async {
@@ -140,18 +177,33 @@ class _ReportViewState extends State<ReportView> {
               crossAxisSpacing: 16,
               padding: const EdgeInsets.all(16.0),
               children: [
-                buildStatCard("Approved Videos", 8, Colors.teal, Icons.check,
-                    () {
-                  GoRouter.of(context).push(AppRouter.kApprovedVideo);
-                }),
-                buildStatCard("Rejected Videos", 1, Colors.red, Icons.close,
-                    () {
-                  GoRouter.of(context).push(AppRouter.kRejectedVideo);
-                }),
-                buildStatCard("Pending Videos", 0, Colors.orange, Icons.pending,
-                    () {
-                  GoRouter.of(context).push(AppRouter.kPendingVideo);
-                }),
+                buildStatCard(
+                  "Approved Videos",
+                  _isLoadingVideos ? 0 : _approvedVideos,
+                  Colors.teal,
+                  Icons.check,
+                  () {
+                    GoRouter.of(context).push(AppRouter.kApprovedVideo);
+                  },
+                ),
+                buildStatCard(
+                  "Rejected Videos",
+                  _isLoadingVideos ? 0 : _rejectedVideos,
+                  Colors.red,
+                  Icons.close,
+                  () {
+                    GoRouter.of(context).push(AppRouter.kRejectedVideo);
+                  },
+                ),
+                buildStatCard(
+                  "Pending Videos",
+                  _isLoadingVideos ? 0 : _pendingVideos,
+                  Colors.orange,
+                  Icons.pending,
+                  () {
+                    GoRouter.of(context).push(AppRouter.kPendingVideo);
+                  },
+                ),
               ],
             ),
           ),

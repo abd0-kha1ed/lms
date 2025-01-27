@@ -16,7 +16,6 @@ class StudentView extends StatefulWidget {
   const StudentView({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _StudentViewState createState() => _StudentViewState();
 }
 

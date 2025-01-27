@@ -244,7 +244,7 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
         this.uploaderName = uploaderName ?? "Unknown";
       });
     } catch (e) {
-      print("Error fetching uploader details: $e");
+      // print("Error fetching uploader details: $e");
       setState(() {
         uploaderRole = "Unknown";
         uploaderName = "Unknown";
@@ -474,7 +474,9 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                     onTap: () {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
-                        final isApproved = uploaderRole == 'teacher';
+                        final isteacher = uploaderRole == 'teacher';
+                        // print(
+                        //     'Uploader role: $uploaderRole, isTeacher: $isteacher');
                         List<String> codes =
                             CodeGenerator.generateCodes(generatedCodesCount);
 
@@ -490,11 +492,12 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                           isVideoVisible: false, // Only visible if approved
                           isVideoExpirable: isVideoExpirable,
                           expiryDate: expiryDate,
-                          isApproved: isApproved,
+                          isApproved: isteacher ? true : null,
                           hasCodes: hasCode,
                           codes: codes,
                           isViewableOnPlatformIfEncrypted:
-                              isVideoAvailableForPlatform, // Store approval status
+                              isVideoAvailableForPlatform,
+                          // Store approval status
                         );
                         context.read<VideoCubit>().addEncryptedVideo(video);
                       } else {

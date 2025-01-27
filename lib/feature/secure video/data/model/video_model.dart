@@ -73,12 +73,10 @@ class VideoModel {
       isVideoVisible: map['isVideoVisible'] ?? false,
       isVideoExpirable: map['isVideoExpirable'] ?? false,
       isApproved: map['isApproved'],
-      approvedAt: map['approvedAt'] != null
-          ? DateTime.parse(map['approvedAt'])
-          : null,
-      expiryDate: map['expiryDate'] != null
-          ? DateTime.parse(map['expiryDate'])
-          : null,
+      approvedAt:
+          map['approvedAt'] != null ? DateTime.parse(map['approvedAt']) : null,
+      expiryDate:
+          map['expiryDate'] != null ? DateTime.parse(map['expiryDate']) : null,
       createdAt: map['createdAt'] as Timestamp? ?? Timestamp.now(),
       hasCodes: map['hasCodes'] ?? false,
       codes: map['codes'] != null ? List<String>.from(map['codes']) : [],
