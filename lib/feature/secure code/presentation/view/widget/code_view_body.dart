@@ -17,25 +17,31 @@ class CodeViewBody extends StatefulWidget {
 class _CodeViewBodyState extends State<CodeViewBody> {
   int index = 0;
   Stream<List<CodeModel>> getCodesForVideo(String videoId) {
-    return FirebaseFirestore.instance
-        .collection('videos')
-        .doc(videoId)
-        .snapshots()
-        .map((docSnapshot) {
-      final data = docSnapshot.data();
-      if (data == null || !data.containsKey('codes')) return [];
-      final codesList = data['codes'] as List<dynamic>;
-      return codesList.map((code) {
-        return CodeModel(
-          code: code.toString(),
-          isUsed: false,
-          videoId: videoId,
-          videoUrl: widget.videoModel.videoUrl,
-          createdAt: Timestamp.now(),
-        );
-      }).toList();
-    });
-  }
+  return FirebaseFirestore.instance
+      .collection('videos')
+      .doc(videoId)
+      .snapshots()
+      .asyncMap((docSnapshot) async {
+    final data = docSnapshot.data();
+    if (data == null || !data.containsKey('codes')) return [];
+
+    final videoCodesList = List<String>.from(data['codes']);
+
+    final codesQuery = await FirebaseFirestore.instance
+        .collection('codes')
+        .where('videoId', isEqualTo: videoId)
+        .get();
+
+    final allCodes = codesQuery.docs
+        .map((doc) => CodeModel.fromFirestore(doc.data()))
+        .toList();
+
+    final filteredCodes = allCodes.where((code) => videoCodesList.contains(code.code)).toList();
+
+    return filteredCodes;
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {
