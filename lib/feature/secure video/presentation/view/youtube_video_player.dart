@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:no_screenshot/no_screenshot.dart';
 import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/widget/describtion_section.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -13,14 +14,31 @@ class YouTubeVideoPlayer extends StatefulWidget {
 }
 
 class _YouTubeVideoPlayerState extends State<YouTubeVideoPlayer> {
+  final _noScreenshot = NoScreenshot.instance;
   late YoutubePlayerController _controller;
   final int skipDuration = 10; // Progress or delay time in seconds
   String? overlayText; // Text that appears while clicking
   bool showOverlay = false; // Text display status
 
+  void disableScreenshot() async {
+    bool result = await _noScreenshot.screenshotOff();
+    debugPrint('Screenshot Off: $result');
+  }
+
+  void enableScreenshot() async {
+    bool result = await _noScreenshot.screenshotOn();
+    debugPrint('Enable Screenshot: $result');
+  }
+
+  void toggleScreenshot() async {
+    bool result = await _noScreenshot.toggleScreenshot();
+    debugPrint('Toggle Screenshot: $result');
+  }
+
   @override
   void initState() {
     super.initState();
+    disableScreenshot();
     _controller = YoutubePlayerController(
       initialVideoId: YoutubePlayer.convertUrlToId(widget.videoModel.videoUrl)!,
       flags: const YoutubePlayerFlags(
@@ -35,6 +53,7 @@ class _YouTubeVideoPlayerState extends State<YouTubeVideoPlayer> {
 
   @override
   void dispose() {
+    enableScreenshot();
     _controller.dispose();
     super.dispose();
   }
@@ -82,55 +101,57 @@ class _YouTubeVideoPlayerState extends State<YouTubeVideoPlayer> {
       ),
       builder: (context, player) {
         return Scaffold(
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 0,
-                child: Stack(
-                  children: [
-                    GestureDetector(
-                      onDoubleTapDown: (details) {
-                        final screenWidth = MediaQuery.of(context).size.width;
-                        final tapPosition = details.localPosition.dx;
+          body: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 0,
+                  child: Stack(
+                    children: [
+                      GestureDetector(
+                        onDoubleTapDown: (details) {
+                          final screenWidth = MediaQuery.of(context).size.width;
+                          final tapPosition = details.localPosition.dx;
 
-                        if (tapPosition < screenWidth / 2) {
-                          skipBackward();
-                        } else {
-                          skipForward();
-                        }
-                      },
-                      child: player,
-                    ),
-                    if (showOverlay)
-                      Positioned(
-                        bottom: 16.0,
-                        left: 16.0,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.black54,
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            overlayText ?? '',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.bold,
+                          if (tapPosition < screenWidth / 2) {
+                            skipBackward();
+                          } else {
+                            skipForward();
+                          }
+                        },
+                        child: player,
+                      ),
+                      if (showOverlay)
+                        Positioned(
+                          bottom: 16.0,
+                          left: 16.0,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black54,
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              overlayText ?? '',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Expanded(
-                flex: 0,
-                child: DescriptionSection(videoModel: widget.videoModel),
-              ),
-            ],
+                Expanded(
+                  flex: 0,
+                  child: DescriptionSection(videoModel: widget.videoModel),
+                ),
+              ],
+            ),
           ),
         );
       },
