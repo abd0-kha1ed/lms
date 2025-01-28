@@ -20,7 +20,7 @@ class _CustomAlertDialogWidgetState extends State<CustomAlertDialogWidget> {
   void initState() {
     super.initState();
 
-    // Delay the appearance of the "Yes" button by 3 seconds
+    // Delay the appearance of the "Yes" button by 1.8 seconds
     Future.delayed(const Duration(milliseconds: 1800), () {
       setState(() {
         showYesButton = true;
@@ -30,25 +30,36 @@ class _CustomAlertDialogWidgetState extends State<CustomAlertDialogWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // Get screen dimensions for responsive layout
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return AlertDialog(
       icon: const Icon(
         Icons.warning,
         color: Colors.red,
         size: 30,
       ),
-      title: const Text('Account Logout'),
-      content: const SizedBox(
-        height: 90,
+      title: const Text(
+        'Account Logout',
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 18),
+      ),
+      content: SizedBox(
+        height: screenHeight * 0.12, // Responsive height
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'You are going to log out of your account.',
-              style: TextStyle(fontSize: 17),
+              style: TextStyle(fontSize: 16),
+              textAlign: TextAlign.center,
             ),
-            SizedBox(height: 10),
-            Text(
+            SizedBox(height: screenHeight * 0.01), // Responsive spacing
+            const Text(
               'Are you sure?',
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
           ],
         ),
@@ -57,7 +68,7 @@ class _CustomAlertDialogWidgetState extends State<CustomAlertDialogWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            // "Yes" button appears after 3 seconds
+            // "Yes" button appears after delay
             if (showYesButton)
               TextButton(
                 onPressed: () async {
@@ -84,10 +95,10 @@ class _CustomAlertDialogWidgetState extends State<CustomAlertDialogWidget> {
               )
             else
               // Placeholder for animation while waiting
-              const SizedBox(
-                width: 60,
-                height: 30,
-                child: Center(
+              SizedBox(
+                width: screenWidth * 0.15, // Responsive size
+                height: screenHeight * 0.03,
+                child: const Center(
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
                     color: Colors.red,
