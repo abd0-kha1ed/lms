@@ -154,10 +154,25 @@ class VideoItemListView extends StatelessWidget {
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 const Spacer(),
-                                Text(approvedVideos[index]
-                                    .createdAt
-                                    .toDate()
-                                    .toString()),
+                                SizedBox(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        // Format the date to "YYYY-MM-DD hh:mm a" with hours and AM/PM
+                                        DateFormat('yyyy-MM-dd').format(
+                                            approvedVideos[index]
+                                                .createdAt
+                                                .toDate()),
+                                        style: TextStyle(
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.03, // Responsive font size
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                             const SizedBox(height: 5),

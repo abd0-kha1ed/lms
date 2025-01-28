@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -70,7 +71,11 @@ class DescriptionSection extends StatelessWidget {
             children: [
               const Text('Abdo Khaled',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              Text(videoModel.createdAt.toDate().toString())
+              Text(
+                // Format the createdAt date to "YYYY-MM-DD"
+                DateFormat('yyyy-MM-dd').format(videoModel.createdAt.toDate()),
+                style: const TextStyle(fontSize: 16), // Optional styling
+              ),
             ],
           ),
           const SizedBox(height: 5),

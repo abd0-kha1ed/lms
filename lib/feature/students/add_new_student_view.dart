@@ -101,6 +101,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 ),
                 const SizedBox(height: 10),
                 CustomTextFormField(
+                  keyboardType: TextInputType.number,
                   hintText: LocaleKeys.code.tr(),
                   controller: _codeController,
                   validator: (value) =>
@@ -110,7 +111,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 CustomTextFormField(
                   hintText: LocaleKeys.password.tr(),
                   controller: _passwordController,
-                  obscureText: true,
+                  obscureText: false,
                   validator: (value) =>
                       value!.isEmpty ? "Please enter the password" : null,
                 ),

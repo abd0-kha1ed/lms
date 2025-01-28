@@ -104,6 +104,7 @@ class _LoginAsAssistantViewBodyState extends State<LoginAsAssistantViewBody> {
             )),
             const SizedBox(height: 35),
             CustomTextFormField(
+              keyboardType: TextInputType.number,
               hintText: LocaleKeys.code.tr(),
               onChanged: (value) {
                 code = value;
