@@ -47,9 +47,16 @@ class VideoItemListView extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is VideoLoaded) {
                 // Filter the videos where isApprove is true
-                final approvedVideos = state.videos
-                    .where((video) => video.isApproved == true)
-                    .toList();
+                final approvedVideos = userRole == 'student'
+                    ? state.videos
+                        .where((video) =>
+                            video.isApproved == true &&
+                            video.isVideoVisible == true &&
+                            video.isViewableOnPlatformIfEncrypted == true)
+                        .toList()
+                    : state.videos
+                        .where((video) => video.isApproved == true)
+                        .toList();
 
                 if (approvedVideos.isEmpty) {
                   return const Center(child: Text('No  Videos Available'));
