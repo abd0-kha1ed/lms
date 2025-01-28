@@ -8,7 +8,9 @@ class CodeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('List of codes'),
+      ),
       body: CodeViewBody(videoModel: videoModel),
     );
   }
