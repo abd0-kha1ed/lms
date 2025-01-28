@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
-import 'package:video_player_app/core/widget/custom_dropdown.dart';
 import 'package:video_player_app/core/widget/custom_text_form_field.dart';
 import 'package:video_player_app/feature/auth/data/model/student_model.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
@@ -47,7 +46,8 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
         phone: _phoneController.text.trim(),
         grade: _selectedGrade ?? '',
         teacherCode: _teacherCodeController.text.trim(),
-        password: _passwordController.text.trim(), // Not stored in the model
+        password: _passwordController.text.trim(),
+        ispaid: true, // Not stored in the model
         createdAt: Timestamp.now(),
       );
 
@@ -76,6 +76,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
     }
   }
 
+  void saveToDatabase(String grade) {}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,34 +135,59 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      LocaleKeys.grade.tr(),
-                      style: const TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.w500),
-                    ),
+                    Text(LocaleKeys.grade.tr(), style: TextStyle(fontSize: 18)),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.40,
-                      child: CustomDropdown(
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedGrade = value;
-                          });
+                      child: DropdownButtonFormField<String>(
+                        validator: (level) {
+                          return level == null
+                              ? LocaleKeys.chooseGrade.tr()
+                              : null;
                         },
-                        validator: (value) {
-                          if (value?.isEmpty ?? true) {
-                            return 'Choose grade';
-                          } else {
-                            return null;
-                          }
-                        },
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: kPrimaryColor,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                        value:
+                            _selectedGrade, // This will store the English value
+                        hint: Text(
+                          LocaleKeys.chooseGrade.tr(),
+                          style: TextStyle(color: Colors.white),
+                        ),
                         items: [
-                          LocaleKeys.seven.tr(),
-                          LocaleKeys.eight.tr(),
-                          LocaleKeys.nine.tr(),
-                          LocaleKeys.ten.tr(),
-                          LocaleKeys.eleven.tr(),
-                          LocaleKeys.twelve.tr(),
-                        ],
+                          {'id': '1st Prep', 'label': LocaleKeys.seven.tr()},
+                          {'id': '2nd Prep', 'label': LocaleKeys.eight.tr()},
+                          {'id': '3rd Prep', 'label': LocaleKeys.nine.tr()},
+                          {'id': '1st Secondary', 'label': LocaleKeys.ten.tr()},
+                          {
+                            'id': '2nd Secondary',
+                            'label': LocaleKeys.eleven.tr()
+                          },
+                          {
+                            'id': '3rd Secondary',
+                            'label': LocaleKeys.twelve.tr()
+                          },
+                        ]
+                            .map(
+                              (item) => DropdownMenuItem<String>(
+                                value: item['id'], // Store English value
+                                child: Text(
+                                    item['label']!), // Display localized value
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (level) {
+                          setState(() {
+                            _selectedGrade = level; // Save English value
+                          });
+
+                          // Save to the database
+                          saveToDatabase(_selectedGrade!);
+                        },
                       ),
                     ),
                   ],

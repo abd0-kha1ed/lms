@@ -8,6 +8,7 @@ class StudentModel {
   String grade;
   String teacherCode;
   String password;
+  bool ispaid;
   Timestamp createdAt;
 
   StudentModel(
@@ -18,7 +19,8 @@ class StudentModel {
       required this.grade,
       required this.teacherCode,
       required this.password,
-      required this.createdAt});
+      required this.createdAt,
+      required this.ispaid});
 
   factory StudentModel.fromJson(Map<String, dynamic> json) {
     return StudentModel(
@@ -30,6 +32,7 @@ class StudentModel {
       teacherCode: json['teacherCode'],
       password: json['password'],
       createdAt: json['createdAt'],
+      ispaid: json['ispaid'],
     );
   }
 
@@ -43,6 +46,7 @@ class StudentModel {
       'teacherCode': teacherCode,
       'password': password,
       'createdAt': createdAt,
+      'ispaid': ispaid,
     };
   }
 }

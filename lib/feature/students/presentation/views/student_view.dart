@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/widget/custom_icon_button.dart';
 import 'package:video_player_app/core/widget/custom_show_diolog.dart';
@@ -24,6 +25,21 @@ class _StudentViewState extends State<StudentView> {
   String _searchQuery = "";
   String _selectedGrade = ""; // Variable to store the selected grade
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // _scaffoldMessenger = ScaffoldMessenger.of(context);
+  }
+
+  @override
+  void dispose() {
+    // Safely use the saved reference
+    // _scaffoldMessenger.showSnackBar(
+    //   SnackBar(content: Text("Widget is being disposed")),
+    // );
+    super.dispose();
+  }
+
   Stream<QuerySnapshot> _getStudentsStream() {
     final studentsCollection =
         FirebaseFirestore.instance.collection('students');
@@ -31,8 +47,8 @@ class _StudentViewState extends State<StudentView> {
 
     if (_searchQuery.isNotEmpty) {
       query = query
-          .where('name', isGreaterThanOrEqualTo: _searchQuery)
-          .where('name', isLessThanOrEqualTo: '$_searchQuery\uf8ff');
+          .where('code', isGreaterThanOrEqualTo: _searchQuery)
+          .where('code', isLessThanOrEqualTo: '$_searchQuery\uf8ff');
     }
 
     if (_selectedGrade.isNotEmpty) {
@@ -60,6 +76,90 @@ class _StudentViewState extends State<StudentView> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () async {
+              // Show confirmation dialog
+              final shouldReset = await showDialog<bool>(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Confirmation"),
+                    content: Text(
+                        "Are you sure you want to mark all students as not paid? This action cannot be undone."),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pop(false); // Close dialog, return false
+                        },
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pop(true); // Close dialog, return true
+                        },
+                        child: Text(
+                          "Yes, Reset All",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
+
+              // If user confirmed the action
+              if (shouldReset == true) {
+                try {
+                  final studentsCollection =
+                      FirebaseFirestore.instance.collection('students');
+
+                  // Fetch all student documents
+                  final snapshot = await studentsCollection.get();
+
+                  // Batch update `isPaid` to false for all students
+                  final batch = FirebaseFirestore.instance.batch();
+                  for (var doc in snapshot.docs) {
+                    batch.update(doc.reference, {'ispaid': false});
+                  }
+
+                  // Commit the batch
+                  await batch.commit();
+
+                  // Show success message
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          "Payment status reset for all students successfully.",
+                        ),
+                      ),
+                    );
+                  }
+                } catch (e) {
+                  // Show error message
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Failed to reset payment status: $e"),
+                      ),
+                    );
+                  }
+                }
+              }
+            },
+            icon: Icon(
+              Icons.check_box,
+              color: Colors.blue,
+              size: 28,
+            ),
+          ),
+        ],
         backgroundColor: Colors.grey[100],
         title: Text("Students List"),
       ),
@@ -71,6 +171,7 @@ class _StudentViewState extends State<StudentView> {
               children: [
                 Expanded(
                   child: TextField(
+                    keyboardType: TextInputType.number,
                     controller: _searchController,
                     decoration: InputDecoration(
                       hintText: LocaleKeys.name.tr(),
@@ -236,6 +337,45 @@ class _StudentViewState extends State<StudentView> {
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
+                              IconButton(
+                                onPressed: () async {
+                                  try {
+                                    // Get the current state of `isPaid` from Firestore
+                                    final doc = FirebaseFirestore.instance
+                                        .collection('students')
+                                        .doc(id);
+                                    final snapshot = await doc.get();
+                                    final currentState =
+                                        snapshot['ispaid'] ?? false;
+
+                                    // Toggle `isPaid` state
+                                    await doc.update({'ispaid': !currentState});
+
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          currentState
+                                              ? "Payment status marked as unpaid"
+                                              : "Payment status marked as paid",
+                                        ),
+                                      ),
+                                    );
+                                  } catch (e) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              "Failed to update payment status: $e")),
+                                    );
+                                  }
+                                },
+                                icon: Icon(
+                                  Icons.check,
+                                  color: student.ispaid
+                                      ? Colors.green
+                                      : Colors.grey, // Toggle color
+                                  size: 28,
+                                ),
+                              ),
                               WhatsPhone(phoneNumber: student.phone),
                               IconButton(
                                 icon: Icon(
