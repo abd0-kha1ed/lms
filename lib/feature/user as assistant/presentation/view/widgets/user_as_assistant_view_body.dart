@@ -287,12 +287,12 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                       label: Text(
                         "Both",
                         style: TextStyle(
-                          color: context.watch<VideoCubit>().hascode == null
+                          color: context.watch<VideoCubit>().hasCode == null
                               ? Colors.white // White when selected
                               : Colors.black87, // Black when not selected
                         ),
                       ),
-                      selected: context.watch<VideoCubit>().hascode == null,
+                      selected: context.watch<VideoCubit>().hasCode == null,
                       onSelected: (selected) {
                         if (selected) {
                           context
@@ -310,12 +310,12 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                       label: Text(
                         "Open",
                         style: TextStyle(
-                          color: context.watch<VideoCubit>().hascode == false
+                          color: context.watch<VideoCubit>().hasCode == false
                               ? Colors.white // White when selected
                               : Colors.black87, // Black when not selected
                         ),
                       ),
-                      selected: context.watch<VideoCubit>().hascode == false,
+                      selected: context.watch<VideoCubit>().hasCode == false,
                       onSelected: (selected) {
                         if (selected) {
                           context
@@ -333,12 +333,12 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                       label: Text(
                         "Encrypted",
                         style: TextStyle(
-                          color: context.watch<VideoCubit>().hascode == true
+                          color: context.watch<VideoCubit>().hasCode == true
                               ? Colors.white // White when selected
                               : Colors.black87, // Black when not selected
                         ),
                       ),
-                      selected: context.watch<VideoCubit>().hascode == true,
+                      selected: context.watch<VideoCubit>().hasCode == true,
                       onSelected: (selected) {
                         if (selected) {
                           context.read<VideoCubit>().setFilteredEncrypted(

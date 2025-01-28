@@ -23,6 +23,8 @@ class AddEncryptedVideoBody extends StatefulWidget {
 }
 
 class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
+    final TextEditingController _urlController = TextEditingController();
+
   final GlobalKey<FormState> formKey = GlobalKey();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   String? videoUrl, title, description, grade, uploaderName, uploaderRole;
@@ -267,6 +269,10 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
     }
   }
 
+final RegExp _urlRegex = RegExp(
+    r'^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be|vimeo\.com)\/.+$',
+    caseSensitive: false,
+  );
   @override
   void initState() {
     super.initState();
@@ -287,17 +293,20 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
           child: Column(
             children: [
               CustomizeTextfield(
+                controller: _urlController,
                 text: LocaleKeys.videoLink.tr(),
                 color: kPrimaryColor,
                 onChanged: (value) {
                   videoUrl = value;
                 },
                 validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'Enter video URL';
-                  } else {
-                    return null;
+                  if (value == null || value.isEmpty) {
+                    return 'Enter the url';
                   }
+                  if (!_urlRegex.hasMatch(value)) {
+                    return 'Enter valid url';
+                  }
+                  return null;
                 },
               ),
               const SizedBox(height: 10),
@@ -489,7 +498,10 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                     title: LocaleKeys.add.tr(),
                     color: Colors.deepPurple,
                     onTap: () {
-                      if (formKey.currentState!.validate()) {
+                      if (videoDuration == '00:00:00') {
+                        customSnackBar(context, 'Enter the video duration');
+                      }
+                     else if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         final isTeacher = uploaderRole == 'teacher';
                         // print(

@@ -8,11 +8,12 @@ part 'video_state.dart';
 class VideoCubit extends Cubit<VideoState> {
   final FirebaseServices firebaseServices;
   String selectedGrade = "";
-  bool? hascode; // To track the selected grade for filtering
+  bool? hasCode; // To track the selected grade for filtering
 
   VideoCubit(this.firebaseServices) : super(VideoInitial());
 
   Future<void> addVideo(VideoModel video) async {
+    emit(VideoLoading());
     try {
       await firebaseServices.addVideo(video);
       emit(VideoAddedSuccessfully());
@@ -44,21 +45,19 @@ class VideoCubit extends Cubit<VideoState> {
     }
   }
 
-  void setFilteredEncrypted(bool? hascodeFilter) {
-    // print("Filter updated to: $hascodeFilter"); // Debug log
-    hascode = hascodeFilter; // Update filter
-    fetchVideosencrypted(); // Trigger state update
+  void setFilteredEncrypted(bool? hasCodeFilter) {
+    hasCode = hasCodeFilter;
+    fetchVideosEncrypted();
   }
 
-  Future<void> fetchVideosencrypted() async {
+  Future<void> fetchVideosEncrypted() async {
     emit(VideoLoading());
 
     try {
       final videos = await firebaseServices.fetchVideos();
       final filteredVideos = videos.where((video) {
-        return hascode == null || video.hasCodes == hascode;
+        return hasCode == null || video.hasCodes == hasCode;
       }).toList();
-      print("Filtered Videos Count: ${filteredVideos.length}"); // Debug log
       emit(VideoLoaded(filteredVideos));
     } catch (e) {
       emit(VideoError(e.toString()));
@@ -81,6 +80,7 @@ class VideoCubit extends Cubit<VideoState> {
   }
 
   Future<void> addEncryptedVideo(VideoModel video) async {
+    emit(VideoLoading());
     try {
       await firebaseServices.addEncryptedVideo(video);
       emit(VideoAddedSuccessfully());
@@ -88,6 +88,4 @@ class VideoCubit extends Cubit<VideoState> {
       emit(VideoError(e.toString()));
     }
   }
-  
-
 }

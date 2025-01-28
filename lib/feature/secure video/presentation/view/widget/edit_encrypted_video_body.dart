@@ -242,6 +242,11 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
     );
   }
 
+final RegExp _urlRegex = RegExp(
+    r'^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be|vimeo\.com)\/.+$',
+    caseSensitive: false,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -260,11 +265,13 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                   videoUrl = value;
                 },
                 validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'Enter video URL';
-                  } else {
-                    return null;
+                  if (value == null || value.isEmpty) {
+                    return 'Enter the url';
                   }
+                  if (!_urlRegex.hasMatch(value)) {
+                    return 'Enter valid url';
+                  }
+                  return null;
                 },
               ),
               const SizedBox(height: 10),
@@ -475,7 +482,10 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                     title: LocaleKeys.update.tr(),
                     color: Colors.deepPurple,
                     onTap: () async {
-                      if (formKey.currentState!.validate()) {
+                      if (videoDuration == '00:00:00') {
+                        customSnackBar(context, 'Enter the video duration');
+                      }
+                     else if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         List<String> codes = CodeGenerator.generateCodes(
                             generatedCodesCount ??

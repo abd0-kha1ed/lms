@@ -103,15 +103,45 @@ class VideoItemListView extends StatelessWidget {
                           children: [
                             const SizedBox(height: 20),
                             thumbnailUrl != null
-                                ? CachedNetworkImage(
-                                    imageUrl: thumbnailUrl,
-                                    fit: BoxFit.fill,
-                                    placeholder: (context, url) => const Center(
-                                        child: CircularProgressIndicator()),
-                                    errorWidget: (context, url, error) =>
-                                        const Center(
-                                            child: Icon(Icons.broken_image,
-                                                size: 50, color: Colors.grey)),
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                    child: Stack(children: [
+                                      CachedNetworkImage(
+                                        imageUrl: thumbnailUrl,
+                                        fit: BoxFit.fill,
+                                        placeholder: (context, url) =>
+                                            const Center(
+                                                child:
+                                                    CircularProgressIndicator()),
+                                        errorWidget: (context, url, error) =>
+                                            const Center(
+                                                child: Icon(Icons.broken_image,
+                                                    size: 50,
+                                                    color: Colors.grey)),
+                                      ),
+                                      Positioned(
+                                        bottom: 8.0,
+                                        right: 8.0,
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8.0, vertical: 4.0),
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Colors.black.withOpacity(0.7),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          child: Text(
+                                            approvedVideos[index].videoDuration,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ]),
                                   )
                                 : const Center(
                                     child: Icon(Icons.broken_image,

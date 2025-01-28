@@ -65,7 +65,7 @@ class _TeacherHomeViewBodyState extends State<TeacherHomeViewBody> {
                     onPressed: () {
                       context.read<VideoCubit>().fetchVideos();
                     },
-                    icon: Icon(Icons.refresh)),
+                    icon: Icon(Icons.refresh, size: 28)),
               ],
             ),
           ),
@@ -88,7 +88,7 @@ class _TeacherHomeViewBodyState extends State<TeacherHomeViewBody> {
                 ),
                 AddVideoButton(
                   title: LocaleKeys.addNewEncryptedVideo.tr(),
-                  color: Colors.teal,
+                  color: Colors.blueGrey,
                   onTap: () {
                     GoRouter.of(context).push(AppRouter.kAddEncryptedVideoView);
                   },
@@ -287,12 +287,12 @@ class _TeacherHomeViewBodyState extends State<TeacherHomeViewBody> {
                       label: Text(
                         LocaleKeys.both.tr(),
                         style: TextStyle(
-                          color: context.watch<VideoCubit>().hascode == null
+                          color: context.watch<VideoCubit>().hasCode == null
                               ? Colors.white // White when selected
                               : Colors.black87, // Black when not selected
                         ),
                       ),
-                      selected: context.watch<VideoCubit>().hascode == null,
+                      selected: context.watch<VideoCubit>().hasCode == null,
                       onSelected: (selected) {
                         if (selected) {
                           context
@@ -310,12 +310,12 @@ class _TeacherHomeViewBodyState extends State<TeacherHomeViewBody> {
                       label: Text(
                         LocaleKeys.open.tr(),
                         style: TextStyle(
-                          color: context.watch<VideoCubit>().hascode == false
+                          color: context.watch<VideoCubit>().hasCode == false
                               ? Colors.white // White when selected
                               : Colors.black87, // Black when not selected
                         ),
                       ),
-                      selected: context.watch<VideoCubit>().hascode == false,
+                      selected: context.watch<VideoCubit>().hasCode == false,
                       onSelected: (selected) {
                         if (selected) {
                           context
@@ -333,12 +333,12 @@ class _TeacherHomeViewBodyState extends State<TeacherHomeViewBody> {
                       label: Text(
                         LocaleKeys.encrypted.tr(),
                         style: TextStyle(
-                          color: context.watch<VideoCubit>().hascode == true
+                          color: context.watch<VideoCubit>().hasCode == true
                               ? Colors.white // White when selected
                               : Colors.black87, // Black when not selected
                         ),
                       ),
-                      selected: context.watch<VideoCubit>().hascode == true,
+                      selected: context.watch<VideoCubit>().hasCode == true,
                       onSelected: (selected) {
                         if (selected) {
                           context.read<VideoCubit>().setFilteredEncrypted(
