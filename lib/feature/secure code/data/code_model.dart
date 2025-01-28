@@ -6,8 +6,10 @@ class CodeModel {
   final String videoId;
   final String videoUrl;
   final Timestamp createdAt;
+  final String videoDuration;
 
   CodeModel( {
+    required this.videoDuration,
     required this.code,
     required this.isUsed,
     required this.videoId,
@@ -15,12 +17,13 @@ class CodeModel {
     required this.createdAt,
   });
 
- factory CodeModel.empty() {
+  factory CodeModel.empty() {
     return CodeModel(
       code: '',
       isUsed: false,
       videoId: '',
       videoUrl: '',
+      videoDuration: '',
       createdAt: Timestamp.now(),
     );
   }
@@ -31,6 +34,7 @@ class CodeModel {
       isUsed: data['isUsed'] ?? false,
       videoId: data['videoId'] ?? '',
       videoUrl: data['videoUrl'],
+      videoDuration: data['videoDuration'],
       createdAt: data['createdAt'] ?? Timestamp.now(),
     );
   }
@@ -42,6 +46,7 @@ class CodeModel {
       'videoId': videoId,
       'videoUrl': videoUrl,
       'createdAt': createdAt,
+      'videoDuration':videoDuration
     };
   }
 }

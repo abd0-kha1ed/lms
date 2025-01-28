@@ -197,13 +197,80 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
           child: BlocConsumer<CodesCubit, CodesState>(
             listener: (context, state) {
               if (state is CodeValid) {
+                // عرض الفيديو مباشرة بعد التحقق من صحة الكود
                 GoRouter.of(context).pop();
-
                 GoRouter.of(context).go(
                   AppRouter.kVideoViewWithDirectCode,
                   extra: state.videoUrl,
                 );
+              } else if (state is CodeSessionActive) {
+                // عندما تكون الجلسة نشطة، سيتم التحقق من الكود وجلسة الفيديو
+                final videoUrl = state.videoUrl;
+                final sessionEndTime = state.sessionEndTime.toDate();
+
+                // عرض الفيديو فقط إذا كانت الجلسة لا تزال صالحة
+                if (DateTime.now().isBefore(sessionEndTime)) {
+                  GoRouter.of(context).pop();
+                  GoRouter.of(context).go(
+                    AppRouter.kVideoViewWithDirectCode,
+                    extra: videoUrl,
+                  );
+                } else {
+                  // إذا انتهت الجلسة، إظهار تنبيه بانتهاء الجلسة
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        title: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.warning_amber_rounded,
+                                  color: Colors.red),
+                              SizedBox(width: 8),
+                              Text('Session Expired'),
+                            ],
+                          ),
+                        ),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Your session has expired. Please try again.',
+                              style: TextStyle(fontSize: 16),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(height: 20),
+                            Image.network(
+                              'https://cdn-icons-png.flaticon.com/512/190/190406.png',
+                              height: 80,
+                            ),
+                          ],
+                        ),
+                        actionsAlignment: MainAxisAlignment.center,
+                        actions: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop(); // Close the dialog
+                            },
+                            child: Text('Dismiss'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
               } else if (state is CodeInvalid) {
+                // في حالة عدم صحة الكود
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -272,7 +339,8 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(16)),
                     ),
-                    child: CodeVideoDirectly(),
+                    child:
+                        CodeVideoDirectly(), // Your widget that handles code input
                   ),
                 ),
               );

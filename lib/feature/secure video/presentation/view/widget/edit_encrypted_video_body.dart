@@ -539,7 +539,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                         await FirebaseServices().addCodesToFirestore(
                             widget.videoModel.id,
                             codes,
-                            widget.videoModel.videoUrl);
+                            widget.videoModel.videoUrl, widget.videoModel.videoDuration);
                       } else {
                         autovalidateMode = AutovalidateMode.always;
                         setState(() {});

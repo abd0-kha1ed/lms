@@ -28,31 +28,39 @@ class CodesCubit extends Cubit<CodesState> {
   }
 
   Future<void> verifyCode(String enteredCode) async {
-    try {
-      emit(CodeVerificationLoading());
+  try {
+    emit(CodeVerificationLoading());
 
-      CodeModel? matchedCode = _codes.firstWhere(
-        (code) => code.code == enteredCode && !code.isUsed,
-        orElse: () => CodeModel.empty(),
-      );
+    // التحقق من الكود في القائمة الموجودة
+    CodeModel? matchedCode = _codes.firstWhere(
+  (code) => code.code.trim() == enteredCode.trim() && !code.isUsed,
+  orElse: () => CodeModel.empty(),
+);
 
-      if (matchedCode.code.isEmpty) {
-        emit(CodeInvalid());
-      } else {
-        await FirebaseFirestore.instance
-            .collection('codes')
-            .where('code', isEqualTo: enteredCode)
-            .get()
-            .then((snapshot) {
-          for (var doc in snapshot.docs) {
-            doc.reference.update({'isUsed': true});
-          }
-        });
 
-        emit(CodeValid(videoUrl: matchedCode.videoUrl));
-      }
-    } catch (e) {
-      emit(CodeVerificationError(message: "حدث خطأ أثناء التحقق من الكود: $e"));
+
+    if (matchedCode.code.isEmpty) {
+      emit(CodeInvalid());
+    } else {
+      // تحديث حالة الكود في قاعدة البيانات ليتم تحديده على أنه مستخدم
+      await FirebaseFirestore.instance
+          .collection('codes')
+          .where('code', isEqualTo: enteredCode)
+          .get()
+          .then((snapshot) {
+        for (var doc in snapshot.docs) {
+          doc.reference.update({'isUsed': true});
+        }
+      });
+
+      emit(CodeValid(videoUrl: matchedCode.videoUrl));
     }
+  } catch (e) {
+    emit(CodeVerificationError(message: "حدث خطأ أثناء التحقق من الكود: $e"));
   }
+}
+
+
+
+
 }

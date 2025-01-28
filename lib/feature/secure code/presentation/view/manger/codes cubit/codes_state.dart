@@ -29,3 +29,13 @@ class CodeVerificationError extends CodesState {
   final String message;
   CodeVerificationError({required this.message});
 }
+
+
+class CodeSessionActive extends CodesState {
+  final String videoUrl;
+  final Timestamp sessionEndTime;
+
+  CodeSessionActive({required this.videoUrl, required this.sessionEndTime});
+}
+
+class CodeSessionExpired extends CodesState {}
