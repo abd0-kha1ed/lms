@@ -36,7 +36,7 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
           code: _codeController.text.trim(),
           name: _nameController.text.trim(),
           phone: _phoneController.text.trim(),
-          email: _emailController.text.trim(),
+          // email: _emailController.text.trim(),
           password: _passwordController.text.trim(), // Not stored in the model
           teacherCode: _teacherCodeController.text.trim(),
           lastCheckedInAt: Timestamp.now(),
@@ -97,32 +97,6 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
                 ),
                 const SizedBox(height: 16),
                 CustomTextFormField(
-                  controller: _phoneController,
-                  hintText: 'Phone Number',
-                  keyboardType: TextInputType.number,
-                  maxLength: 11,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Phone number is required';
-                    } else if (value.length != 11) {
-                      return 'Phone number must be exactly 11 digits';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                CustomTextFormField(
-                  controller: _emailController,
-                  hintText: 'Email',
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Email is required';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16),
-                CustomTextFormField(
                   controller: _passwordController,
                   hintText: 'Password',
                   obscureText: true,
@@ -136,16 +110,20 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
                   },
                 ),
                 const SizedBox(height: 16),
-                // CustomTextFormField(
-                //   controller: _teacherCodeController,
-                //   hintText: 'Teacher Code',
-                //   validator: (value) {
-                //     if (value == null || value.isEmpty) {
-                //       return 'Teacher Code is required';
-                //     }
-                //     return null;
-                //   },
-                // ),
+                CustomTextFormField(
+                  controller: _phoneController,
+                  hintText: 'Phone Number',
+                  keyboardType: TextInputType.number,
+                  maxLength: 11,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Phone number is required';
+                    } else if (value.length != 11) {
+                      return 'Phone number must be exactly 11 digits';
+                    }
+                    return null;
+                  },
+                ),
                 const SizedBox(height: 24),
                 SizedBox(
                   width: double.infinity,

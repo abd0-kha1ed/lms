@@ -42,7 +42,6 @@ class AssistantViewBody extends StatelessWidget {
                     return AssistantWidget(
                       name: assistant.name,
                       code: assistant.code,
-                      email: assistant.email,
                       phone: assistant.phone,
                       onDelete: () async {
                         await FirebaseFirestore.instance

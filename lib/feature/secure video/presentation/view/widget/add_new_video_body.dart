@@ -92,7 +92,7 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
           child: Column(
             children: [
               Text(
-                "Select Video Duration",
+                LocaleKeys.selectVideoDuration.tr(),
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
@@ -108,8 +108,8 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                         onSelectedItemChanged: (value) {
                           selectedHour = value;
                         },
-                        children:
-                            List.generate(24, (index) => Text('$index hours')),
+                        children: List.generate(24,
+                            (index) => Text('$index ${LocaleKeys.hours.tr()}')),
                       ),
                     ),
                     Flexible(
@@ -120,8 +120,10 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                         onSelectedItemChanged: (value) {
                           selectedMinute = value;
                         },
-                        children:
-                            List.generate(60, (index) => Text('$index min.')),
+                        children: List.generate(
+                            60,
+                            (index) =>
+                                Text('$index${LocaleKeys.minutes.tr()} ')),
                       ),
                     ),
                     Flexible(
@@ -132,8 +134,10 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                         onSelectedItemChanged: (value) {
                           selectedSecond = value;
                         },
-                        children:
-                            List.generate(60, (index) => Text('$index sec.')),
+                        children: List.generate(
+                            60,
+                            (index) =>
+                                Text('$index ${LocaleKeys.seconds.tr()}')),
                       ),
                     ),
                   ],
@@ -190,7 +194,7 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
                 child: Text(
-                  "Confirm",
+                  LocaleKeys.confirmText.tr(),
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -224,10 +228,10 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Enter the url';
+                    return LocaleKeys.enterVideoUrl;
                   }
                   if (!_urlRegex.hasMatch(value)) {
-                    return 'Enter valid url';
+                    return LocaleKeys.entervaildurl.tr();
                   }
                   return null;
                 },
@@ -241,7 +245,7 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                 },
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
-                    return 'Enter video title';
+                    return LocaleKeys.enterVideoTitle.tr();
                   } else {
                     return null;
                   }
@@ -265,7 +269,9 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                     width: MediaQuery.of(context).size.width * 0.40,
                     child: DropdownButtonFormField<String>(
                       validator: (level) {
-                        return level == null ? 'Choose grade' : null;
+                        return level == null
+                            ? LocaleKeys.chooseGrade.tr()
+                            : null;
                       },
                       decoration: InputDecoration(
                         filled: true,
@@ -276,8 +282,8 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                         ),
                       ),
                       value: selectedGrade, // This will store the English value
-                      hint: const Text(
-                        'Choose grade',
+                      hint: Text(
+                        LocaleKeys.chooseGrade.tr(),
                         style: TextStyle(color: Colors.white),
                       ),
                       items: [
@@ -400,7 +406,7 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
               BlocConsumer<VideoCubit, VideoState>(
                 listener: (context, state) {
                   if (state is VideoAddedSuccessfully) {
-                    customSnackBar(context, 'Video was added successfully');
+                    customSnackBar(context, LocaleKeys.videoAdded.tr());
                   }
                 },
                 builder: (context, state) {
@@ -413,7 +419,8 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                     color: kPrimaryColor,
                     onTap: () {
                       if (videoDuration == '00:00:00') {
-                        customSnackBar(context, 'Enter the video duration');
+                        customSnackBar(
+                            context, LocaleKeys.enterthevideoduration.tr());
                       } else if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         final isTeacher = uploaderRole == 'teacher';

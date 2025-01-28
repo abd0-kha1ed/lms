@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/widget/custom_icon_button.dart';
@@ -8,7 +7,7 @@ import 'package:video_player_app/feature/assistant/presentation/view/widget/what
 class AssistantWidget extends StatelessWidget {
   final String name;
   final String code;
-  final String email;
+
   final String phone;
   final VoidCallback onDelete;
 
@@ -16,7 +15,6 @@ class AssistantWidget extends StatelessWidget {
     super.key,
     required this.name,
     required this.code,
-    required this.email,
     required this.phone,
     required this.onDelete,
   });
@@ -42,12 +40,6 @@ class AssistantWidget extends StatelessWidget {
                 ),
                 Text(
                   code,
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-                Text(
-                  email,
                   style: TextStyle(
                     fontSize: 18,
                   ),

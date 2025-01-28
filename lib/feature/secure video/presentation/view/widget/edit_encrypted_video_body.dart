@@ -60,7 +60,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
           child: Column(
             children: [
               Text(
-                "Select Video Duration",
+                LocaleKeys.enterthevideoduration.tr(),
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
@@ -76,8 +76,8 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                         onSelectedItemChanged: (value) {
                           selectedHour = value;
                         },
-                        children:
-                            List.generate(24, (index) => Text('$index hours')),
+                        children: List.generate(24,
+                            (index) => Text('$index ${LocaleKeys.hours.tr()}')),
                       ),
                     ),
                     Flexible(
@@ -88,8 +88,10 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                         onSelectedItemChanged: (value) {
                           selectedMinute = value;
                         },
-                        children:
-                            List.generate(60, (index) => Text('$index min.')),
+                        children: List.generate(
+                            60,
+                            (index) =>
+                                Text('$index ${LocaleKeys.minutes.tr()}')),
                       ),
                     ),
                     Flexible(
@@ -100,8 +102,10 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                         onSelectedItemChanged: (value) {
                           selectedSecond = value;
                         },
-                        children:
-                            List.generate(60, (index) => Text('$index sec.')),
+                        children: List.generate(
+                            60,
+                            (index) =>
+                                Text('$index ${LocaleKeys.seconds.tr()}')),
                       ),
                     ),
                   ],
@@ -117,7 +121,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
                 child: Text(
-                  "Set Duration",
+                  LocaleKeys.setDuration.tr(),
                   style: TextStyle(color: Colors.white),
                 ),
               )
@@ -153,7 +157,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Generated Codes",
+                    LocaleKeys.generateCodes.tr(),
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 10),
@@ -164,7 +168,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                           controller: codeController,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            labelText: "Enter codes count",
+                            labelText: LocaleKeys.entercodescount.tr(),
                             border: OutlineInputBorder(),
                           ),
                         ),
@@ -182,7 +186,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                           backgroundColor: Colors.teal,
                         ),
                         child: Text(
-                          "Set",
+                          LocaleKeys.set.tr(),
                           style: TextStyle(color: Colors.white),
                         ),
                       )
@@ -190,7 +194,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                   ),
                   SizedBox(height: 20),
                   Text(
-                    "Current Count: $generatedCodesCount",
+                    "${LocaleKeys.currentCount.tr()}: $generatedCodesCount",
                     style: TextStyle(fontSize: 16),
                   )
                 ],
@@ -266,13 +270,11 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                   videoUrl = value;
                 },
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Enter the url';
+                  if (value?.isEmpty ?? true) {
+                    return LocaleKeys.enterVideoUrl.tr();
+                  } else {
+                    return null;
                   }
-                  if (!_urlRegex.hasMatch(value)) {
-                    return 'Enter valid url';
-                  }
-                  return null;
                 },
               ),
               const SizedBox(height: 10),
@@ -285,7 +287,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                 },
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
-                    return 'Enter video title';
+                    return LocaleKeys.enterVideoTitle.tr();
                   } else {
                     return null;
                   }
@@ -307,7 +309,9 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                     width: MediaQuery.of(context).size.width * 0.40,
                     child: DropdownButtonFormField<String>(
                       validator: (level) {
-                        return level == null ? 'Choose grade' : null;
+                        return level == null
+                            ? LocaleKeys.chooseGrade.tr()
+                            : null;
                       },
                       decoration: InputDecoration(
                         filled: true,
@@ -317,9 +321,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                           borderSide: BorderSide.none,
                         ),
                       ),
-                      value: selectedGrade ??
-                          widget.videoModel
-                              .grade, 
+                      value: selectedGrade ?? widget.videoModel.grade,
                       hint: const Text(
                         'Choose grade',
                         style: TextStyle(color: Colors.white),
@@ -385,7 +387,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Generated Codes Count"),
+                  Text(LocaleKeys.generatedCodesCount.tr()),
                   GestureDetector(
                     onTap: () {
                       showGeneratedCodesBottomSheet(context);
@@ -429,7 +431,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Will the video be available for platform?"),
+                  Text(LocaleKeys.availableOnPlatform.tr()),
                   Switch(
                     activeTrackColor: kPrimaryColor,
                     value: isVideoAvailableForPlatform ??
@@ -488,7 +490,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
               BlocConsumer<VideoCubit, VideoState>(
                 listener: (context, state) {
                   if (state is VideoUpdatedSuccessfully) {
-                    customSnackBar(context, 'Video was updated successfully');
+                    customSnackBar(context, LocaleKeys.videoUpdated.tr());
                   }
                 },
                 builder: (context, state) {

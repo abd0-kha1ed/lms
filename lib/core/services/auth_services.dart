@@ -16,9 +16,10 @@ class FirebaseServices {
   // Register Assistant
   Future<User?> registerAssistant(AssistantModel assistant) async {
     try {
+      String email = "${assistant.code}@gmail.com";
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
-        email: assistant.email,
+        email: email,
         password: assistant.password,
       );
 
@@ -30,7 +31,6 @@ class FirebaseServices {
           code: assistant.code,
           name: assistant.name,
           phone: assistant.phone,
-          email: assistant.email,
           password: assistant.password,
           teacherCode: assistant.teacherCode,
           lastCheckedInAt: Timestamp.now(),
@@ -72,6 +72,7 @@ class FirebaseServices {
           grade: student.grade,
           teacherCode: student.teacherCode,
           password: student.password,
+          ispaid: student.ispaid,
           createdAt: Timestamp.now(),
         );
 
@@ -277,40 +278,38 @@ class FirebaseServices {
   WriteBatch batch = FirebaseFirestore.instance.batch();
   CollectionReference codesCollection = FirebaseFirestore.instance.collection('codes');
 
-  try {
-    for (var code in codes) {
-      DocumentReference docRef = codesCollection.doc();
-      batch.set(docRef, {
-        'code': code,
-        'videoId': videoId,
-        'videoUrl':videoUrl,
-        'isUsed': false,
-        'createdAt': Timestamp.now(),
-      });
+    try {
+      for (var code in codes) {
+        DocumentReference docRef = codesCollection.doc();
+        batch.set(docRef, {
+          'code': code,
+          'videoId': videoId,
+          'videoUrl': videoUrl,
+          'isUsed': false,
+          'createdAt': Timestamp.now(),
+        });
+      }
+      await batch.commit();
+    } catch (e) {
+      print("Error adding codes: $e");
     }
-    await batch.commit(); 
-  } catch (e) {
-    print("Error adding codes: $e");
   }
-}
 
-Future<List<CodeModel>> fetchCodesFromFirestore() async {
-  try {
-    QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('codes').get();
+  Future<List<CodeModel>> fetchCodesFromFirestore() async {
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('codes').get();
 
-    List<CodeModel> codes = querySnapshot.docs.map((doc) {
-      return CodeModel.fromFirestore(doc.data() as Map<String, dynamic>);
-    }).toList();
+      List<CodeModel> codes = querySnapshot.docs.map((doc) {
+        return CodeModel.fromFirestore(doc.data() as Map<String, dynamic>);
+      }).toList();
 
-    return codes;
-  } catch (e) {
-    print("Error fetching codes: $e");
-    return [];
+      return codes;
+    } catch (e) {
+      print("Error fetching codes: $e");
+      return [];
+    }
   }
-}
-
-
 
   Future<void> addEncryptedVideo(VideoModel video) async {
     final docRef = videosCollection.doc(); // Generate a unique ID
