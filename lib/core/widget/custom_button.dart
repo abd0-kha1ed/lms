@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({super.key, required this.title, this.onTap,required this.color});
+  const CustomButton(
+      {super.key, required this.title, this.onTap, required this.color});
   final String title;
   final void Function()? onTap;
   final Color color;
@@ -22,7 +23,7 @@ class CustomButton extends StatelessWidget {
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w700,
-              fontSize: 16,
+              fontSize: 18,
             ),
           ),
         ),

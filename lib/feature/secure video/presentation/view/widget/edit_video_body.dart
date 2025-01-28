@@ -169,7 +169,7 @@ class _EditVideoBodyState extends State<EditVideoBody> {
     );
   }
 
-final RegExp _urlRegex = RegExp(
+  final RegExp _urlRegex = RegExp(
     r'^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be|vimeo\.com)\/.+$',
     caseSensitive: false,
   );
@@ -227,7 +227,7 @@ final RegExp _urlRegex = RegExp(
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(LocaleKeys.grade.tr()),
+                  Text(LocaleKeys.grade.tr(), style: TextStyle(fontSize: 18)),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.40,
                     child: DropdownButtonFormField<String>(
@@ -242,7 +242,9 @@ final RegExp _urlRegex = RegExp(
                           borderSide: BorderSide.none,
                         ),
                       ),
-                      value: selectedGrade, // This will store the English value
+                      value: selectedGrade ??
+                          widget.videoModel
+                              .grade, // This will store the English value
                       hint: const Text(
                         'Choose grade',
                         style: TextStyle(color: Colors.white),
@@ -285,7 +287,8 @@ final RegExp _urlRegex = RegExp(
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(LocaleKeys.videoDuration.tr()),
+                  Text(LocaleKeys.videoDuration.tr(),
+                      style: TextStyle(fontSize: 18)),
                   GestureDetector(
                     onTap: () {
                       showDurationPicker(context);
@@ -298,7 +301,7 @@ final RegExp _urlRegex = RegExp(
                           color: kPrimaryColor),
                       child: Text(
                         videoDuration ?? widget.videoModel.videoDuration,
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
                   )
@@ -308,8 +311,10 @@ final RegExp _urlRegex = RegExp(
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(LocaleKeys.visibility.tr()),
+                  Text(LocaleKeys.visibility.tr(),
+                      style: TextStyle(fontSize: 18)),
                   Switch(
+                    activeTrackColor: kPrimaryColor,
                     value: isVideoVisible ?? widget.videoModel.isVideoVisible,
                     onChanged: (bool value) {
                       setState(() {
@@ -375,12 +380,11 @@ final RegExp _urlRegex = RegExp(
 
                   return CustomButton(
                     title: LocaleKeys.update.tr(),
-                    color: Colors.deepPurple,
+                    color: kPrimaryColor,
                     onTap: () {
                       if (videoDuration == '00:00:00') {
                         customSnackBar(context, 'Enter the video duration');
-                      }
-                     else if (formKey.currentState!.validate()) {
+                      } else if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
 
                         final updatedVideo = VideoModel(

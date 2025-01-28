@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class VideoContainer extends StatelessWidget {
@@ -16,6 +15,7 @@ class VideoContainer extends StatelessWidget {
       child: Row(
         children: [
           Icon(icon, color: Colors.white),
+          const SizedBox(width: 2),
           Text(text, style: TextStyle(color: Colors.white))
         ],
       ),

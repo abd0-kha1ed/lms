@@ -16,7 +16,7 @@ import 'package:video_player_app/feature/teacher%20home/presentation/view/widget
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class VideoItemListView extends StatefulWidget {
-  VideoItemListView({super.key, this.videos});
+  const VideoItemListView({super.key, this.videos});
   final List<VideoModel>? videos;
 
   @override
@@ -257,7 +257,7 @@ class _VideoItemListViewState extends State<VideoItemListView> {
                                   ),
                                   VideoContainer(
                                     text: LocaleKeys.approved.tr(),
-                                    color: Colors.green,
+                                    color: Colors.blueGrey,
                                     icon: Icons.check,
                                   ),
                                   Icon(approvedVideos[index].hasCodes == false

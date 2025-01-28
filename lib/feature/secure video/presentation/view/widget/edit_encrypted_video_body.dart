@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,11 +44,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
     super.initState();
   }
 
-  void saveToDatabase(String grade) {
-    // Example database save logic
-    print('Saving grade to database: $grade');
-    // Add your actual database logic here
-  }
+  void saveToDatabase(String grade) {}
 
   void showDurationPicker(BuildContext context) {
     int selectedHour = 0;
@@ -248,7 +243,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
     );
   }
 
-final RegExp _urlRegex = RegExp(
+  final RegExp _urlRegex = RegExp(
     r'^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be|vimeo\.com)\/.+$',
     caseSensitive: false,
   );
@@ -322,7 +317,9 @@ final RegExp _urlRegex = RegExp(
                           borderSide: BorderSide.none,
                         ),
                       ),
-                      value: selectedGrade, // This will store the English value
+                      value: selectedGrade ??
+                          widget.videoModel
+                              .grade, 
                       hint: const Text(
                         'Choose grade',
                         style: TextStyle(color: Colors.white),
@@ -419,6 +416,7 @@ final RegExp _urlRegex = RegExp(
                 children: [
                   Text(LocaleKeys.visibility.tr()),
                   Switch(
+                    activeTrackColor: kPrimaryColor,
                     value: isVideoVisible ?? widget.videoModel.isVideoVisible,
                     onChanged: (bool value) {
                       setState(() {
@@ -433,6 +431,7 @@ final RegExp _urlRegex = RegExp(
                 children: [
                   Text("Will the video be available for platform?"),
                   Switch(
+                    activeTrackColor: kPrimaryColor,
                     value: isVideoAvailableForPlatform ??
                         widget.videoModel.isViewableOnPlatformIfEncrypted,
                     onChanged: (bool value) {
@@ -499,12 +498,11 @@ final RegExp _urlRegex = RegExp(
 
                   return CustomButton(
                     title: LocaleKeys.update.tr(),
-                    color: Colors.deepPurple,
+                    color: kPrimaryColor,
                     onTap: () async {
                       if (videoDuration == '00:00:00') {
                         customSnackBar(context, 'Enter the video duration');
-                      }
-                     else if (formKey.currentState!.validate()) {
+                      } else if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         List<String> codes = CodeGenerator.generateCodes(
                             generatedCodesCount ??

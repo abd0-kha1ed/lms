@@ -8,7 +8,6 @@ import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/core/utils/function/custom_snack_bar.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
-import 'package:video_player_app/core/widget/custom_dropdown.dart';
 import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/widget/code_generator.dart';
@@ -23,7 +22,7 @@ class AddEncryptedVideoBody extends StatefulWidget {
 }
 
 class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
-    final TextEditingController _urlController = TextEditingController();
+  final TextEditingController _urlController = TextEditingController();
 
   final GlobalKey<FormState> formKey = GlobalKey();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
@@ -80,11 +79,7 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
     );
   }
 
-  void saveToDatabase(String grade) {
-    // Example database save logic
-    print('Saving grade to database: $grade');
-    // Add your actual database logic here
-  }
+  void saveToDatabase(String grade) {}
 
   void showDurationPicker(BuildContext context) {
     int selectedHour = 0;
@@ -275,7 +270,7 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
     }
   }
 
-final RegExp _urlRegex = RegExp(
+  final RegExp _urlRegex = RegExp(
     r'^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be|vimeo\.com)\/.+$',
     caseSensitive: false,
   );
@@ -452,6 +447,7 @@ final RegExp _urlRegex = RegExp(
                 children: [
                   Text("Will the video be available for platform?"),
                   Switch(
+                    activeTrackColor: kPrimaryColor,
                     value: isVideoAvailableForPlatform,
                     onChanged: (bool value) {
                       setState(() {
@@ -467,6 +463,7 @@ final RegExp _urlRegex = RegExp(
                 children: [
                   Text(LocaleKeys.visibility.tr()),
                   Switch(
+                    activeTrackColor: kPrimaryColor,
                       value: isVideoVisible,
                       onChanged: (bool value) {
                         setState(() {
@@ -529,16 +526,14 @@ final RegExp _urlRegex = RegExp(
                   }
                   return CustomButton(
                     title: LocaleKeys.add.tr(),
-                    color: Colors.deepPurple,
+                    color: kPrimaryColor,
                     onTap: () {
                       if (videoDuration == '00:00:00') {
                         customSnackBar(context, 'Enter the video duration');
-                      }
-                     else if (formKey.currentState!.validate()) {
+                      } else if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         final isTeacher = uploaderRole == 'teacher';
-                        // print(
-                        //     'Uploader role: $uploaderRole, isTeacher: $isteacher');
+
                         List<String> codes =
                             CodeGenerator.generateCodes(generatedCodesCount);
 
