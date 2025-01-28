@@ -28,7 +28,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descController = TextEditingController();
   int? generatedCodesCount;
-  bool isVideoAvailableForPlatform = false;
+  bool? isVideoAvailableForPlatform;
 
   String? videoUrl, title, description;
   String? videoDuration;
@@ -407,7 +407,8 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                 children: [
                   Text("Will the video be available for platform?"),
                   Switch(
-                    value: isVideoAvailableForPlatform,
+                    value: isVideoAvailableForPlatform ??
+                        widget.videoModel.isViewableOnPlatformIfEncrypted,
                     onChanged: (bool value) {
                       setState(() {
                         isVideoAvailableForPlatform = value;
@@ -497,8 +498,8 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                             expiryDate:
                                 expiryDate ?? widget.videoModel.expiryDate,
                             hasCodes: widget.videoModel.hasCodes,
-                            isViewableOnPlatformIfEncrypted: widget
-                                .videoModel.isViewableOnPlatformIfEncrypted,
+                            isViewableOnPlatformIfEncrypted:
+                                isVideoAvailableForPlatform!,
                             codes: codes,
                             approvedAt: widget.videoModel.approvedAt,
                             isApproved: widget.videoModel.isApproved);

@@ -30,11 +30,13 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
   String videoDuration = "00:00:00";
   int generatedCodesCount = 50;
   String? selectedGrade;
-  bool isVideoVisible = true;
-  bool isVideoExpirable = false;
+  bool isVideoVisible = false;
   bool isVideoAvailableForPlatform = false;
+  bool isVideoExpirable = false;
+
   bool hasCode = true;
   DateTime? expiryDate;
+
   void showExpiryDatePicker(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -270,6 +272,8 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
     super.initState();
     // Fetch the role once when the widget is initialized
     fetchUploaderDetails();
+    isVideoVisible = false; // Default value
+    isVideoAvailableForPlatform = false;
   }
 
   @override
@@ -421,13 +425,13 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                 children: [
                   Text(LocaleKeys.visibility.tr()),
                   Switch(
-                    value: isVideoVisible,
-                    onChanged: (bool value) {
-                      setState(() {
-                        isVideoVisible = value;
-                      });
-                    },
-                  ),
+                      value: isVideoVisible,
+                      onChanged: (bool value) {
+                        setState(() {
+                          isVideoVisible = value;
+                          print("isVideoVisible: $isVideoVisible");
+                        });
+                      }),
                 ],
               ),
               const SizedBox(height: 10),
@@ -502,7 +506,8 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                           grade: selectedGrade!,
                           uploaderName: uploaderName!,
                           videoDuration: videoDuration,
-                          isVideoVisible: false, // Only visible if approved
+                          isVideoVisible:
+                              isVideoVisible, // Only visible if approved
                           isVideoExpirable: isVideoExpirable,
                           expiryDate: expiryDate,
                           isApproved: isTeacher ? true : null,
