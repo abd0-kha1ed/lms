@@ -20,7 +20,6 @@ class SplashView extends StatelessWidget {
         body: BlocBuilder<AuthCubit, AuthState>(
           builder: (context, state) {
             if (state is AuthLoading) {
-             
             } else if (state is AuthAuthenticated) {
               // Navigate based on role
               Future.microtask(() {
@@ -29,8 +28,10 @@ class SplashView extends StatelessWidget {
                   context.read<VideoCubit>().fetchVideos();
                 } else if (state.role == 'assistant') {
                   GoRouter.of(context).go(AppRouter.kUserAsAssistantView);
+                  context.read<VideoCubit>().fetchVideos();
                 } else if (state.role == 'student') {
                   GoRouter.of(context).go(AppRouter.kUserAsStudentView);
+                  context.read<VideoCubit>().fetchVideos();
                 }
               });
               return const SizedBox.shrink(); // Avoid rendering unnecessary UI

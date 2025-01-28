@@ -47,7 +47,7 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
         String role = userData['role'];
         if (role == 'teacher') {
           // Navigate to Teacher Home View
-          GoRouter.of(context).push(AppRouter.kTeacherHomeView);
+          GoRouter.of(context).go(AppRouter.kTeacherHomeView);
         }
       } else {
         // No user data found

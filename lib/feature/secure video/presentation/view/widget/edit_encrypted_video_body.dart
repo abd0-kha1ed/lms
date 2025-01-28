@@ -132,54 +132,69 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
 
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true, // Allows dynamic height adjustment
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
       builder: (BuildContext context) {
-        return Container(
-          height: 300,
-          padding: EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Generated Codes",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10),
-              Row(
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context)
+                .viewInsets
+                .bottom, // Adjusts for keyboard
+          ),
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                mainAxisSize:
+                    MainAxisSize.min, // Ensures it only takes necessary space
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: TextField(
-                      controller: codeController,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        labelText: "Enter codes count",
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
+                  Text(
+                    "Generated Codes",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(width: 10),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        generatedCodesCount =
-                            int.tryParse(codeController.text) ?? 0;
-                      });
-                      Navigator.pop(context);
-                    },
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.teal),
-                    child: Text(
-                      "Set",
-                      style: TextStyle(color: Colors.white),
-                    ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: codeController,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            labelText: "Enter codes count",
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      ElevatedButton(
+                        onPressed: () {
+                          int newCount = int.tryParse(codeController.text) ?? 0;
+                          setState(() {
+                            generatedCodesCount = newCount;
+                          });
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.teal,
+                        ),
+                        child: Text(
+                          "Set",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "Current Count: $generatedCodesCount",
+                    style: TextStyle(fontSize: 16),
                   )
                 ],
               ),
-              SizedBox(height: 20),
-              Text(
-                "Current Count: $generatedCodesCount",
-                style: TextStyle(fontSize: 16),
-              )
-            ],
+            ),
           ),
         );
       },
@@ -454,12 +469,11 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                   if (state is VideoLoading) {
                     return const Center(child: CircularProgressIndicator());
                   }
-                  
 
                   return CustomButton(
                     title: LocaleKeys.update.tr(),
                     color: Colors.deepPurple,
-                    onTap: () async{
+                    onTap: () async {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         List<String> codes = CodeGenerator.generateCodes(
@@ -492,7 +506,10 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                         context
                             .read<VideoCubit>()
                             .editVideoDetails(updatedVideo);
-                        await FirebaseServices().addCodesToFirestore(widget.videoModel.id, codes, widget.videoModel.videoUrl);
+                        await FirebaseServices().addCodesToFirestore(
+                            widget.videoModel.id,
+                            codes,
+                            widget.videoModel.videoUrl);
                       } else {
                         autovalidateMode = AutovalidateMode.always;
                         setState(() {});

@@ -186,27 +186,48 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
 
   Future<dynamic> showCodeBottomSheet(BuildContext context) {
     return showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return BlocProvider(
-            create: (context) => CodesCubit()..fetchCodes(),
-            child: BlocConsumer<CodesCubit, CodesState>(
-              listener: (context, state) {
-                if (state is CodeValid) {
-                  GoRouter.of(context).pop();
-                  GoRouter.of(context).go(AppRouter.kVideoViewWithDirectCode,
-                      extra: state.videoUrl);
-                } else if (state is CodeInvalid) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("الكود غير صالح أو مستخدم مسبقًا")),
-                  );
-                }
-              },
-              builder: (context, state) {
-                return CodeVideoDirectly();
-              },
-            ),
-          );
-        });
+      context: context,
+      isScrollControlled: true, // Allow full height control
+      builder: (BuildContext context) {
+        return BlocProvider(
+          create: (context) => CodesCubit()..fetchCodes(),
+          child: BlocConsumer<CodesCubit, CodesState>(
+            listener: (context, state) {
+              if (state is CodeValid) {
+                GoRouter.of(context).pop();
+                GoRouter.of(context).go(
+                  AppRouter.kVideoViewWithDirectCode,
+                  extra: state.videoUrl,
+                );
+              } else if (state is CodeInvalid) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("الكود غير صالح أو مستخدم مسبقًا")),
+                );
+              }
+            },
+            builder: (context, state) {
+              return Padding(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context)
+                      .viewInsets
+                      .bottom, // Adjust for keyboard
+                ),
+                child: SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(16)),
+                    ),
+                    child: CodeVideoDirectly(),
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 }
