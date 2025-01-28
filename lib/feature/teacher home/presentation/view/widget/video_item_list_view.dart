@@ -1,3 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -67,11 +71,26 @@ class VideoItemListView extends StatelessWidget {
                               AppRouter.kYoutubeVideoPlayerView,
                               extra: approvedVideos[index]);
                         },
-                        onLongPress: () {
-                          if (approvedVideos[index].hasCodes == true) {
-                            GoRouter.of(context).push(AppRouter.kCodeView,
-                                extra: approvedVideos[index]);
-                          }
+                        onLongPress: () async {
+                          String userId =
+                              FirebaseAuth.instance.currentUser?.uid ?? "";
+
+                          if (userId.isNotEmpty) {
+                            DocumentSnapshot userDoc = await FirebaseFirestore
+                                .instance
+                                .collection(
+                                    "teachers") // Assuming "teachers" is your collection
+                                .doc(userId)
+                                .get();
+
+                            if (userDoc.exists &&
+                                userDoc.get("role") == "teacher") {
+                              if (approvedVideos[index].hasCodes == true) {
+                                GoRouter.of(context).push(AppRouter.kCodeView,
+                                    extra: approvedVideos[index]);
+                              }
+                            }
+                          } else {}
                         },
                         child: Column(
                           children: [
