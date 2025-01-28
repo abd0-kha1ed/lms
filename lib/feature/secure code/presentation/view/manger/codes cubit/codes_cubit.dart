@@ -8,11 +8,12 @@ part 'codes_state.dart';
 class CodesCubit extends Cubit<CodesState> {
   CodesCubit() : super(CodesInitial());
 
-  List<CodeModel> _codes = []; 
+  List<CodeModel> _codes = [];
 
   Future<void> fetchCodes() async {
     try {
       emit(CodesLoading());
+
       QuerySnapshot querySnapshot =
           await FirebaseFirestore.instance.collection('codes').get();
 

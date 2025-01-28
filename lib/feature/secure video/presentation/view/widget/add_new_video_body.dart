@@ -329,45 +329,45 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                 ],
               ),
               const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(LocaleKeys.canBeExpired.tr()),
-                  Switch(
-                    value: isVideoExpirable,
-                    onChanged: (bool value) {
-                      setState(() {
-                        isVideoExpirable = value;
-                      });
-                      if (value) {
-                        showExpiryDatePicker(context);
-                      }
-                    },
-                  ),
-                ],
-              ),
-              if (isVideoExpirable && expiryDate != null)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(LocaleKeys.expiryDate.tr()),
-                      Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: kPrimaryColor),
-                        child: Text(
-                          "${expiryDate?.toLocal().toString().split(' ')[0]} ${expiryDate?.hour}:${expiryDate?.minute}",
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Text(LocaleKeys.canBeExpired.tr()),
+              //     Switch(
+              //       value: isVideoExpirable,
+              //       onChanged: (bool value) {
+              //         setState(() {
+              //           isVideoExpirable = value;
+              //         });
+              //         if (value) {
+              //           showExpiryDatePicker(context);
+              //         }
+              //       },
+              //     ),
+              //   ],
+              // ),
+              // if (isVideoExpirable && expiryDate != null)
+              //   Padding(
+              //     padding: const EdgeInsets.symmetric(vertical: 15),
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       children: [
+              //         Text(LocaleKeys.expiryDate.tr()),
+              //         Container(
+              //           padding:
+              //               EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              //           decoration: BoxDecoration(
+              //               borderRadius: BorderRadius.circular(8),
+              //               color: kPrimaryColor),
+              //           child: Text(
+              //             "${expiryDate?.toLocal().toString().split(' ')[0]} ${expiryDate?.hour}:${expiryDate?.minute}",
+              //             style: TextStyle(
+              //                 color: Colors.white, fontWeight: FontWeight.bold),
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
               const SizedBox(height: 15),
               BlocConsumer<VideoCubit, VideoState>(
                 listener: (context, state) {

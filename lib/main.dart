@@ -6,6 +6,7 @@ import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/core/utils/app_router.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
+
 import 'package:video_player_app/firebase_options.dart';
 import 'package:video_player_app/generated/codegen_loader.g.dart';
 
@@ -16,6 +17,7 @@ void main() async {
   );
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  // Check and delete expired videos at startup
 
   runApp(
     EasyLocalization(

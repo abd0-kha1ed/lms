@@ -82,7 +82,8 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
             const SizedBox(height: 20),
             Center(
               child: Text(
-                "My Lectures", // Replace with localization key if required
+                LocaleKeys.myLectures
+                    .tr(), // Replace with localization key if required
                 style:
                     const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
@@ -90,8 +91,8 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
             const SizedBox(height: 35),
             CustomTextFormField(
               keyboardType: TextInputType.number,
-              hintText:
-                  "Enter your code", // Replace with localization key if required
+              hintText: LocaleKeys.enterYourCode
+                  .tr(), // Replace with localization key if required
               onChanged: (value) {
                 code = value;
               },
@@ -104,8 +105,8 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
             ),
             const SizedBox(height: 15),
             CustomTextFormField(
-              hintText:
-                  "Enter your password", // Replace with localization key if required
+              hintText: LocaleKeys.enterYourPassword
+                  .tr(), // Replace with localization key if required
               onChanged: (value) {
                 password = value;
               },
@@ -131,7 +132,8 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
                 ? Center(child: const CircularProgressIndicator())
                 : CustomButton(
                     color: kPrimaryColor,
-                    title: "Login", // Replace with localization key if required
+                    title: LocaleKeys.login
+                        .tr(), // Replace with localization key if required
                     onTap: () async {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
@@ -151,7 +153,7 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Login as "),
+                Text("Login as "),
                 GestureDetector(
                   onTap: () =>
                       GoRouter.of(context).push(AppRouter.kTeacherLoginView),
@@ -196,13 +198,58 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
             listener: (context, state) {
               if (state is CodeValid) {
                 GoRouter.of(context).pop();
+
                 GoRouter.of(context).go(
                   AppRouter.kVideoViewWithDirectCode,
                   extra: state.videoUrl,
                 );
               } else if (state is CodeInvalid) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("الكود غير صالح أو مستخدم مسبقًا")),
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      title: Row(
+                        children: [
+                          Icon(Icons.warning_amber_rounded, color: Colors.red),
+                          SizedBox(width: 8),
+                          Text('Alert'),
+                        ],
+                      ),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'This code has been used. Please try a different code.',
+                            style: TextStyle(fontSize: 16),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 20),
+                          Image.network(
+                            'https://cdn-icons-png.flaticon.com/512/190/190406.png',
+                            height: 80,
+                          ),
+                        ],
+                      ),
+                      actionsAlignment: MainAxisAlignment.center,
+                      actions: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Close the dialog
+                          },
+                          child: Text('Dismiss'),
+                        ),
+                      ],
+                    );
+                  },
                 );
               }
             },

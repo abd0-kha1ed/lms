@@ -418,24 +418,24 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                 ],
               ),
               const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(LocaleKeys.canBeExpired.tr()),
-                  Switch(
-                    value:
-                        isVideoExpirable ?? widget.videoModel.isVideoExpirable,
-                    onChanged: (bool value) {
-                      setState(() {
-                        isVideoExpirable = value;
-                      });
-                      if (value) {
-                        showExpiryDatePicker(context);
-                      }
-                    },
-                  ),
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Text(LocaleKeys.canBeExpired.tr()),
+              //     Switch(
+              //       value:
+              //           isVideoExpirable ?? widget.videoModel.isVideoExpirable,
+              //       onChanged: (bool value) {
+              //         setState(() {
+              //           isVideoExpirable = value;
+              //         });
+              //         if (value) {
+              //           showExpiryDatePicker(context);
+              //         }
+              //       },
+              //     ),
+              //   ],
+              // ),
               if (isVideoExpirable ??
                   widget.videoModel.isVideoExpirable && expiryDate != null)
                 Padding(

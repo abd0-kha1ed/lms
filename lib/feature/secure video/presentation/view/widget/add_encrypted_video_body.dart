@@ -419,7 +419,7 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              // const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -429,29 +429,29 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                       onChanged: (bool value) {
                         setState(() {
                           isVideoVisible = value;
-                          print("isVideoVisible: $isVideoVisible");
+                          // print("isVideoVisible: $isVideoVisible");
                         });
                       }),
                 ],
               ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(LocaleKeys.canBeExpired.tr()),
-                  Switch(
-                    value: isVideoExpirable,
-                    onChanged: (bool value) {
-                      setState(() {
-                        isVideoExpirable = value;
-                      });
-                      if (value) {
-                        showExpiryDatePicker(context);
-                      }
-                    },
-                  ),
-                ],
-              ),
+              // const SizedBox(height: 10),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Text(LocaleKeys.canBeExpired.tr()),
+              //     Switch(
+              //       value: isVideoExpirable,
+              //       onChanged: (bool value) {
+              //         setState(() {
+              //           isVideoExpirable = value;
+              //         });
+              //         if (value) {
+              //           showExpiryDatePicker(context);
+              //         }
+              //       },
+              //     ),
+              //   ],
+              // ),
               if (isVideoExpirable && expiryDate != null)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15),
