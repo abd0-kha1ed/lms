@@ -16,9 +16,10 @@ class FirebaseServices {
   // Register Assistant
   Future<User?> registerAssistant(AssistantModel assistant) async {
     try {
+      String email = "${assistant.code}@gmail.com";
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
-        email: assistant.email,
+        email: email,
         password: assistant.password,
       );
 
@@ -30,7 +31,6 @@ class FirebaseServices {
           code: assistant.code,
           name: assistant.name,
           phone: assistant.phone,
-          email: assistant.email,
           password: assistant.password,
           teacherCode: assistant.teacherCode,
           lastCheckedInAt: Timestamp.now(),

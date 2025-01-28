@@ -9,7 +9,7 @@ class AssistantModel extends Equatable {
   final String code;
   final String name;
   final String phone;
-  final String email;
+
   final String password;
   final String teacherCode;
 
@@ -21,7 +21,6 @@ class AssistantModel extends Equatable {
     required this.code,
     required this.name,
     required this.phone,
-    required this.email,
     required this.password,
     required this.teacherCode,
     required this.lastCheckedInAt,
@@ -34,7 +33,6 @@ class AssistantModel extends Equatable {
       code: json['code'] as String,
       name: json['name'] as String,
       phone: json['phone'] as String,
-      email: json['email'] as String,
       password: json['password'] as String,
       teacherCode: json['teacherCode'] as String,
       lastCheckedInAt: json['lastCheckedInAt'] as Timestamp,
@@ -48,7 +46,6 @@ class AssistantModel extends Equatable {
       'code': code,
       'name': name,
       'phone': phone,
-      'email': email,
       'password': password,
       'teacherCode': teacherCode,
       'lastCheckedInAt': lastCheckedInAt,
@@ -57,7 +54,7 @@ class AssistantModel extends Equatable {
 
   @override
   List<Object?> get props =>
-      [id, code, name, phone, email, teacherCode, lastCheckedInAt];
+      [id, code, name, phone, teacherCode, lastCheckedInAt];
 
   // Helper functions for Firebase Timestamp serialization
   static Timestamp _lastCheckFromJson(Timestamp timestamp) => timestamp;
