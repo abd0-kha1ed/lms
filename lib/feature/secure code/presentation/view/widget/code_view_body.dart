@@ -105,7 +105,9 @@ class _CodeViewBodyState extends State<CodeViewBody> {
                             pw.Padding(
                               padding: const pw.EdgeInsets.all(8.0),
                               child: pw.Text(code.code,
-                                  style: pw.TextStyle(font: arabicFont)),
+                                  style: pw.TextStyle(
+                                      font: arabicFont,
+                                      fontWeight: pw.FontWeight.bold)),
                             ),
                           ],
                         )),
