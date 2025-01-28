@@ -499,7 +499,9 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                                 expiryDate ?? widget.videoModel.expiryDate,
                             hasCodes: widget.videoModel.hasCodes,
                             isViewableOnPlatformIfEncrypted:
-                                isVideoAvailableForPlatform!,
+                                isVideoAvailableForPlatform ??
+                                    widget.videoModel
+                                        .isViewableOnPlatformIfEncrypted,
                             codes: codes,
                             approvedAt: widget.videoModel.approvedAt,
                             isApproved: widget.videoModel.isApproved);
