@@ -231,7 +231,7 @@ class _EditVideoBodyState extends State<EditVideoBody> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(LocaleKeys.grade.tr()),
+                  Text(LocaleKeys.grade.tr(), style: TextStyle(fontSize: 18)),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.40,
                     child: DropdownButtonFormField<String>(
@@ -248,9 +248,11 @@ class _EditVideoBodyState extends State<EditVideoBody> {
                           borderSide: BorderSide.none,
                         ),
                       ),
-                      value: selectedGrade, // This will store the English value
-                      hint: Text(
-                        LocaleKeys.chooseGrade.tr(),
+                      value: selectedGrade ??
+                          widget.videoModel
+                              .grade, // This will store the English value
+                      hint: const Text(
+                        'Choose grade',
                         style: TextStyle(color: Colors.white),
                       ),
                       items: [
@@ -291,7 +293,8 @@ class _EditVideoBodyState extends State<EditVideoBody> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(LocaleKeys.videoDuration.tr()),
+                  Text(LocaleKeys.videoDuration.tr(),
+                      style: TextStyle(fontSize: 18)),
                   GestureDetector(
                     onTap: () {
                       showDurationPicker(context);
@@ -304,7 +307,7 @@ class _EditVideoBodyState extends State<EditVideoBody> {
                           color: kPrimaryColor),
                       child: Text(
                         videoDuration ?? widget.videoModel.videoDuration,
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
                   )
@@ -314,8 +317,10 @@ class _EditVideoBodyState extends State<EditVideoBody> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(LocaleKeys.visibility.tr()),
+                  Text(LocaleKeys.visibility.tr(),
+                      style: TextStyle(fontSize: 18)),
                   Switch(
+                    activeTrackColor: kPrimaryColor,
                     value: isVideoVisible ?? widget.videoModel.isVideoVisible,
                     onChanged: (bool value) {
                       setState(() {
@@ -381,7 +386,7 @@ class _EditVideoBodyState extends State<EditVideoBody> {
 
                   return CustomButton(
                     title: LocaleKeys.update.tr(),
-                    color: Colors.deepPurple,
+                    color: kPrimaryColor,
                     onTap: () {
                       if (videoDuration == '00:00:00') {
                         customSnackBar(

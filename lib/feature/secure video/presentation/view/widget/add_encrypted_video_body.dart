@@ -79,11 +79,7 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
     );
   }
 
-  void saveToDatabase(String grade) {
-    // Example database save logic
-    print('Saving grade to database: $grade');
-    // Add your actual database logic here
-  }
+  void saveToDatabase(String grade) {}
 
   void showDurationPicker(BuildContext context) {
     int selectedHour = 0;
@@ -457,6 +453,7 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                 children: [
                   Text(LocaleKeys.availableOnPlatform.tr()),
                   Switch(
+                    activeTrackColor: kPrimaryColor,
                     value: isVideoAvailableForPlatform,
                     onChanged: (bool value) {
                       setState(() {
@@ -472,6 +469,7 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                 children: [
                   Text(LocaleKeys.visibility.tr()),
                   Switch(
+                      activeTrackColor: kPrimaryColor,
                       value: isVideoVisible,
                       onChanged: (bool value) {
                         setState(() {
@@ -534,7 +532,7 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                   }
                   return CustomButton(
                     title: LocaleKeys.add.tr(),
-                    color: Colors.deepPurple,
+                    color: kPrimaryColor,
                     onTap: () {
                       if (videoDuration == '00:00:00') {
                         customSnackBar(
@@ -542,8 +540,7 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                       } else if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         final isTeacher = uploaderRole == 'teacher';
-                        // print(
-                        //     'Uploader role: $uploaderRole, isTeacher: $isteacher');
+
                         List<String> codes =
                             CodeGenerator.generateCodes(generatedCodesCount);
 
