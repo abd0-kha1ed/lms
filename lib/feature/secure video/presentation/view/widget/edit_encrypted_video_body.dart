@@ -47,7 +47,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
 
   void saveToDatabase(String grade) {
     // Example database save logic
-    print('Saving grade to database: $grade');
+    // print('Saving grade to database: $grade');
     // Add your actual database logic here
   }
 
@@ -65,7 +65,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
           child: Column(
             children: [
               Text(
-                "Select Video Duration",
+                LocaleKeys.enterthevideoduration.tr(),
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
@@ -81,8 +81,8 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                         onSelectedItemChanged: (value) {
                           selectedHour = value;
                         },
-                        children:
-                            List.generate(24, (index) => Text('$index hours')),
+                        children: List.generate(24,
+                            (index) => Text('$index ${LocaleKeys.hours.tr()}')),
                       ),
                     ),
                     Flexible(
@@ -93,8 +93,10 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                         onSelectedItemChanged: (value) {
                           selectedMinute = value;
                         },
-                        children:
-                            List.generate(60, (index) => Text('$index min.')),
+                        children: List.generate(
+                            60,
+                            (index) =>
+                                Text('$index ${LocaleKeys.minutes.tr()}')),
                       ),
                     ),
                     Flexible(
@@ -105,8 +107,10 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                         onSelectedItemChanged: (value) {
                           selectedSecond = value;
                         },
-                        children:
-                            List.generate(60, (index) => Text('$index sec.')),
+                        children: List.generate(
+                            60,
+                            (index) =>
+                                Text('$index ${LocaleKeys.seconds.tr()}')),
                       ),
                     ),
                   ],
@@ -122,7 +126,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
                 child: Text(
-                  "Set Duration",
+                  LocaleKeys.setDuration.tr(),
                   style: TextStyle(color: Colors.white),
                 ),
               )
@@ -158,7 +162,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Generated Codes",
+                    LocaleKeys.generateCodes.tr(),
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 10),
@@ -169,7 +173,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                           controller: codeController,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            labelText: "Enter codes count",
+                            labelText: LocaleKeys.entercodescount.tr(),
                             border: OutlineInputBorder(),
                           ),
                         ),
@@ -187,7 +191,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                           backgroundColor: Colors.teal,
                         ),
                         child: Text(
-                          "Set",
+                          LocaleKeys.set.tr(),
                           style: TextStyle(color: Colors.white),
                         ),
                       )
@@ -195,7 +199,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                   ),
                   SizedBox(height: 20),
                   Text(
-                    "Current Count: $generatedCodesCount",
+                    "${LocaleKeys.currentCount.tr()}: $generatedCodesCount",
                     style: TextStyle(fontSize: 16),
                   )
                 ],
@@ -248,11 +252,6 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
     );
   }
 
-final RegExp _urlRegex = RegExp(
-    r'^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be|vimeo\.com)\/.+$',
-    caseSensitive: false,
-  );
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -271,13 +270,11 @@ final RegExp _urlRegex = RegExp(
                   videoUrl = value;
                 },
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Enter the url';
+                  if (value?.isEmpty ?? true) {
+                    return LocaleKeys.enterVideoUrl.tr();
+                  } else {
+                    return null;
                   }
-                  if (!_urlRegex.hasMatch(value)) {
-                    return 'Enter valid url';
-                  }
-                  return null;
                 },
               ),
               const SizedBox(height: 10),
@@ -290,7 +287,7 @@ final RegExp _urlRegex = RegExp(
                 },
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
-                    return 'Enter video title';
+                    return LocaleKeys.enterVideoTitle.tr();
                   } else {
                     return null;
                   }
@@ -312,7 +309,9 @@ final RegExp _urlRegex = RegExp(
                     width: MediaQuery.of(context).size.width * 0.40,
                     child: DropdownButtonFormField<String>(
                       validator: (level) {
-                        return level == null ? 'Choose grade' : null;
+                        return level == null
+                            ? LocaleKeys.chooseGrade.tr()
+                            : null;
                       },
                       decoration: InputDecoration(
                         filled: true,
@@ -323,8 +322,8 @@ final RegExp _urlRegex = RegExp(
                         ),
                       ),
                       value: selectedGrade, // This will store the English value
-                      hint: const Text(
-                        'Choose grade',
+                      hint: Text(
+                        LocaleKeys.chooseGrade.tr(),
                         style: TextStyle(color: Colors.white),
                       ),
                       items: [
@@ -388,7 +387,7 @@ final RegExp _urlRegex = RegExp(
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Generated Codes Count"),
+                  Text(LocaleKeys.generatedCodesCount.tr()),
                   GestureDetector(
                     onTap: () {
                       showGeneratedCodesBottomSheet(context);
@@ -431,7 +430,7 @@ final RegExp _urlRegex = RegExp(
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Will the video be available for platform?"),
+                  Text(LocaleKeys.availableOnPlatform.tr()),
                   Switch(
                     value: isVideoAvailableForPlatform ??
                         widget.videoModel.isViewableOnPlatformIfEncrypted,
@@ -489,7 +488,7 @@ final RegExp _urlRegex = RegExp(
               BlocConsumer<VideoCubit, VideoState>(
                 listener: (context, state) {
                   if (state is VideoUpdatedSuccessfully) {
-                    customSnackBar(context, 'Video was updated successfully');
+                    customSnackBar(context, LocaleKeys.videoUpdated.tr());
                   }
                 },
                 builder: (context, state) {
@@ -501,10 +500,7 @@ final RegExp _urlRegex = RegExp(
                     title: LocaleKeys.update.tr(),
                     color: Colors.deepPurple,
                     onTap: () async {
-                      if (videoDuration == '00:00:00') {
-                        customSnackBar(context, 'Enter the video duration');
-                      }
-                     else if (formKey.currentState!.validate()) {
+                      if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         List<String> codes = CodeGenerator.generateCodes(
                             generatedCodesCount ??

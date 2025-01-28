@@ -8,7 +8,6 @@ import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/core/utils/function/custom_snack_bar.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
-import 'package:video_player_app/core/widget/custom_dropdown.dart';
 import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/widget/code_generator.dart';
@@ -23,7 +22,7 @@ class AddEncryptedVideoBody extends StatefulWidget {
 }
 
 class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
-    final TextEditingController _urlController = TextEditingController();
+  final TextEditingController _urlController = TextEditingController();
 
   final GlobalKey<FormState> formKey = GlobalKey();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
@@ -100,7 +99,7 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
           child: Column(
             children: [
               Text(
-                "Select Video Duration",
+                LocaleKeys.selectVideoDuration.tr(),
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
@@ -116,8 +115,8 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                         onSelectedItemChanged: (value) {
                           selectedHour = value;
                         },
-                        children:
-                            List.generate(24, (index) => Text('$index hours')),
+                        children: List.generate(24,
+                            (index) => Text('$index ${LocaleKeys.hours.tr()}')),
                       ),
                     ),
                     Flexible(
@@ -128,8 +127,10 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                         onSelectedItemChanged: (value) {
                           selectedMinute = value;
                         },
-                        children:
-                            List.generate(60, (index) => Text('$index min.')),
+                        children: List.generate(
+                            60,
+                            (index) =>
+                                Text('$index ${LocaleKeys.minutes.tr()}')),
                       ),
                     ),
                     Flexible(
@@ -140,8 +141,10 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                         onSelectedItemChanged: (value) {
                           selectedSecond = value;
                         },
-                        children:
-                            List.generate(60, (index) => Text('$index sec.')),
+                        children: List.generate(
+                            60,
+                            (index) =>
+                                Text('$index ${LocaleKeys.seconds.tr()}')),
                       ),
                     ),
                   ],
@@ -157,7 +160,7 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
                 child: Text(
-                  "Set Duration",
+                  LocaleKeys.setDuration.tr(),
                   style: TextStyle(color: Colors.white),
                 ),
               )
@@ -191,7 +194,7 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Generated Codes",
+                    LocaleKeys.generateCodes.tr(),
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 10),
@@ -202,7 +205,7 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                           controller: codeController,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            labelText: "Enter codes count",
+                            labelText: LocaleKeys.entercodescount.tr(),
                             border: OutlineInputBorder(),
                           ),
                         ),
@@ -220,7 +223,7 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                           backgroundColor: Colors.teal,
                         ),
                         child: Text(
-                          "Set",
+                          LocaleKeys.set.tr(),
                           style: TextStyle(color: Colors.white),
                         ),
                       )
@@ -228,7 +231,7 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                   ),
                   SizedBox(height: 20),
                   Text(
-                    "Current Count: $generatedCodesCount",
+                    "${LocaleKeys.currentCount.tr()}: $generatedCodesCount",
                     style: TextStyle(fontSize: 16),
                   )
                 ],
@@ -275,7 +278,7 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
     }
   }
 
-final RegExp _urlRegex = RegExp(
+  final RegExp _urlRegex = RegExp(
     r'^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be|vimeo\.com)\/.+$',
     caseSensitive: false,
   );
@@ -307,10 +310,10 @@ final RegExp _urlRegex = RegExp(
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Enter the url';
+                    return LocaleKeys.enterVideoUrl.tr();
                   }
                   if (!_urlRegex.hasMatch(value)) {
-                    return 'Enter valid url';
+                    return LocaleKeys.enterVideoUrl.tr();
                   }
                   return null;
                 },
@@ -324,7 +327,7 @@ final RegExp _urlRegex = RegExp(
                 },
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
-                    return 'Enter video title';
+                    return LocaleKeys.enterVideoTitle.tr();
                   } else {
                     return null;
                   }
@@ -345,7 +348,9 @@ final RegExp _urlRegex = RegExp(
                     width: MediaQuery.of(context).size.width * 0.40,
                     child: DropdownButtonFormField<String>(
                       validator: (level) {
-                        return level == null ? 'Choose grade' : null;
+                        return level == null
+                            ? LocaleKeys.chooseGrade.tr()
+                            : null;
                       },
                       decoration: InputDecoration(
                         filled: true,
@@ -356,8 +361,8 @@ final RegExp _urlRegex = RegExp(
                         ),
                       ),
                       value: selectedGrade, // This will store the English value
-                      hint: const Text(
-                        'Choose grade',
+                      hint: Text(
+                        LocaleKeys.chooseGrade.tr(),
                         style: TextStyle(color: Colors.white),
                       ),
                       items: [
@@ -421,7 +426,7 @@ final RegExp _urlRegex = RegExp(
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Generated Codes Count"),
+                  Text(LocaleKeys.generatedCodesCount.tr()),
                   GestureDetector(
                     onTap: () {
                       showGeneratedCodesBottomSheet(context);
@@ -450,7 +455,7 @@ final RegExp _urlRegex = RegExp(
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Will the video be available for platform?"),
+                  Text(LocaleKeys.availableOnPlatform.tr()),
                   Switch(
                     value: isVideoAvailableForPlatform,
                     onChanged: (bool value) {
@@ -520,7 +525,7 @@ final RegExp _urlRegex = RegExp(
               BlocConsumer<VideoCubit, VideoState>(
                 listener: (context, state) {
                   if (state is VideoAddedSuccessfully) {
-                    customSnackBar(context, 'Video was added successfully');
+                    customSnackBar(context, LocaleKeys.videoAdded.tr());
                   }
                 },
                 builder: (context, state) {
@@ -532,9 +537,9 @@ final RegExp _urlRegex = RegExp(
                     color: Colors.deepPurple,
                     onTap: () {
                       if (videoDuration == '00:00:00') {
-                        customSnackBar(context, 'Enter the video duration');
-                      }
-                     else if (formKey.currentState!.validate()) {
+                        customSnackBar(
+                            context, LocaleKeys.enterthevideoduration.tr());
+                      } else if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         final isTeacher = uploaderRole == 'teacher';
                         // print(

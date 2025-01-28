@@ -42,7 +42,7 @@ class _EditVideoBodyState extends State<EditVideoBody> {
 
   void saveToDatabase(String grade) {
     // Example database save logic
-    print('Saving grade to database: $grade');
+    // print('Saving grade to database: $grade');
     // Add your actual database logic here
   }
 
@@ -60,7 +60,7 @@ class _EditVideoBodyState extends State<EditVideoBody> {
           child: Column(
             children: [
               Text(
-                "Select Video Duration",
+                LocaleKeys.selectVideoDuration.tr(),
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
@@ -76,8 +76,8 @@ class _EditVideoBodyState extends State<EditVideoBody> {
                         onSelectedItemChanged: (value) {
                           selectedHour = value;
                         },
-                        children:
-                            List.generate(24, (index) => Text('$index hours')),
+                        children: List.generate(24,
+                            (index) => Text('$index ${LocaleKeys.hours.tr()}')),
                       ),
                     ),
                     Flexible(
@@ -88,8 +88,10 @@ class _EditVideoBodyState extends State<EditVideoBody> {
                         onSelectedItemChanged: (value) {
                           selectedMinute = value;
                         },
-                        children:
-                            List.generate(60, (index) => Text('$index min.')),
+                        children: List.generate(
+                            60,
+                            (index) =>
+                                Text('$index ${LocaleKeys.minutes.tr()}')),
                       ),
                     ),
                     Flexible(
@@ -100,8 +102,10 @@ class _EditVideoBodyState extends State<EditVideoBody> {
                         onSelectedItemChanged: (value) {
                           selectedSecond = value;
                         },
-                        children:
-                            List.generate(60, (index) => Text('$index sec.')),
+                        children: List.generate(
+                            60,
+                            (index) =>
+                                Text('$index ${LocaleKeys.seconds.tr()}')),
                       ),
                     ),
                   ],
@@ -117,7 +121,7 @@ class _EditVideoBodyState extends State<EditVideoBody> {
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
                 child: Text(
-                  "Set Duration",
+                  LocaleKeys.setDuration.tr(),
                   style: TextStyle(color: Colors.white),
                 ),
               )
@@ -169,7 +173,7 @@ class _EditVideoBodyState extends State<EditVideoBody> {
     );
   }
 
-final RegExp _urlRegex = RegExp(
+  final RegExp _urlRegex = RegExp(
     r'^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be|vimeo\.com)\/.+$',
     caseSensitive: false,
   );
@@ -192,10 +196,10 @@ final RegExp _urlRegex = RegExp(
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Enter the url';
+                    return LocaleKeys.enterVideoUrl.tr();
                   }
                   if (!_urlRegex.hasMatch(value)) {
-                    return 'Enter valid url';
+                    return LocaleKeys.entervaildurl.tr();
                   }
                   return null;
                 },
@@ -210,7 +214,7 @@ final RegExp _urlRegex = RegExp(
                 },
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
-                    return 'Enter video title';
+                    return LocaleKeys.enterVideoTitle.tr();
                   } else {
                     return null;
                   }
@@ -232,7 +236,9 @@ final RegExp _urlRegex = RegExp(
                     width: MediaQuery.of(context).size.width * 0.40,
                     child: DropdownButtonFormField<String>(
                       validator: (level) {
-                        return level == null ? 'Choose grade' : null;
+                        return level == null
+                            ? LocaleKeys.chooseGrade.tr()
+                            : null;
                       },
                       decoration: InputDecoration(
                         filled: true,
@@ -243,8 +249,8 @@ final RegExp _urlRegex = RegExp(
                         ),
                       ),
                       value: selectedGrade, // This will store the English value
-                      hint: const Text(
-                        'Choose grade',
+                      hint: Text(
+                        LocaleKeys.chooseGrade.tr(),
                         style: TextStyle(color: Colors.white),
                       ),
                       items: [
@@ -365,7 +371,7 @@ final RegExp _urlRegex = RegExp(
               BlocConsumer<VideoCubit, VideoState>(
                 listener: (context, state) {
                   if (state is VideoUpdatedSuccessfully) {
-                    customSnackBar(context, 'Video was updated successfully');
+                    customSnackBar(context, LocaleKeys.videoAdded.tr());
                   }
                 },
                 builder: (context, state) {
@@ -378,9 +384,9 @@ final RegExp _urlRegex = RegExp(
                     color: Colors.deepPurple,
                     onTap: () {
                       if (videoDuration == '00:00:00') {
-                        customSnackBar(context, 'Enter the video duration');
-                      }
-                     else if (formKey.currentState!.validate()) {
+                        customSnackBar(
+                            context, LocaleKeys.enterthevideoduration.tr());
+                      } else if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
 
                         final updatedVideo = VideoModel(
