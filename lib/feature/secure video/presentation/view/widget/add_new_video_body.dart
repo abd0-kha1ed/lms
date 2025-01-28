@@ -21,6 +21,8 @@ class AddNewVideoBody extends StatefulWidget {
 }
 
 class _AddNewVideoBodyState extends State<AddNewVideoBody> {
+  final TextEditingController _urlController = TextEditingController();
+
   final GlobalKey<FormState> formKey = GlobalKey();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   String? videoUrl, title, description, uploaderName;
@@ -30,7 +32,7 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
   bool isVideoVisible = true;
   bool isVideoExpirable = false;
   DateTime? expiryDate;
-  bool? isapproved;
+  bool? isApproved;
 
   @override
   void initState() {
@@ -203,6 +205,10 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
     );
   }
 
+  final RegExp _urlRegex = RegExp(
+    r'^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be|vimeo\.com)\/.+$',
+    caseSensitive: false,
+  );
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -214,17 +220,20 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
           child: Column(
             children: [
               CustomizeTextfield(
+                controller: _urlController,
                 text: LocaleKeys.videoLink.tr(),
                 color: kPrimaryColor,
                 onChanged: (value) {
                   videoUrl = value;
                 },
                 validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'Enter video URL';
-                  } else {
-                    return null;
+                  if (value == null || value.isEmpty) {
+                    return 'Enter the url';
                   }
+                  if (!_urlRegex.hasMatch(value)) {
+                    return 'Enter valid url';
+                  }
+                  return null;
                 },
               ),
               const SizedBox(height: 10),
@@ -404,11 +413,11 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                     title: LocaleKeys.add.tr(),
                     color: Colors.deepPurple,
                     onTap: () {
-                      if (formKey.currentState!.validate()) {
+                      if (videoDuration == '00:00:00') {
+                        customSnackBar(context, 'Enter the video duration');
+                      } else if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
-                        final isteacher = uploaderRole == 'teacher';
-                        // print(
-                        //     'Uploader role: $uploaderRole, isTeacher: $isteacher');
+                        final isTeacher = uploaderRole == 'teacher';
 
                         final video = VideoModel(
                             id: '',
@@ -425,7 +434,7 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                             hasCodes: false,
                             isViewableOnPlatformIfEncrypted: false,
                             isApproved:
-                                isteacher ? true : null // Store approval status
+                                isTeacher ? true : null // Store approval status
                             );
 
                         context.read<VideoCubit>().addVideo(video);

@@ -211,12 +211,16 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      title: Row(
-                        children: [
-                          Icon(Icons.warning_amber_rounded, color: Colors.red),
-                          SizedBox(width: 8),
-                          Text('Alert'),
-                        ],
+                      title: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.warning_amber_rounded,
+                                color: Colors.red),
+                            SizedBox(width: 8),
+                            Text('Alert'),
+                          ],
+                        ),
                       ),
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
