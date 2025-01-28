@@ -96,6 +96,7 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
             )),
             const SizedBox(height: 35),
             CustomTextFormField(
+              keyboardType: TextInputType.number,
               hintText: LocaleKeys.code.tr(),
               onChanged: (value) {
                 code = value;

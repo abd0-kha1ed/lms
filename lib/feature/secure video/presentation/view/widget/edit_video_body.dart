@@ -217,7 +217,7 @@ class _EditVideoBodyState extends State<EditVideoBody> {
                 children: [
                   Text(LocaleKeys.grade.tr()),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.35,
+                    width: MediaQuery.of(context).size.width * 0.40,
                     child: DropdownButtonFormField<String>(
                       validator: (level) {
                         return level == null ? 'Choose grade' : null;
@@ -347,7 +347,6 @@ class _EditVideoBodyState extends State<EditVideoBody> {
                   if (state is VideoLoading) {
                     return const Center(child: CircularProgressIndicator());
                   }
-                  
 
                   return CustomButton(
                     title: LocaleKeys.update.tr(),

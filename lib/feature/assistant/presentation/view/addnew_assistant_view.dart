@@ -74,6 +74,7 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
             child: Column(
               children: [
                 CustomTextFormField(
+                  keyboardType: TextInputType.number,
                   controller: _codeController,
                   hintText: LocaleKeys.code.tr(),
                   validator: (value) {
@@ -135,16 +136,16 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
                   },
                 ),
                 const SizedBox(height: 16),
-                CustomTextFormField(
-                  controller: _teacherCodeController,
-                  hintText: 'Teacher Code',
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Teacher Code is required';
-                    }
-                    return null;
-                  },
-                ),
+                // CustomTextFormField(
+                //   controller: _teacherCodeController,
+                //   hintText: 'Teacher Code',
+                //   validator: (value) {
+                //     if (value == null || value.isEmpty) {
+                //       return 'Teacher Code is required';
+                //     }
+                //     return null;
+                //   },
+                // ),
                 const SizedBox(height: 24),
                 SizedBox(
                   width: double.infinity,
@@ -152,9 +153,12 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
                     onPressed: _registerAssistant,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: kPrimaryColor,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
-                    child: const Text('Add'),
+                    child: const Text(
+                      'Add',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
                   ),
                 ),
               ],

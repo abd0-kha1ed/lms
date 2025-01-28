@@ -89,6 +89,7 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
             ),
             const SizedBox(height: 35),
             CustomTextFormField(
+              keyboardType: TextInputType.number,
               hintText:
                   "Enter your code", // Replace with localization key if required
               onChanged: (value) {
