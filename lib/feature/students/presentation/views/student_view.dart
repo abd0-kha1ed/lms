@@ -73,7 +73,7 @@ class _StudentViewState extends State<StudentView> {
                   child: TextField(
                     controller: _searchController,
                     decoration: InputDecoration(
-                      hintText: "Name",
+                      hintText: LocaleKeys.name.tr(),
                       prefixIcon: Icon(Icons.search),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),

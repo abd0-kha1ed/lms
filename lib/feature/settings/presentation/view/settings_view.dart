@@ -200,12 +200,12 @@ class _SettingsViewState extends State<SettingsView> {
                           borderRadius: BorderRadius.circular(16),
                           color: Colors.red,
                         ),
-                        child: const Padding(
+                        child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20),
                           child: Row(
                             children: [
                               Text(
-                                "Logout",
+                                LocaleKeys.logout.tr(),
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 24,

@@ -1,9 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/core/utils/app_router.dart';
+import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class CustomAlertDialogWidget extends StatefulWidget {
   const CustomAlertDialogWidget({super.key});
@@ -40,8 +42,8 @@ class _CustomAlertDialogWidgetState extends State<CustomAlertDialogWidget> {
         color: Colors.red,
         size: 30,
       ),
-      title: const Text(
-        'Account Logout',
+      title: Text(
+        LocaleKeys.accLogout.tr(),
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: 18),
       ),
@@ -88,8 +90,8 @@ class _CustomAlertDialogWidgetState extends State<CustomAlertDialogWidget> {
                     );
                   }
                 },
-                child: const Text(
-                  'Yes',
+                child: Text(
+                  LocaleKeys.yes.tr(),
                   style: TextStyle(fontSize: 22, color: Colors.red),
                 ),
               )
@@ -109,8 +111,8 @@ class _CustomAlertDialogWidgetState extends State<CustomAlertDialogWidget> {
               onPressed: () {
                 GoRouter.of(context).pop(); // Dismiss the dialog
               },
-              child: const Text(
-                'No',
+              child: Text(
+                LocaleKeys.no.tr(),
                 style: TextStyle(fontSize: 22, color: Colors.black),
               ),
             ),

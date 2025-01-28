@@ -78,6 +78,12 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
     );
   }
 
+  void saveToDatabase(String grade) {
+    // Example database save logic
+    print('Saving grade to database: $grade');
+    // Add your actual database logic here
+  }
+
   void showDurationPicker(BuildContext context) {
     int selectedHour = 0;
     int selectedMinute = 0;
@@ -328,28 +334,55 @@ class _AddEncryptedVideoBodyState extends State<AddEncryptedVideoBody> {
                   Text(LocaleKeys.grade.tr()),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.40,
-                    child: CustomDropdown(
-                        onChanged: (value) {
-                          setState(() {
-                            selectedGrade = value;
-                          });
+                    child: DropdownButtonFormField<String>(
+                      validator: (level) {
+                        return level == null ? 'Choose grade' : null;
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: kPrimaryColor,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      value: selectedGrade, // This will store the English value
+                      hint: const Text(
+                        'Choose grade',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      items: [
+                        {'id': '1st Prep', 'label': LocaleKeys.seven.tr()},
+                        {'id': '2nd Prep', 'label': LocaleKeys.eight.tr()},
+                        {'id': '3rd Prep', 'label': LocaleKeys.nine.tr()},
+                        {'id': '1st Secondary', 'label': LocaleKeys.ten.tr()},
+                        {
+                          'id': '2nd Secondary',
+                          'label': LocaleKeys.eleven.tr()
                         },
-                        validator: (value) {
-                          if (value?.isEmpty ?? true) {
-                            return 'Choose grade';
-                          } else {
-                            return null;
-                          }
+                        {
+                          'id': '3rd Secondary',
+                          'label': LocaleKeys.twelve.tr()
                         },
-                        items: [
-                          LocaleKeys.seven.tr(),
-                          LocaleKeys.eight.tr(),
-                          LocaleKeys.nine.tr(),
-                          LocaleKeys.ten.tr(),
-                          LocaleKeys.eleven.tr(),
-                          LocaleKeys.twelve.tr(),
-                        ]),
-                  )
+                      ]
+                          .map(
+                            (item) => DropdownMenuItem<String>(
+                              value: item['id'], // Store English value
+                              child: Text(
+                                  item['label']!), // Display localized value
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (level) {
+                        setState(() {
+                          selectedGrade = level; // Save English value
+                        });
+
+                        // Save to the database
+                        saveToDatabase(selectedGrade!);
+                      },
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 10),

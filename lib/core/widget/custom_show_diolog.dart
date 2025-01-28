@@ -14,17 +14,13 @@ class CustomShowDialog extends StatelessWidget {
         color: Colors.red,
         size: 30,
       ),
-      title: Text(LocaleKeys.assistantDeletion.tr()),
+      title: Text(LocaleKeys.studentDeletion.tr()),
       content: SizedBox(
         height: 90,
         child: Column(
           children: [
             Text(
-              '',
-              style: TextStyle(fontSize: 17),
-            ),
-            Text(
-              'this item',
+              'this student',
               style: TextStyle(fontSize: 17),
             ),
             Text(
@@ -40,8 +36,8 @@ class CustomShowDialog extends StatelessWidget {
           children: [
             TextButton(
               onPressed: onPressed,
-              child: const Text(
-                'yes',
+              child: Text(
+                LocaleKeys.yes.tr(),
                 style: TextStyle(fontSize: 22, color: Colors.red),
               ),
             ),
@@ -49,8 +45,8 @@ class CustomShowDialog extends StatelessWidget {
               onPressed: () {
                 GoRouter.of(context).pop();
               },
-              child: const Text(
-                'No',
+              child: Text(
+                LocaleKeys.no.tr(),
                 style: TextStyle(fontSize: 22, color: Colors.black),
               ),
             ),

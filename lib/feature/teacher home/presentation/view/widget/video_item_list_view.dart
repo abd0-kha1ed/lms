@@ -15,10 +15,15 @@ import 'package:video_player_app/feature/secure%20video/presentation/view/manger
 import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/video_container.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
-class VideoItemListView extends StatelessWidget {
-  const VideoItemListView({super.key, this.videos});
+class VideoItemListView extends StatefulWidget {
+  VideoItemListView({super.key, this.videos});
   final List<VideoModel>? videos;
 
+  @override
+  State<VideoItemListView> createState() => _VideoItemListViewState();
+}
+
+class _VideoItemListViewState extends State<VideoItemListView> {
   String? getThumbnailUrl(String videoUrl) {
     final videoId = YoutubePlayer.convertUrlToId(videoUrl);
     if (videoId != null) {
@@ -26,6 +31,27 @@ class VideoItemListView extends StatelessWidget {
     } else {
       return null;
     }
+  }
+
+  final List<Map<String, String>> items = [
+    {
+      'id': '1st Prep',
+      'label': LocaleKeys.seven.tr(),
+    },
+    {'id': '2nd Prep', 'label': LocaleKeys.eight.tr()},
+    {'id': '3rd Prep', 'label': LocaleKeys.nine.tr()},
+    {'id': '1st Secondary', 'label': LocaleKeys.ten.tr()},
+    {'id': '2nd Secondary', 'label': LocaleKeys.eleven.tr()},
+    {'id': '3rd Secondary', 'label': LocaleKeys.twelve.tr()},
+  ];
+
+// Function to map Firebase grade to localized label
+  String getLocalizedGrade(String grade) {
+    final item = items.firstWhere(
+      (element) => element['id'] == grade,
+      orElse: () => {'label': 'Unknown Grade'}, // Fallback for unmatched keys
+    );
+    return item['label'] as String;
   }
 
   @override
@@ -183,7 +209,8 @@ class VideoItemListView extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   VideoContainer(
-                                      text: approvedVideos[index].grade,
+                                      text: getLocalizedGrade(
+                                          approvedVideos[index].grade),
                                       color: Colors.red),
                                   VideoContainer(
                                     text:

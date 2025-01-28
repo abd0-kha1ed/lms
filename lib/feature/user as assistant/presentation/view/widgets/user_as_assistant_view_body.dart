@@ -138,7 +138,7 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
                         label: Text(
-                          "3rd Secondary",
+                          LocaleKeys.twelve.tr(),
                           style: TextStyle(
                             color: context.watch<VideoCubit>().selectedGrade ==
                                     "3rd Secondary"
@@ -160,7 +160,7 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
                         label: Text(
-                          "2nd Secondary",
+                          LocaleKeys.eleven.tr(),
                           style: TextStyle(
                             color: context.watch<VideoCubit>().selectedGrade ==
                                     "2nd Secondary"
@@ -182,7 +182,7 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
                         label: Text(
-                          "1st Secondary",
+                          LocaleKeys.ten.tr(),
                           style: TextStyle(
                             color: context.watch<VideoCubit>().selectedGrade ==
                                     "1st Secondary"
@@ -204,7 +204,7 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
                         label: Text(
-                          "3rd Prep",
+                          LocaleKeys.nine.tr(),
                           style: TextStyle(
                             color: context.watch<VideoCubit>().selectedGrade ==
                                     "3rd Prep"
@@ -226,7 +226,7 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
                         label: Text(
-                          "2nd Prep",
+                          LocaleKeys.eight.tr(),
                           style: TextStyle(
                             color: context.watch<VideoCubit>().selectedGrade ==
                                     "2nd Prep"
@@ -248,7 +248,7 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
                         label: Text(
-                          "1st Prep",
+                          LocaleKeys.seven.tr(),
                           style: TextStyle(
                             color: context.watch<VideoCubit>().selectedGrade ==
                                     "1st Prep"
@@ -285,7 +285,7 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                   children: [
                     ChoiceChip(
                       label: Text(
-                        "Both",
+                        LocaleKeys.both.tr(),
                         style: TextStyle(
                           color: context.watch<VideoCubit>().hascode == null
                               ? Colors.white // White when selected
@@ -308,7 +308,7 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                     SizedBox(width: 8),
                     ChoiceChip(
                       label: Text(
-                        "Open",
+                        LocaleKeys.open.tr(),
                         style: TextStyle(
                           color: context.watch<VideoCubit>().hascode == false
                               ? Colors.white // White when selected
@@ -331,7 +331,7 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                     SizedBox(width: 8),
                     ChoiceChip(
                       label: Text(
-                        "Encrypted",
+                        LocaleKeys.encrypted.tr(),
                         style: TextStyle(
                           color: context.watch<VideoCubit>().hascode == true
                               ? Colors.white // White when selected

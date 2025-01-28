@@ -45,6 +45,12 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
     super.initState();
   }
 
+  void saveToDatabase(String grade) {
+    // Example database save logic
+    print('Saving grade to database: $grade');
+    // Add your actual database logic here
+  }
+
   void showDurationPicker(BuildContext context) {
     int selectedHour = 0;
     int selectedMinute = 0;
@@ -305,31 +311,44 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                         filled: true,
                         fillColor: kPrimaryColor,
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none),
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
                       ),
-                      value: widget.videoModel.grade,
-                      hint: const Text('Choose grade',
-                          style: TextStyle(color: Colors.white)),
+                      value: selectedGrade, // This will store the English value
+                      hint: const Text(
+                        'Choose grade',
+                        style: TextStyle(color: Colors.white),
+                      ),
                       items: [
-                        LocaleKeys.seven.tr(),
-                        LocaleKeys.eight.tr(),
-                        LocaleKeys.nine.tr(),
-                        LocaleKeys.ten.tr(),
-                        LocaleKeys.eleven.tr(),
-                        LocaleKeys.twelve.tr(),
+                        {'id': '1st Prep', 'label': LocaleKeys.seven.tr()},
+                        {'id': '2nd Prep', 'label': LocaleKeys.eight.tr()},
+                        {'id': '3rd Prep', 'label': LocaleKeys.nine.tr()},
+                        {'id': '1st Secondary', 'label': LocaleKeys.ten.tr()},
+                        {
+                          'id': '2nd Secondary',
+                          'label': LocaleKeys.eleven.tr()
+                        },
+                        {
+                          'id': '3rd Secondary',
+                          'label': LocaleKeys.twelve.tr()
+                        },
                       ]
                           .map(
-                            (level) => DropdownMenuItem<String>(
-                              value: level,
-                              child: Text(level),
+                            (item) => DropdownMenuItem<String>(
+                              value: item['id'], // Store English value
+                              child: Text(
+                                  item['label']!), // Display localized value
                             ),
                           )
                           .toList(),
                       onChanged: (level) {
                         setState(() {
-                          selectedGrade = level;
+                          selectedGrade = level; // Save English value
                         });
+
+                        // Save to the database
+                        saveToDatabase(selectedGrade!);
                       },
                     ),
                   ),

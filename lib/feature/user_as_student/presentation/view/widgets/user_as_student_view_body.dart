@@ -29,6 +29,27 @@ class _UserAsStudentViewBodyState extends State<UserAsStudentViewBody> {
     fetchUserData();
   }
 
+  final List<Map<String, String>> items = [
+    {
+      'id': '1st Prep',
+      'label': LocaleKeys.seven.tr(),
+    },
+    {'id': '2nd Prep', 'label': LocaleKeys.eight.tr()},
+    {'id': '3rd Prep', 'label': LocaleKeys.nine.tr()},
+    {'id': '1st Secondary', 'label': LocaleKeys.ten.tr()},
+    {'id': '2nd Secondary', 'label': LocaleKeys.eleven.tr()},
+    {'id': '3rd Secondary', 'label': LocaleKeys.twelve.tr()},
+  ];
+
+// Function to map Firebase grade to localized label
+  String getLocalizedGrade(String grade) {
+    final item = items.firstWhere(
+      (element) => element['id'] == grade,
+      orElse: () => {'label': 'Unknown Grade'}, // Fallback for unmatched keys
+    );
+    return item['label'] as String;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -78,7 +99,7 @@ class _UserAsStudentViewBodyState extends State<UserAsStudentViewBody> {
                       child: isLoading
                           ? CircularProgressIndicator()
                           : Text(
-                              grade ?? '',
+                              getLocalizedGrade(grade!),
                               style: TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
