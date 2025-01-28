@@ -4,10 +4,11 @@ import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/utils/function/custom_snack_bar.dart';
 import 'package:video_player_app/feature/secure%20code/data/code_model.dart';
 import 'package:video_player_app/feature/secure%20code/presentation/view/widget/code_Item.dart';
+import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
 
 class CodeViewBody extends StatefulWidget {
-  const CodeViewBody({super.key, required this.videoId});
-  final String videoId;
+  const CodeViewBody({super.key, required this.videoModel});
+  final VideoModel videoModel;
 
   @override
   State<CodeViewBody> createState() => _CodeViewBodyState();
@@ -29,6 +30,7 @@ class _CodeViewBodyState extends State<CodeViewBody> {
           code: code.toString(),
           isUsed: false,
           videoId: videoId,
+          videoUrl: widget.videoModel.videoUrl,
           createdAt: Timestamp.now(),
         );
       }).toList();
@@ -38,7 +40,7 @@ class _CodeViewBodyState extends State<CodeViewBody> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<CodeModel>>(
-      stream: getCodesForVideo(widget.videoId),
+      stream: getCodesForVideo(widget.videoModel.id),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());

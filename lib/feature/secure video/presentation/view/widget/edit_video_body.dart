@@ -347,6 +347,7 @@ class _EditVideoBodyState extends State<EditVideoBody> {
                   if (state is VideoLoading) {
                     return const Center(child: CircularProgressIndicator());
                   }
+                  
 
                   return CustomButton(
                     title: LocaleKeys.update.tr(),

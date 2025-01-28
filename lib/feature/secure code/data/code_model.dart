@@ -4,27 +4,34 @@ class CodeModel {
   final String code;
   final bool isUsed;
   final String videoId;
+  final String videoUrl;
   final Timestamp createdAt;
-  final Timestamp? usedAt;
-  final String? usedBy;
 
-  CodeModel({
+  CodeModel( {
     required this.code,
     required this.isUsed,
     required this.videoId,
+    required this.videoUrl,
     required this.createdAt,
-    this.usedAt,
-    this.usedBy,
   });
+
+ factory CodeModel.empty() {
+    return CodeModel(
+      code: '',
+      isUsed: false,
+      videoId: '',
+      videoUrl: '',
+      createdAt: Timestamp.now(),
+    );
+  }
 
   factory CodeModel.fromFirestore(Map<String, dynamic> data) {
     return CodeModel(
       code: data['code'] ?? '',
       isUsed: data['isUsed'] ?? false,
       videoId: data['videoId'] ?? '',
+      videoUrl: data['videoUrl'],
       createdAt: data['createdAt'] ?? Timestamp.now(),
-      usedAt: data['usedAt'],
-      usedBy: data['usedBy'],
     );
   }
 
@@ -33,9 +40,8 @@ class CodeModel {
       'code': code,
       'isUsed': isUsed,
       'videoId': videoId,
+      'videoUrl': videoUrl,
       'createdAt': createdAt,
-      'usedAt': usedAt,
-      'usedBy': usedBy,
     };
   }
 }

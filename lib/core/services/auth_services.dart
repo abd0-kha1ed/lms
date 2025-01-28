@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player_app/feature/secure%20code/data/code_model.dart';
 import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
 import 'package:video_player_app/feature/auth/data/model/assistant_model.dart';
 import 'package:video_player_app/feature/auth/data/model/student_model.dart';
@@ -272,6 +273,42 @@ class FirebaseServices {
     videosCollection.doc(id).delete();
   }
 
+  Future<void> addCodesToFirestore(String videoId, List<String> codes, String videoUrl) async {
+  WriteBatch batch = FirebaseFirestore.instance.batch();
+  CollectionReference codesCollection = FirebaseFirestore.instance.collection('codes');
+
+  try {
+    for (var code in codes) {
+      DocumentReference docRef = codesCollection.doc();
+      batch.set(docRef, {
+        'code': code,
+        'videoId': videoId,
+        'videoUrl':videoUrl,
+        'isUsed': false,
+        'createdAt': Timestamp.now(),
+      });
+    }
+    await batch.commit(); 
+  } catch (e) {
+    print("Error adding codes: $e");
+  }
+}
+
+Future<List<CodeModel>> fetchCodesFromFirestore() async {
+  try {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('codes').get();
+
+    List<CodeModel> codes = querySnapshot.docs.map((doc) {
+      return CodeModel.fromFirestore(doc.data() as Map<String, dynamic>);
+    }).toList();
+
+    return codes;
+  } catch (e) {
+    print("Error fetching codes: $e");
+    return [];
+  }
+}
 
 
 
@@ -296,7 +333,6 @@ class FirebaseServices {
       approvedAt: DateTime.now(),
     );
     await docRef.set(newVideo.toMap());
+    await addCodesToFirestore(docRef.id, video.codes!, video.videoUrl);
   }
-
-
 }

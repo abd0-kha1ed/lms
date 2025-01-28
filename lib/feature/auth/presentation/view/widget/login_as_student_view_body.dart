@@ -11,6 +11,7 @@ import 'package:video_player_app/core/utils/app_router.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
 import 'package:video_player_app/core/widget/custom_text_form_field.dart';
 import 'package:video_player_app/feature/auth/presentation/view/widget/code_video_directly.dart';
+import 'package:video_player_app/feature/secure%20code/presentation/view/manger/codes%20cubit/codes_cubit.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
@@ -141,11 +142,7 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
             const SizedBox(height: 30),
             TextButton(
                 onPressed: () {
-                  showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return CodeVideoDirectly();
-                      });
+                  showCodeBottomSheet(context);
                 },
                 style: ButtonStyle(
                     foregroundColor: WidgetStatePropertyAll(kPrimaryColor)),
@@ -185,5 +182,31 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
         ),
       ),
     );
+  }
+
+  Future<dynamic> showCodeBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return BlocProvider(
+            create: (context) => CodesCubit()..fetchCodes(),
+            child: BlocConsumer<CodesCubit, CodesState>(
+              listener: (context, state) {
+                if (state is CodeValid) {
+                  GoRouter.of(context).pop();
+                  GoRouter.of(context).go(AppRouter.kVideoViewWithDirectCode,
+                      extra: state.videoUrl);
+                } else if (state is CodeInvalid) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("الكود غير صالح أو مستخدم مسبقًا")),
+                  );
+                }
+              },
+              builder: (context, state) {
+                return CodeVideoDirectly();
+              },
+            ),
+          );
+        });
   }
 }

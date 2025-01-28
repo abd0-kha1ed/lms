@@ -9,7 +9,7 @@ class CodeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: CodeViewBody(videoId: videoModel.id),
+      body: CodeViewBody(videoModel: videoModel),
     );
   }
 }

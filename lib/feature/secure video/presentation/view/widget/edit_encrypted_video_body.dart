@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player_app/constant.dart';
+import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/core/utils/function/custom_snack_bar.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
 import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
@@ -452,11 +454,12 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                   if (state is VideoLoading) {
                     return const Center(child: CircularProgressIndicator());
                   }
+                  
 
                   return CustomButton(
                     title: LocaleKeys.update.tr(),
                     color: Colors.deepPurple,
-                    onTap: () {
+                    onTap: () async{
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         List<String> codes = CodeGenerator.generateCodes(
@@ -489,6 +492,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
                         context
                             .read<VideoCubit>()
                             .editVideoDetails(updatedVideo);
+                        await FirebaseServices().addCodesToFirestore(widget.videoModel.id, codes, widget.videoModel.videoUrl);
                       } else {
                         autovalidateMode = AutovalidateMode.always;
                         setState(() {});

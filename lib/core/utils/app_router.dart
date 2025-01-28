@@ -9,6 +9,8 @@ import 'package:video_player_app/feature/report/presentation/view/approved_video
 import 'package:video_player_app/feature/report/presentation/view/pending_video.dart';
 import 'package:video_player_app/feature/report/presentation/view/rejected_video.dart';
 import 'package:video_player_app/feature/secure%20code/presentation/view/code_view.dart';
+import 'package:video_player_app/feature/secure%20code/presentation/view/manger/codes%20cubit/codes_cubit.dart';
+import 'package:video_player_app/feature/secure%20code/presentation/view/video_view_with_direct_code.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/add_encrypted_video.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/edit_encrypted_video_view.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/edit_video_view.dart';
@@ -40,6 +42,7 @@ abstract class AppRouter {
   static const kPendingVideo = '/PendingVideo';
   static const kEditEncryptedVideo = '/editEncryptedVideo';
   static const kCodeView = '/codeView';
+  static const kVideoViewWithDirectCode = '/videoViewWithDirectCode';
 
   static final routes = GoRouter(routes: [
     GoRoute(
@@ -131,6 +134,15 @@ abstract class AppRouter {
         ),
         child: CodeView(
           videoModel: state.extra as VideoModel,
+        ),
+      ),
+    ),
+    GoRoute(
+      path: kVideoViewWithDirectCode,
+      builder: (context, state) => BlocProvider(
+        create: (context) => CodesCubit(),
+        child: VideoViewWithDirectCode(
+          videoUrl: state.extra as String,
         ),
       ),
     ),
