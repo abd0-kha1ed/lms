@@ -68,7 +68,13 @@ class CodesCubit extends Cubit<CodesState> {
 
       if (data['isUsed'] == false &&
           DateTime.now().isBefore(sessionEndTime.toDate())) {
-        if (DateTime.now().isAfter(sessionEndTime.toDate())) {
+        DateTime nowUTC = DateTime.now().toUtc(); // تحويل الوقت الحالي إلى UTC
+        DateTime sessionEndTimeUTC = data['sessionEndTime']
+            .toDate()
+            .toUtc(); // تحويل sessionEndTime إلى UTC
+        print(sessionEndTimeUTC);
+        print(nowUTC);
+        if (nowUTC.isAfter(sessionEndTimeUTC)) {
           await snapshot.docs.first.reference.update({'isUsed': true});
         } else {
           emit(CodeSessionActive(
