@@ -1,4 +1,5 @@
 part of 'codes_cubit.dart';
+
 @immutable
 abstract class CodesState {}
 
@@ -29,7 +30,6 @@ class CodeVerificationError extends CodesState {
   final String message;
   CodeVerificationError({required this.message});
 }
-
 
 class CodeSessionActive extends CodesState {
   final String videoUrl;

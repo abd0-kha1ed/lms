@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/core/utils/app_router.dart';
+import 'package:video_player_app/feature/secure%20code/presentation/view/manger/codes%20cubit/codes_cubit.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
 
 import 'package:video_player_app/firebase_options.dart';
@@ -34,8 +35,15 @@ class SecureVideoPlayer extends StatelessWidget {
   const SecureVideoPlayer({super.key});
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => VideoCubit(FirebaseServices()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => VideoCubit(FirebaseServices()),
+        ),
+        BlocProvider(
+          create: (context) => CodesCubit(),
+        ),
+      ],
       child: MaterialApp.router(
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,

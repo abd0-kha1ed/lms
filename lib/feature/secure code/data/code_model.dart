@@ -7,14 +7,20 @@ class CodeModel {
   final String videoUrl;
   final Timestamp createdAt;
   final String videoDuration;
+  final String? deviceId; // إضافة
+  final Timestamp? sessionStartTime; // إضافة
+  final Timestamp? sessionEndTime; // إضافة
 
-  CodeModel( {
+  CodeModel({
     required this.videoDuration,
     required this.code,
     required this.isUsed,
     required this.videoId,
     required this.videoUrl,
     required this.createdAt,
+    this.deviceId,
+    this.sessionStartTime,
+    this.sessionEndTime,
   });
 
   factory CodeModel.empty() {
@@ -29,15 +35,18 @@ class CodeModel {
   }
 
   factory CodeModel.fromFirestore(Map<String, dynamic> data) {
-    return CodeModel(
-      code: data['code'] ?? '',
-      isUsed: data['isUsed'] ?? false,
-      videoId: data['videoId'] ?? '',
-      videoUrl: data['videoUrl'],
-      videoDuration: data['videoDuration'],
-      createdAt: data['createdAt'] ?? Timestamp.now(),
-    );
-  }
+  return CodeModel(
+    code: data['code'] ?? '',
+    isUsed: data['isUsed'] ?? false,
+    videoId: data['videoId'] ?? '',
+    videoUrl: data['videoUrl'] ?? '',
+    videoDuration: data['videoDuration'] ?? '',
+    createdAt: data['createdAt'] ?? Timestamp.now(),
+    deviceId: data.containsKey('deviceId') ? data['deviceId'] : null,
+    sessionStartTime: data.containsKey('sessionStartTime') ? data['sessionStartTime'] : null,
+    sessionEndTime: data.containsKey('sessionEndTime') ? data['sessionEndTime'] : null,
+  );
+}
 
   Map<String, dynamic> toFirestore() {
     return {
@@ -46,7 +55,10 @@ class CodeModel {
       'videoId': videoId,
       'videoUrl': videoUrl,
       'createdAt': createdAt,
-      'videoDuration':videoDuration
+      'videoDuration': videoDuration,
+      'deviceId': deviceId,
+      'sessionStartTime': sessionStartTime,
+      'sessionEndTime': sessionEndTime,
     };
   }
 }
