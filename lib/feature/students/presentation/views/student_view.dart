@@ -3,7 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/widget/custom_icon_button.dart';
 import 'package:video_player_app/core/widget/custom_show_diolog.dart';

@@ -42,7 +42,7 @@ class _CodeViewBodyState extends State<CodeViewBody> {
       final filteredCodes =
           allCodes.where((code) => videoCodesList.contains(code.code)).toList();
 
-      return filteredCodes;
+      return allCodes;
     });
   }
 
