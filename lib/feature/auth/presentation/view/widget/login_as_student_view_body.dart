@@ -191,24 +191,24 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
   }
 
 
-Future<String> getDeviceId() async {
-  final deviceInfo = DeviceInfoPlugin();
-  String deviceId = "unknown-device";
+// Future<String> getDeviceId() async {
+//   final deviceInfo = DeviceInfoPlugin();
+//   String deviceId = "unknown-device";
 
-  try {
-    if (Platform.isAndroid) {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      deviceId = androidInfo.id; // معرف الجهاز للأندرويد
-    } else if (Platform.isIOS) {
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      deviceId = iosInfo.identifierForVendor ?? "unknown-ios-device"; // معرف الجهاز للـ iOS
-    }
-  } catch (e) {
-    print("🔴 خطأ في جلب معرف الجهاز: $e");
-  }
+//   try {
+//     if (Platform.isAndroid) {
+//       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+//       deviceId = androidInfo.id; // معرف الجهاز للأندرويد
+//     } else if (Platform.isIOS) {
+//       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+//       deviceId = iosInfo.identifierForVendor ?? "unknown-ios-device"; // معرف الجهاز للـ iOS
+//     }
+//   } catch (e) {
+//     print("🔴 خطأ في جلب معرف الجهاز: $e");
+//   }
 
-  return deviceId;
-}
+//   return deviceId;
+// }
   Future<dynamic> showCodeBottomSheet(BuildContext context) {
   return showModalBottomSheet(
     context: context,
@@ -218,11 +218,10 @@ Future<String> getDeviceId() async {
         value: context.read<CodesCubit>(), // ✅ الاحتفاظ بنفس Cubit
         child: BlocConsumer<CodesCubit, CodesState>(
           listener: (context, state) async {
-            final deviceId = await getDeviceId(); // ✅ الحصول على deviceId
 
             if (state is CodeValid) {
               // ✅ التحقق من الجلسة قبل بدء جلسة جديدة
-              context.read<CodesCubit>().checkSession(state.videoUrl, deviceId);
+              context.read<CodesCubit>().checkSession(state.videoUrl);
             } else if (state is CodeSessionActive) {
               final videoUrl = state.videoUrl;
               final sessionEndTime = state.sessionEndTime.toDate();

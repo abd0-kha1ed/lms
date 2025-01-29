@@ -318,6 +318,9 @@ class FirebaseServices {
           'videoId': videoId,
           'videoUrl': videoUrl,
           'videoDuration': videoDuration,
+          'deviceId': null,
+          'sessionStartTime': null,
+          'sessionEndTime':null,
           'isUsed': false,
           'createdAt': Timestamp.now(),
         });

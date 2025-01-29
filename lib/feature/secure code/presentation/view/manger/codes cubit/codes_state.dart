@@ -5,17 +5,10 @@ abstract class CodesState {}
 
 class CodesInitial extends CodesState {}
 
-class CodesLoading extends CodesState {}
 
-class CodesLoaded extends CodesState {
-  final List<CodeModel> codes;
-  CodesLoaded({required this.codes});
-}
 
-class CodesError extends CodesState {
-  final String message;
-  CodesError({required this.message});
-}
+
+
 
 class CodeVerificationLoading extends CodesState {}
 

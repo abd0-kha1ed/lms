@@ -1,8 +1,10 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:meta/meta.dart';
-import 'dart:io'; // For Platform.isAndroid and Platform.isIOS
+import 'dart:io';
 import 'package:video_player_app/feature/secure%20code/data/code_model.dart';
 
 part 'codes_state.dart';
@@ -10,45 +12,23 @@ part 'codes_state.dart';
 class CodesCubit extends Cubit<CodesState> {
   CodesCubit() : super(CodesInitial());
 
-  List<CodeModel> _codes = [];
-
-  // Helper method to get device ID
   Future<String> getDeviceId() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (Platform.isAndroid) {
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      return androidInfo.id; // Device ID for Android
+      return androidInfo.id;
     } else if (Platform.isIOS) {
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      return iosInfo.identifierForVendor ?? ''; // Device ID for iOS
+      return iosInfo.identifierForVendor ?? '';
     }
     return '';
   }
 
-  // Fetch all codes from Firestore
-  Future<void> fetchCodes() async {
-    try {
-      emit(CodesLoading());
-
-      QuerySnapshot querySnapshot =
-          await FirebaseFirestore.instance.collection('codes').get();
-
-      _codes = querySnapshot.docs.map((doc) {
-        return CodeModel.fromFirestore(doc.data() as Map<String, dynamic>);
-      }).toList();
-
-      emit(CodesLoaded(codes: _codes));
-    } catch (e) {
-      emit(CodesError(message: "حدث خطأ أثناء تحميل الأكواد: $e"));
-    }
-  }
-
-  // Verify if the entered code is valid
-  Future<void> verifyCode(String enteredCode) async {
+  Future<void> startSession(String enteredCode) async {
     try {
       emit(CodeVerificationLoading());
 
-      // Fetch the code from Firestore
+      String deviceId = await getDeviceId();
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection('codes')
           .where('code', isEqualTo: enteredCode)
@@ -63,21 +43,87 @@ class CodesCubit extends Cubit<CodesState> {
       var data = snapshot.docs.first.data() as Map<String, dynamic>;
       var matchedCode = CodeModel.fromFirestore(data);
 
-      if (matchedCode.isUsed) {
-        emit(CodeInvalid()); // الكود تم استخدامه مسبقًا
+      // التحقق من استخدام الكود مسبقًا
+      if (matchedCode.deviceId != null && matchedCode.deviceId != deviceId) {
+        emit(CodeVerificationError(message: "هذا الكود مستخدم على جهاز آخر."));
         return;
       }
 
-      // Mark the code as used
-      await docRef.update({'isUsed': true});
+      // حساب وقت انتهاء الجلسة
+      int videoDurationSeconds = _parseDuration(matchedCode.videoDuration);
+      Timestamp sessionEndTime = Timestamp.fromMillisecondsSinceEpoch(
+          DateTime.now().millisecondsSinceEpoch +
+              (videoDurationSeconds * 1.5 * 1000).toInt());
 
-      emit(CodeValid(videoUrl: matchedCode.videoUrl));
+      // تحديث بيانات الجلسة في Firestore
+      if (data['deviceId'] == null &&
+          data['sessionStartTime'] == null &&
+          data['sessionEndTime'] == null) {
+        await docRef.update({
+          'deviceId': deviceId,
+          'sessionStartTime': Timestamp.now(),
+          'sessionEndTime': sessionEndTime,
+        });
+      }
+
+      if (data['isUsed'] == false &&
+          DateTime.now().isBefore(sessionEndTime.toDate())) {
+        if (DateTime.now().isAfter(sessionEndTime.toDate())) {
+          await snapshot.docs.first.reference.update({'isUsed': true});
+        } else {
+          emit(CodeSessionActive(
+              videoUrl: matchedCode.videoUrl, sessionEndTime: sessionEndTime));
+        }
+      }
     } catch (e) {
-      emit(CodeVerificationError(message: "حدث خطأ أثناء التحقق من الكود: $e"));
+      emit(CodeVerificationError(message: "حدث خطأ أثناء بدء الجلسة: $e"));
     }
   }
 
-  // Parse video duration string into seconds
+  // التحقق من الجلسة
+  Future<void> checkSession(String enteredCode) async {
+    try {
+      emit(CodeVerificationLoading());
+
+      String deviceId = await getDeviceId();
+
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('codes')
+          .where('code', isEqualTo: enteredCode)
+          .get();
+
+      if (snapshot.docs.isEmpty) {
+        emit(CodeInvalid());
+        return;
+      }
+
+      var data = snapshot.docs.first.data() as Map<String, dynamic>;
+      var sessionEndTime = data['sessionEndTime'] != null
+          ? (data['sessionEndTime'] as Timestamp).toDate()
+          : null;
+      var storedDeviceId = data['deviceId'];
+
+      // التحقق من تطابق الجهاز
+      if (storedDeviceId != null && storedDeviceId != deviceId) {
+        emit(CodeVerificationError(message: "هذا الكود مستخدم على جهاز آخر."));
+        return;
+      }
+      // التحقق مما إذا كانت الجلسة لا تزال نشطة
+      if (sessionEndTime != null && DateTime.now().isBefore(sessionEndTime)) {
+        emit(CodeSessionActive(
+            videoUrl: data['videoUrl'],
+            sessionEndTime: Timestamp.fromDate(sessionEndTime)));
+      } else {
+        await snapshot.docs.first.reference.update({'isUsed': true});
+        emit(CodeSessionExpired());
+      }
+    } catch (e) {
+      emit(
+          CodeVerificationError(message: "حدث خطأ أثناء التحقق من الجلسة: $e"));
+    }
+  }
+
+  // تحليل مدة الفيديو إلى ثوانٍ
   int _parseDuration(String duration) {
     try {
       List<String> parts = duration.split(':');
@@ -87,105 +133,7 @@ class CodesCubit extends Cubit<CodesState> {
       int seconds = int.tryParse(parts[2]) ?? 0;
       return (hours * 3600) + (minutes * 60) + seconds;
     } catch (e) {
-      return 0; // في حالة وجود خطأ في التنسيق
+      return 0;
     }
   }
-
-  // Start a new session for the entered code
-  Future<void> startSession(String enteredCode) async {
-  try {
-    emit(CodeVerificationLoading());
-
-    String deviceId = await getDeviceId();
-
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('codes')
-        .where('code', isEqualTo: enteredCode)
-        .get();
-
-    if (snapshot.docs.isEmpty) {
-      emit(CodeInvalid());
-      return;
-    }
-
-    var docRef = snapshot.docs.first.reference;
-    var data = snapshot.docs.first.data() as Map<String, dynamic>;
-    var matchedCode = CodeModel.fromFirestore(data);
-
-    if (matchedCode.isUsed) {
-      emit(CodeInvalid()); // الكود تم استخدامه مسبقًا
-      return;
-    }
-
-    int videoDurationSeconds = _parseDuration(matchedCode.videoDuration);
-    Timestamp sessionEndTime = Timestamp.fromMillisecondsSinceEpoch(
-        DateTime.now().millisecondsSinceEpoch + (videoDurationSeconds * 1.5 * 1000).toInt());
-
-    await docRef.update({
-      'isUsed': true,
-      'deviceId': deviceId,
-      'sessionStartTime': Timestamp.now(),
-      'sessionEndTime': sessionEndTime,
-    });
-
-    emit(CodeSessionActive(videoUrl: matchedCode.videoUrl, sessionEndTime: sessionEndTime));
-  } catch (e) {
-    emit(CodeVerificationError(message: "حدث خطأ أثناء بدء الجلسة: $e"));
-  }
-}
-
-  // Check if the session is still active
-  Future<void> checkSession(String enteredCode, String deviceId) async {
-  try {
-    emit(CodeVerificationLoading());
-
-    // Fetch the code from Firestore
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('codes')
-        .where('code', isEqualTo: enteredCode)
-        .get();
-
-    if (snapshot.docs.isEmpty) {
-      emit(CodeInvalid());
-      return;
-    }
-
-    // قراءة البيانات من المستند
-    var data = snapshot.docs.first.data() as Map<String, dynamic>;
-   var sessionEndTime = data['sessionEndTime'] != null
-    ? data['sessionEndTime'] as Timestamp
-    : null;
-
-var storedDeviceId = data['deviceId'] != null
-    ? data['deviceId'] as String
-    : null;
-
-// إذا كانت الحقول غير موجودة، افترض أن الجلسة لم تبدأ بعد
-if (sessionEndTime == null || storedDeviceId == null) {
-  emit(CodeValid(videoUrl: data['videoUrl'])); // السماح باستخدام الكود
-  return;
-}
-
-    // التحقق مما إذا كانت الجلسة لا تزال نشطة
-    if (DateTime.now().isBefore(sessionEndTime.toDate())) {
-      if (storedDeviceId == deviceId) {
-        // الجلسة نشطة والجهاز متطابق
-        emit(CodeSessionActive(
-          videoUrl: data['videoUrl'] ?? '',
-          sessionEndTime: sessionEndTime,
-        ));
-      } else {
-        // الجهاز لا يطابق
-        emit(CodeVerificationError(
-            message: "هذا الكود مستخدم على جهاز آخر."));
-      }
-    } else {
-      // الجلسة انتهت
-      emit(CodeSessionExpired());
-    }
-  } catch (e) {
-    emit(CodeVerificationError(
-        message: "حدث خطأ أثناء التحقق من الجلسة: $e"));
-  }
-}
 }
