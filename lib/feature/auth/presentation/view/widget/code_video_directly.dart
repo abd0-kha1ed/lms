@@ -87,21 +87,25 @@ class _CodeVideoDirectlyState extends State<CodeVideoDirectly> {
                 return CustomButton(
                   color: isLoading ? Colors.grey : kPrimaryColor,
                   title: isLoading ? '...' : LocaleKeys.confirmText.tr(),
-                  onTap: isLoading ? null : () async {
-                    if (formKey.currentState!.validate()) {
-                      formKey.currentState!.save();
-                      final enteredCode = codeController.text.trim();
+                  onTap: isLoading
+                      ? null
+                      : () async {
+                          if (formKey.currentState!.validate()) {
+                            formKey.currentState!.save();
+                            final enteredCode = codeController.text.trim();
 
-                      // ✅ الحصول على deviceId
-                      String deviceId = await getDeviceId();
+                            // ✅ الحصول على deviceId
+                            String deviceId = await getDeviceId();
 
-                      // ✅ التحقق من الجلسة قبل بدء جلسة جديدة
-                      context.read<CodesCubit>().checkSession(enteredCode, deviceId);
-                    } else {
-                      autovalidateMode = AutovalidateMode.always;
-                      setState(() {});
-                    }
-                  },
+                            // ✅ التحقق من الجلسة قبل بدء جلسة جديدة
+                            context
+                                .read<CodesCubit>()
+                                .checkSession(enteredCode, deviceId);
+                          } else {
+                            autovalidateMode = AutovalidateMode.always;
+                            setState(() {});
+                          }
+                        },
                 );
               },
             )
@@ -112,21 +116,21 @@ class _CodeVideoDirectlyState extends State<CodeVideoDirectly> {
   }
 }
 
-  Future<String> getDeviceId() async {
-    final deviceInfo = DeviceInfoPlugin();
-    String deviceId = "unknown-device";
+Future<String> getDeviceId() async {
+  final deviceInfo = DeviceInfoPlugin();
+  String deviceId = "unknown-device";
 
-    try {
-      if (Platform.isAndroid) {
-        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-        deviceId = androidInfo.id;
-      } else if (Platform.isIOS) {
-        IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-        deviceId = iosInfo.identifierForVendor ?? "unknown-ios-device";
-      }
-    } catch (e) {
-      print("🔴 خطأ في جلب معرف الجهاز: $e");
+  try {
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      deviceId = androidInfo.id;
+    } else if (Platform.isIOS) {
+      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      deviceId = iosInfo.identifierForVendor ?? "unknown-ios-device";
     }
-
-    return deviceId;
+  } catch (e) {
+    print("🔴 خطأ في جلب معرف الجهاز: $e");
   }
+
+  return deviceId;
+}
