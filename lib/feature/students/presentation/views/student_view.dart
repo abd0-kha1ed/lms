@@ -161,7 +161,7 @@ class _StudentViewState extends State<StudentView> {
           ),
         ],
         backgroundColor: Colors.grey[100],
-        title: Text("Students List"),
+        title: Text(LocaleKeys.studentsList.tr()),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -303,7 +303,7 @@ class _StudentViewState extends State<StudentView> {
                   }
 
                   if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                    return Center(child: Text("No students found"));
+                    return Center(child: Text(LocaleKeys.noStudentsFound.tr()));
                   }
 
                   final students = snapshot.data!.docs;

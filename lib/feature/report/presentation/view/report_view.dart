@@ -150,7 +150,7 @@ class _ReportViewState extends State<ReportView> {
                       ? 0
                       : _studentCount, // Dynamic student count
                   color: kPrimaryColor,
-                  lable: 'Student Count',
+                  lable: LocaleKeys.studentCount.tr(),
                   onTap: () {
                     GoRouter.of(context).push(AppRouter.kStudentView);
                   },
@@ -159,7 +159,7 @@ class _ReportViewState extends State<ReportView> {
                   count:
                       _isLoadingVideos ? 0 : _videoCount, // Dynamic video count
                   color: Colors.green,
-                  lable: 'Video Count',
+                  lable: LocaleKeys.videoCount.tr(),
                   onTap: () {
                     // GoRouter.of(context).push(AppRouter.kVideoView); // Navigate to video view
                   },
@@ -178,7 +178,7 @@ class _ReportViewState extends State<ReportView> {
               padding: const EdgeInsets.all(16.0),
               children: [
                 buildStatCard(
-                  "Approved Videos",
+                  LocaleKeys.approvedVideos.tr(),
                   _isLoadingVideos ? 0 : _approvedVideos,
                   Colors.teal,
                   Icons.check,
@@ -187,7 +187,7 @@ class _ReportViewState extends State<ReportView> {
                   },
                 ),
                 buildStatCard(
-                  "Rejected Videos",
+                  LocaleKeys.rejectedVideos.tr(),
                   _isLoadingVideos ? 0 : _rejectedVideos,
                   Colors.red,
                   Icons.close,
@@ -196,7 +196,7 @@ class _ReportViewState extends State<ReportView> {
                   },
                 ),
                 buildStatCard(
-                  "Pending Videos",
+                  LocaleKeys.pendingVideos.tr(),
                   _isLoadingVideos ? 0 : _pendingVideos,
                   Colors.orange,
                   Icons.pending,

@@ -274,9 +274,11 @@ class FirebaseServices {
     videosCollection.doc(id).delete();
   }
 
-  Future<void> addCodesToFirestore(String videoId, List<String> codes, String videoUrl, String videoDuration) async {
-  WriteBatch batch = FirebaseFirestore.instance.batch();
-  CollectionReference codesCollection = FirebaseFirestore.instance.collection('codes');
+  Future<void> addCodesToFirestore(String videoId, List<String> codes,
+      String videoUrl, String videoDuration) async {
+    WriteBatch batch = FirebaseFirestore.instance.batch();
+    CollectionReference codesCollection =
+        FirebaseFirestore.instance.collection('codes');
 
     try {
       for (var code in codes) {
@@ -332,6 +334,7 @@ class FirebaseServices {
       approvedAt: DateTime.now(),
     );
     await docRef.set(newVideo.toMap());
-    await addCodesToFirestore(docRef.id, video.codes!, video.videoUrl, video.videoDuration);
+    await addCodesToFirestore(
+        docRef.id, video.codes!, video.videoUrl, video.videoDuration);
   }
 }
