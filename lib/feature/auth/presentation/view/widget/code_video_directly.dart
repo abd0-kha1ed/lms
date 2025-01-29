@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -85,28 +82,22 @@ class _CodeVideoDirectlyState extends State<CodeVideoDirectly> {
                 bool isLoading = state is CodeVerificationLoading;
 
                 return CustomButton(
-                  color: isLoading ? Colors.grey : kPrimaryColor,
-                  title: isLoading ? '...' : LocaleKeys.confirmText.tr(),
-                  onTap: isLoading
-                      ? null
-                      : () async {
-                          if (formKey.currentState!.validate()) {
-                            formKey.currentState!.save();
-                            final enteredCode = codeController.text.trim();
+                    color: isLoading ? Colors.grey : kPrimaryColor,
+                    title: isLoading ? '...' : LocaleKeys.confirmText.tr(),
+                    onTap: () async {
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState!.save();
+                        final enteredCode = codeController.text.trim();
 
-                            // ✅ الحصول على deviceId
-                            String deviceId = await getDeviceId();
-
-                            // ✅ التحقق من الجلسة قبل بدء جلسة جديدة
-                            context
-                                .read<CodesCubit>()
-                                .checkSession(enteredCode, deviceId);
-                          } else {
-                            autovalidateMode = AutovalidateMode.always;
-                            setState(() {});
-                          }
-                        },
-                );
+                        // ✅ التحقق من الجلسة
+                        await context
+                            .read<CodesCubit>()
+                            .startSession(enteredCode);
+                      } else {
+                        autovalidateMode = AutovalidateMode.always;
+                        setState(() {});
+                      }
+                    });
               },
             )
           ],
@@ -114,23 +105,4 @@ class _CodeVideoDirectlyState extends State<CodeVideoDirectly> {
       ),
     );
   }
-}
-
-Future<String> getDeviceId() async {
-  final deviceInfo = DeviceInfoPlugin();
-  String deviceId = "unknown-device";
-
-  try {
-    if (Platform.isAndroid) {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      deviceId = androidInfo.id;
-    } else if (Platform.isIOS) {
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      deviceId = iosInfo.identifierForVendor ?? "unknown-ios-device";
-    }
-  } catch (e) {
-    print("🔴 خطأ في جلب معرف الجهاز: $e");
-  }
-
-  return deviceId;
 }

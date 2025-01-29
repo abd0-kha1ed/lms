@@ -187,150 +187,60 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
     );
   }
 
+// Future<String> getDeviceId() async {
+//   final deviceInfo = DeviceInfoPlugin();
+//   String deviceId = "unknown-device";
+
+//   try {
+//     if (Platform.isAndroid) {
+//       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+//       deviceId = androidInfo.id; // معرف الجهاز للأندرويد
+//     } else if (Platform.isIOS) {
+//       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+//       deviceId = iosInfo.identifierForVendor ?? "unknown-ios-device"; // معرف الجهاز للـ iOS
+//     }
+//   } catch (e) {
+//     print("🔴 خطأ في جلب معرف الجهاز: $e");
+//   }
+
+//   return deviceId;
+// }
   Future<dynamic> showCodeBottomSheet(BuildContext context) {
     return showModalBottomSheet(
       context: context,
-      isScrollControlled: true, // Allow full height control
+      isScrollControlled: true,
       builder: (BuildContext context) {
-        return BlocProvider(
-          create: (context) => CodesCubit()..fetchCodes(),
+        return BlocProvider.value(
+          value: context.read<CodesCubit>(), // ✅ الاحتفاظ بنفس Cubit
           child: BlocConsumer<CodesCubit, CodesState>(
-            listener: (context, state) {
+            listener: (context, state) async {
               if (state is CodeValid) {
-                // عرض الفيديو مباشرة بعد التحقق من صحة الكود
-                GoRouter.of(context).pop();
-                GoRouter.of(context).go(
-                  AppRouter.kVideoViewWithDirectCode,
-                  extra: state.videoUrl,
-                );
+                // ✅ التحقق من الجلسة قبل بدء جلسة جديدة
+                context.read<CodesCubit>().checkSession(state.videoUrl);
               } else if (state is CodeSessionActive) {
-                // عندما تكون الجلسة نشطة، سيتم التحقق من الكود وجلسة الفيديو
                 final videoUrl = state.videoUrl;
                 final sessionEndTime = state.sessionEndTime.toDate();
 
-                // عرض الفيديو فقط إذا كانت الجلسة لا تزال صالحة
                 if (DateTime.now().isBefore(sessionEndTime)) {
+                  // ✅ السماح بمشاهدة الفيديو
                   GoRouter.of(context).pop();
                   GoRouter.of(context).go(
                     AppRouter.kVideoViewWithDirectCode,
                     extra: videoUrl,
                   );
                 } else {
-                  // إذا انتهت الجلسة، إظهار تنبيه بانتهاء الجلسة
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        title: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.warning_amber_rounded,
-                                  color: Colors.red),
-                              SizedBox(width: 8),
-                              Text('Session Expired'),
-                            ],
-                          ),
-                        ),
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              'Your session has expired. Please try again.',
-                              style: TextStyle(fontSize: 16),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(height: 20),
-                            Image.network(
-                              'https://cdn-icons-png.flaticon.com/512/190/190406.png',
-                              height: 80,
-                            ),
-                          ],
-                        ),
-                        actionsAlignment: MainAxisAlignment.center,
-                        actions: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop(); // Close the dialog
-                            },
-                            child: Text('Dismiss'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                  alertShowDialog(context); // ❌ الجلسة منتهية
                 }
+              } else if (state is CodeSessionExpired) {
+                alertShowDialog(context);
               } else if (state is CodeInvalid) {
-                // في حالة عدم صحة الكود
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      title: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.warning_amber_rounded,
-                                color: Colors.red),
-                            SizedBox(width: 8),
-                            Text('Alert'),
-                          ],
-                        ),
-                      ),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'This code has been used. Please try a different code.',
-                            style: TextStyle(fontSize: 16),
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(height: 20),
-                          Image.network(
-                            'https://cdn-icons-png.flaticon.com/512/190/190406.png',
-                            height: 80,
-                          ),
-                        ],
-                      ),
-                      actionsAlignment: MainAxisAlignment.center,
-                      actions: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pop(); // Close the dialog
-                          },
-                          child: Text('Dismiss'),
-                        ),
-                      ],
-                    );
-                  },
-                );
+                showInvalidCodeDialog(context);
               }
             },
             builder: (context, state) {
               return Padding(
                 padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context)
-                      .viewInsets
-                      .bottom, // Adjust for keyboard
-                ),
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
                 child: SingleChildScrollView(
                   child: Container(
                     padding: EdgeInsets.all(16),
@@ -339,13 +249,118 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(16)),
                     ),
-                    child:
-                        CodeVideoDirectly(), // Your widget that handles code input
+                    child: CodeVideoDirectly(), // ✅ استدعاء واجهة إدخال الكود
                   ),
                 ),
               );
             },
           ),
+        );
+      },
+    );
+  }
+
+  Future<void> showInvalidCodeDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.warning_amber_rounded, color: Colors.red),
+                SizedBox(width: 8),
+                Text('Invalid Code'),
+              ],
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'This code has been used or is incorrect. Please try again.',
+                style: TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20),
+              Image.network(
+                'https://cdn-icons-png.flaticon.com/512/190/190406.png',
+                height: 80,
+              ),
+            ],
+          ),
+          actionsAlignment: MainAxisAlignment.center,
+          actions: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Dismiss'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<dynamic> alertShowDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.warning_amber_rounded, color: Colors.red),
+                SizedBox(width: 8),
+                Text('Session Expired'),
+              ],
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Your session has expired. Please try again.',
+                style: TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20),
+              Image.network(
+                'https://cdn-icons-png.flaticon.com/512/190/190406.png',
+                height: 80,
+              ),
+            ],
+          ),
+          actionsAlignment: MainAxisAlignment.center,
+          actions: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Dismiss'),
+            ),
+          ],
         );
       },
     );
