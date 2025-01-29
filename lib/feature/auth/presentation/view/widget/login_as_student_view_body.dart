@@ -101,7 +101,7 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
               },
               validator: (value) {
                 if (value?.isEmpty ?? true) {
-                  return "Please enter your code.";
+                  return LocaleKeys.pleaseEnterCode.tr();
                 }
                 return null;
               },
@@ -115,7 +115,7 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
               },
               validator: (value) {
                 if (value?.isEmpty ?? true) {
-                  return "Please enter your password.";
+                  return LocaleKeys.pleaseEnterYourPassword.tr();
                 }
                 return null;
               },
@@ -152,16 +152,16 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
                 },
                 style: ButtonStyle(
                     foregroundColor: WidgetStatePropertyAll(kPrimaryColor)),
-                child: Text(LocaleKeys.useVideoCode)),
+                child: Text(LocaleKeys.useVideoCode.tr())),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Login as "),
+                Text(LocaleKeys.loginAs.tr()),
                 GestureDetector(
                   onTap: () =>
                       GoRouter.of(context).push(AppRouter.kTeacherLoginView),
                   child: Text(
-                    "Teacher",
+                    LocaleKeys.teacher.tr(),
                     style: TextStyle(
                       fontSize: 16,
                       color: kPrimaryColor,
@@ -169,12 +169,12 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
                     ),
                   ),
                 ),
-                const Text(" or "),
+                Text(LocaleKeys.or.tr()),
                 GestureDetector(
                   onTap: () =>
                       GoRouter.of(context).push(AppRouter.kAssistantLoginView),
                   child: Text(
-                    "Assistant",
+                    LocaleKeys.assistant.tr(),
                     style: TextStyle(
                       fontSize: 16,
                       color: kPrimaryColor,

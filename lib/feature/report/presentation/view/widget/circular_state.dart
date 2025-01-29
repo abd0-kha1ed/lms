@@ -22,7 +22,7 @@ class CircularState extends StatelessWidget {
           CircularPercentIndicator(
             radius: 70,
             lineWidth: 8,
-            percent: count / 500, // Assuming a max value of 10
+            percent: count / 2500, // Assuming a max value of 10
             center: Text(
               "$count",
               style: TextStyle(
