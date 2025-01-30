@@ -128,9 +128,8 @@ class _PendingVideoState extends State<PendingVideo> {
                                 subtitle: Text(
                                     '${LocaleKeys.uploadedBy.tr()} ${video.uploaderName}'),
                                 trailing: Text(
-                                  video.createdAt.toDate().toString(),
-                                  style: const TextStyle(fontSize: 12),
-                                ),
+                                    DateFormat('MMM dd, yyyy hh:mm a')
+                                        .format(video.createdAt.toDate())),
                               ),
                             ),
                             // Show buttons only for teachers
