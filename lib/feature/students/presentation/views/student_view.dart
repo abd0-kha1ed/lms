@@ -63,8 +63,9 @@ class _StudentViewState extends State<StudentView> {
 
   // Get the appropriate stream based on search query
   Stream<QuerySnapshot> _getStudentsStream() {
-    final studentsCollection =
-        FirebaseFirestore.instance.collection('students');
+    final studentsCollection = FirebaseFirestore.instance
+        .collection('students')
+        .orderBy('code', descending: false);
     if (_searchQuery.isNotEmpty) {
       if (_searchQuery.contains(RegExp(r'^[0-9]*$'))) {
         // If the query looks like a code (numeric), search by code
