@@ -438,7 +438,7 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                             isVideoExpirable: isVideoExpirable,
                             expiryDate: expiryDate,
                             hasCodes: false,
-                            isViewableOnPlatformIfEncrypted: false,
+                            isViewableOnPlatformIfEncrypted: true,
                             isApproved:
                                 isTeacher ? true : null // Store approval status
                             );
