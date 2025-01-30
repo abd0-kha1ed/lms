@@ -300,25 +300,21 @@ class FirebaseServices {
       // print("Error adding codes: $e");
     }
   }
-Future<void> deleteCodesByVideoId(String videoId) async {
-  try {
-    
 
-    QuerySnapshot codesSnapshot = await firestore
-        .collection('codes')
-        .where('videoId', isEqualTo: videoId)
-        .get();
+  Future<void> deleteCodesByVideoId(String videoId) async {
+    try {
+      QuerySnapshot codesSnapshot = await firestore
+          .collection('codes')
+          .where('videoId', isEqualTo: videoId)
+          .get();
 
-    for (QueryDocumentSnapshot doc in codesSnapshot.docs) {
-      await firestore.collection('codes').doc(doc.id).delete();
+      for (QueryDocumentSnapshot doc in codesSnapshot.docs) {
+        await firestore.collection('codes').doc(doc.id).delete();
+      }
+    } catch (e) {
+      debugPrint('There was an error try again');
     }
-    
-    print("تم حذف جميع الأكواد المرتبطة بالفيديو بنجاح");
-  } catch (e) {
-    print("خطأ أثناء حذف الأكواد: $e");
   }
-}
-  
 
   Future<void> addEncryptedVideo(VideoModel video) async {
     final docRef = videosCollection.doc(); // Generate a unique ID

@@ -22,6 +22,7 @@ class EditEncryptedVideoView extends StatelessWidget {
                 context.read<VideoCubit>().deleteVideo(videoModel.id);
                 await FirebaseServices().deleteCodesByVideoId(videoModel.id);
 
+                // ignore: use_build_context_synchronously
                 GoRouter.of(context).pop();
               },
               icon: Icon(Icons.delete, color: Colors.red))
