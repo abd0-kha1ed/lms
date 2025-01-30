@@ -1,7 +1,7 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+// ignore: depend_on_referenced_packages
 import 'package:meta/meta.dart';
 import 'dart:io';
 import 'package:video_player_app/feature/secure%20code/data/code_model.dart';
@@ -71,8 +71,8 @@ class CodesCubit extends Cubit<CodesState> {
         DateTime sessionEndTimeUTC = data['sessionEndTime']
             .toDate()
             .toUtc(); // تحويل sessionEndTime إلى UTC
-        print(sessionEndTimeUTC);
-        print(nowUTC);
+        // print(sessionEndTimeUTC);
+        // print(nowUTC);
         if (nowUTC.isAfter(sessionEndTimeUTC)) {
           await snapshot.docs.first.reference.update({'isUsed': true});
         } else {

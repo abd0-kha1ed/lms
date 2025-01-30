@@ -297,7 +297,7 @@ class FirebaseServices {
       }
       await batch.commit();
     } catch (e) {
-      print("Error adding codes: $e");
+      // print("Error adding codes: $e");
     }
   }
 
@@ -312,7 +312,7 @@ class FirebaseServices {
 
       return codes;
     } catch (e) {
-      print("Error fetching codes: $e");
+      // print("Error fetching codes: $e");
       return [];
     }
   }

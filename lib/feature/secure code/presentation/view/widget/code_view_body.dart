@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:open_file/open_file.dart';
-import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/feature/secure%20code/data/code_model.dart';
-import 'package:video_player_app/feature/secure%20code/presentation/view/widget/code_Item.dart';
+import 'package:video_player_app/feature/secure%20code/presentation/view/widget/code_item.dart';
 import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
 
 class CodeViewBody extends StatefulWidget {
@@ -39,6 +38,7 @@ class _CodeViewBodyState extends State<CodeViewBody> {
           .map((doc) => CodeModel.fromFirestore(doc.data()))
           .toList();
 
+      // ignore: unused_local_variable
       final filteredCodes =
           allCodes.where((code) => videoCodesList.contains(code.code)).toList();
 
@@ -125,7 +125,7 @@ class _CodeViewBodyState extends State<CodeViewBody> {
     // فتح ملف PDF بعد الحفظ
     await OpenFile.open(file.path);
 
-    print('تم حفظ ملف PDF في: ${file.path}');
+    // print('تم حفظ ملف PDF في: ${file.path}');
   }
 
   @override
