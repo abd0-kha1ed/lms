@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/widget/edit_encrypted_video_body.dart';
@@ -17,11 +18,11 @@ class EditEncryptedVideoView extends StatelessWidget {
         title: Text(LocaleKeys.editEncryptedVideo.tr()),
         actions: [
           IconButton(
-              onPressed: () {
+              onPressed: () async {
                 context.read<VideoCubit>().deleteVideo(videoModel.id);
+                await FirebaseServices().deleteCodesByVideoId(videoModel.id);
 
                 GoRouter.of(context).pop();
-                context.read<VideoCubit>().fetchVideos();
               },
               icon: Icon(Icons.delete, color: Colors.red))
         ],

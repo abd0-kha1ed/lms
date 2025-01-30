@@ -42,12 +42,6 @@ class CodesCubit extends Cubit<CodesState> {
       var data = snapshot.docs.first.data() as Map<String, dynamic>;
       var matchedCode = CodeModel.fromFirestore(data);
 
-      // التحقق من استخدام الكود مسبقًا
-      if (matchedCode.deviceId != null && matchedCode.deviceId != deviceId) {
-        emit(CodeVerificationError(message: "هذا الكود مستخدم على جهاز آخر."));
-        return;
-      }
-
       // حساب وقت انتهاء الجلسة
       int videoDurationSeconds = _parseDuration(matchedCode.videoDuration);
       Timestamp sessionEndTime = Timestamp.fromMillisecondsSinceEpoch(
@@ -64,21 +58,23 @@ class CodesCubit extends Cubit<CodesState> {
           'sessionEndTime': sessionEndTime,
         });
       }
-
-      if (data['isUsed'] == false &&
+      if (matchedCode.deviceId != null && matchedCode.deviceId != deviceId) {
+        emit(CodeVerificationError(
+            message: 'This code was used in another device'));
+        return;
+      } else if (data['isUsed'] == false &&
           DateTime.now().isBefore(sessionEndTime.toDate())) {
         DateTime nowUTC = DateTime.now().toUtc(); // تحويل الوقت الحالي إلى UTC
-        DateTime sessionEndTimeUTC = data['sessionEndTime']
-            .toDate()
-            .toUtc(); // تحويل sessionEndTime إلى UTC
-        // print(sessionEndTimeUTC);
-        // print(nowUTC);
+        DateTime sessionEndTimeUTC = data['sessionEndTime'].toDate().toUtc();
+
         if (nowUTC.isAfter(sessionEndTimeUTC)) {
           await snapshot.docs.first.reference.update({'isUsed': true});
         } else {
           emit(CodeSessionActive(
               videoUrl: matchedCode.videoUrl, sessionEndTime: sessionEndTime));
         }
+      } else {
+        emit(CodeSessionExpired());
       }
     } catch (e) {
       emit(CodeVerificationError(message: "حدث خطأ أثناء بدء الجلسة: $e"));
