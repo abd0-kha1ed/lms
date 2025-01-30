@@ -11,7 +11,7 @@ class CodeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('List of codes'),
+        title: Text('قائمة الاكواد '),
       ),
       body: BlocProvider(
         create: (context) => CodesCubit(),

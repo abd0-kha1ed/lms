@@ -39,22 +39,48 @@ class _StudentViewState extends State<StudentView> {
     super.dispose();
   }
 
+  // Variable to store the selected grade
+
+  // Method to get students filtered by code
+  Stream<QuerySnapshot> _getStudentsByCode() {
+    final studentsCollection =
+        FirebaseFirestore.instance.collection('students');
+    return studentsCollection
+        .where('code', isGreaterThanOrEqualTo: _searchQuery)
+        .where('code', isLessThanOrEqualTo: '$_searchQuery\uf8ff')
+        .snapshots();
+  }
+
+  // Method to get students filtered by name
+  Stream<QuerySnapshot> _getStudentsByName() {
+    final studentsCollection =
+        FirebaseFirestore.instance.collection('students');
+    return studentsCollection
+        .where('name', isGreaterThanOrEqualTo: _searchQuery)
+        .where('name', isLessThanOrEqualTo: '$_searchQuery\uf8ff')
+        .snapshots();
+  }
+
+  // Get the appropriate stream based on search query
   Stream<QuerySnapshot> _getStudentsStream() {
     final studentsCollection =
         FirebaseFirestore.instance.collection('students');
-    Query query = studentsCollection;
-
     if (_searchQuery.isNotEmpty) {
-      query = query
-          .where('code', isGreaterThanOrEqualTo: _searchQuery)
-          .where('code', isLessThanOrEqualTo: '$_searchQuery\uf8ff');
+      if (_searchQuery.contains(RegExp(r'^[0-9]*$'))) {
+        // If the query looks like a code (numeric), search by code
+        return _getStudentsByCode();
+      } else {
+        // Otherwise, search by name
+        return _getStudentsByName();
+      }
+    } else {
+      // If no search query, return all students (apply grade filter if selected)
+      Query query = studentsCollection;
+      if (_selectedGrade.isNotEmpty) {
+        query = query.where('grade', isEqualTo: _selectedGrade);
+      }
+      return query.snapshots();
     }
-
-    if (_selectedGrade.isNotEmpty) {
-      query = query.where('grade', isEqualTo: _selectedGrade);
-    }
-
-    return query.snapshots();
   }
 
   void _deleteStudent(String id) async {
@@ -83,9 +109,10 @@ class _StudentViewState extends State<StudentView> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text("Confirmation"),
-                    content: Text(
-                        "Are you sure you want to mark all students as not paid? This action cannot be undone."),
+                    title: Text(LocaleKeys.confirmText.tr()),
+                    content: Text(LocaleKeys
+                        .areyousureyouwanttomarkallstudentsasnotpaid
+                        .tr()),
                     actions: [
                       TextButton(
                         onPressed: () {
@@ -93,8 +120,8 @@ class _StudentViewState extends State<StudentView> {
                               .pop(false); // Close dialog, return false
                         },
                         child: Text(
-                          "Cancel",
-                          style: TextStyle(color: Colors.grey),
+                          LocaleKeys.no.tr(),
+                          style: TextStyle(color: Colors.grey, fontSize: 24),
                         ),
                       ),
                       TextButton(
@@ -103,8 +130,8 @@ class _StudentViewState extends State<StudentView> {
                               .pop(true); // Close dialog, return true
                         },
                         child: Text(
-                          "Yes, Reset All",
-                          style: TextStyle(color: Colors.red),
+                          LocaleKeys.yes.tr(),
+                          style: TextStyle(color: Colors.red, fontSize: 24),
                         ),
                       ),
                     ],
@@ -135,7 +162,7 @@ class _StudentViewState extends State<StudentView> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                          "Payment status reset for all students successfully.",
+                          "تم جعل كل الطلاب لم يقومو بدفع الرسوم",
                         ),
                       ),
                     );
@@ -170,7 +197,6 @@ class _StudentViewState extends State<StudentView> {
               children: [
                 Expanded(
                   child: TextField(
-                    keyboardType: TextInputType.number,
                     controller: _searchController,
                     decoration: InputDecoration(
                       hintText: LocaleKeys.name.tr(),
@@ -354,8 +380,12 @@ class _StudentViewState extends State<StudentView> {
                                       SnackBar(
                                         content: Text(
                                           currentState
-                                              ? "Payment status marked as unpaid"
-                                              : "Payment status marked as paid",
+                                              ? LocaleKeys
+                                                  .paymentstatusmarkedasunpaid
+                                                  .tr()
+                                              : LocaleKeys
+                                                  .paymentstatusmarkedaspaid
+                                                  .tr(),
                                         ),
                                       ),
                                     );
@@ -430,7 +460,7 @@ class _StudentViewState extends State<StudentView> {
           })); // Navigate to Add Student page
         },
         label: Text(
-          "Add New Student",
+          LocaleKeys.addNewStudent.tr(),
           style: TextStyle(color: Colors.white),
         ),
         icon: Icon(

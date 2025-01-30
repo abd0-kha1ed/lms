@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
 import 'package:video_player_app/core/utils/app_router.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
+import 'package:video_player_app/generated/locale_keys.g.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class ApprovedVideo extends StatelessWidget {
@@ -23,7 +25,7 @@ class ApprovedVideo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Approved Videos List"),
+        title: Text(LocaleKeys.approvedVidsList.tr()),
       ),
       body: BlocBuilder<VideoCubit, VideoState>(
         builder: (context, state) {
@@ -36,7 +38,7 @@ class ApprovedVideo extends StatelessWidget {
                 .toList();
 
             if (pendingVideos.isEmpty) {
-              return const Center(child: Text('No approved Videos'));
+              return Center(child: Text(LocaleKeys.noApprovedVideos.tr()));
             }
 
             return ListView.builder(
@@ -79,7 +81,8 @@ class ApprovedVideo extends StatelessWidget {
                               style:
                                   const TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            subtitle: Text('Uploaded by ${video.uploaderName}'),
+                            subtitle: Text(
+                                '${LocaleKeys.uploadedBy.tr()}${video.uploaderName}'),
                             trailing: Text(
                               video.createdAt.toDate().toString(),
                               style: const TextStyle(fontSize: 12),
@@ -96,7 +99,7 @@ class ApprovedVideo extends StatelessWidget {
           } else if (state is VideoError) {
             return Center(child: Text('Error: ${state.error}'));
           } else {
-            return const Center(child: Text('Refresh to Load Videos'));
+            return Center(child: Text(LocaleKeys.refresh.tr()));
           }
         },
       ),

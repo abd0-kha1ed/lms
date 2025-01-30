@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -7,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/core/utils/app_router.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
+import 'package:video_player_app/generated/locale_keys.g.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -66,7 +68,7 @@ class _PendingVideoState extends State<PendingVideo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Pending Videos List"),
+        title: Text(LocaleKeys.pendingVidsList.tr()),
       ),
       body: Stack(
         children: [
@@ -80,7 +82,7 @@ class _PendingVideoState extends State<PendingVideo> {
                     .toList();
 
                 if (pendingVideos.isEmpty) {
-                  return const Center(child: Text('No Pending Videos'));
+                  return Center(child: Text(LocaleKeys.noPendingVids.tr()));
                 }
 
                 return ListView.builder(
@@ -123,8 +125,8 @@ class _PendingVideoState extends State<PendingVideo> {
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold),
                                 ),
-                                subtitle:
-                                    Text('Uploaded by ${video.uploaderName}'),
+                                subtitle: Text(
+                                    '${LocaleKeys.uploadedBy.tr()} ${video.uploaderName}'),
                                 trailing: Text(
                                   video.createdAt.toDate().toString(),
                                   style: const TextStyle(fontSize: 12),
@@ -142,8 +144,8 @@ class _PendingVideoState extends State<PendingVideo> {
                                         updateVideoApproval(video.id, true),
                                     icon: const Icon(Icons.check,
                                         color: Colors.white),
-                                    label: const Text(
-                                      "Accept",
+                                    label: Text(
+                                      LocaleKeys.accept.tr(),
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     style: ElevatedButton.styleFrom(
@@ -158,8 +160,8 @@ class _PendingVideoState extends State<PendingVideo> {
                                         updateVideoApproval(video.id, false),
                                     icon: const Icon(Icons.close,
                                         color: Colors.white),
-                                    label: const Text(
-                                      "Reject",
+                                    label: Text(
+                                      LocaleKeys.reject.tr(),
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     style: ElevatedButton.styleFrom(

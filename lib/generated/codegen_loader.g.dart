@@ -186,7 +186,22 @@ class CodegenLoader extends AssetLoader {
     "confirm": "تأكيد",
     "entercodescount": "قم بادخال عدد الاكواد",
     "entervaildurl": "قم بادخال رايط فيديو صالح",
-    "enterthevideoduration": "قم بادخال مدة هذا الفديو"
+    "enterthevideoduration": "قم بادخال مدة هذا الفديو",
+    "thiscodehasbeenusedorisincorrectopleasetryagian":
+        "هذا الكود تم استخدامة او كود خاطي من فضلك حاول مرة اخري",
+    "invaildcode": "كود غير صالح",
+    "refresh": "تحديث",
+    "passwordrequerid": "مطلوب كبمة السر",
+    "passwordatleast6number": "مطلوب كلمة سر اكتر من 6 ارقام او احرف",
+    "Phonenumbermustbeexactly11digits": "رقم الهاتف لازم لن يكون 11 رقم بضبط",
+    "listcode": "قائمة الاكواد",
+    "paymentstatusmarkedaspaid": "هذا الطالب قام بتسديد الرسوم ",
+    "paymentstatusmarkedasunpaid": "هذا الطالب لم يقوم بتسديد الرسوم",
+    "areyousureyouwanttomarkallstudentsasnotpaid":
+        "؟هل انت متاكد من جعل كل الطلاب لم يقومو بتسديد الرسوم ",
+    "youaregoingtologoutofyouraccount": "انت سوف تقوم بتسجيل الخروج من حسابك",
+    "videosareavailableonlyforpaidusers":
+        "الفديوهات متاحة فقط للطلاب الذبن قامو بدفع الرسوم"
   };
   static const Map<String, dynamic> en = {
     "currentLanguage": "عربي",
@@ -362,7 +377,24 @@ class CodegenLoader extends AssetLoader {
     "confirm": "Confirm",
     "entercodescount": "Enter Codes Count",
     "entervaildurl": "Enter Vaild Url",
-    "enterthevideoduration": "Enter The Video duration"
+    "enterthevideoduration": "Enter The Video duration",
+    "thiscodehasbeenusedorisincorrectopleasetryagian":
+        "this code has been used or is incorrect. please try again",
+    "invaildcode": "Invalid Code",
+    "refresh": "Refresh",
+    "passwordrequerid": "password is required",
+    "passwordatleast6number": "password at least 6 number or letters ",
+    "Phonenumbermustbeexactly11digits":
+        "Phone number must be exactly 11 digits",
+    "listcode": "List of Codes",
+    "paymentstatusmarkedaspaid": "payment status marked as paid",
+    "paymentstatusmarkedasunpaid": "payment status marked as un paid",
+    "areyousureyouwanttomarkallstudentsasnotpaid":
+        "Are you sure you want to mark all students as no paid?",
+    "youaregoingtologoutofyouraccount":
+        "You are going to log out of your account",
+    "videosareavailableonlyforpaidusers":
+        "videos are available only for paid users"
   };
   static const Map<String, Map<String, dynamic>> mapLocales = {
     "ar": ar,

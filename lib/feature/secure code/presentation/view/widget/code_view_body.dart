@@ -154,7 +154,7 @@ class _CodeViewBodyState extends State<CodeViewBody> {
               return CodeItem(
                 title: code.code,
                 codeIndex: index + 1,
-                color: code.isUsed == false ? kPrimaryColor : Colors.red,
+                color: code.isUsed == false ? Colors.green : Colors.red,
               );
             },
           ),

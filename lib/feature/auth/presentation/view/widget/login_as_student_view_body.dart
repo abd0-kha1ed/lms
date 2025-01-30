@@ -274,7 +274,7 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
               children: [
                 Icon(Icons.warning_amber_rounded, color: Colors.red),
                 SizedBox(width: 8),
-                Text('Invalid Code'),
+                Text(LocaleKeys.invaildcode.tr()),
               ],
             ),
           ),
@@ -282,7 +282,7 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'This code has been used or is incorrect. Please try again.',
+                LocaleKeys.thiscodehasbeenusedorisincorrectopleasetryagian.tr(),
                 style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
@@ -305,7 +305,7 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Dismiss'),
+              child: Text(LocaleKeys.dismiss.tr()),
             ),
           ],
         );

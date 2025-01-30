@@ -57,7 +57,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
       );
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Student registered successfully!")),
+        SnackBar(content: Text(LocaleKeys.studentAdded.tr())),
       );
 
       // Clear form
@@ -98,7 +98,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                   hintText: LocaleKeys.name.tr(),
                   controller: _nameController,
                   validator: (value) =>
-                      value!.isEmpty ? "Please enter the name" : null,
+                      value!.isEmpty ? LocaleKeys.pleaseEnterName.tr() : null,
                 ),
                 const SizedBox(height: 10),
                 CustomTextFormField(
@@ -106,15 +106,16 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                   hintText: LocaleKeys.code.tr(),
                   controller: _codeController,
                   validator: (value) =>
-                      value!.isEmpty ? "Please enter the code" : null,
+                      value!.isEmpty ? LocaleKeys.pleaseEnterCode.tr() : null,
                 ),
                 const SizedBox(height: 10),
                 CustomTextFormField(
                   hintText: LocaleKeys.password.tr(),
                   controller: _passwordController,
                   obscureText: false,
-                  validator: (value) =>
-                      value!.isEmpty ? "Please enter the password" : null,
+                  validator: (value) => value!.isEmpty
+                      ? LocaleKeys.pleaseEnterYourPassword.tr()
+                      : null,
                 ),
                 const SizedBox(height: 10),
                 CustomTextFormField(
@@ -124,9 +125,9 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                   maxLength: 11,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Phone number is required';
+                      return LocaleKeys.phoneRequired.tr();
                     } else if (value.length != 11) {
-                      return 'Phone number must be exactly 11 digits';
+                      return LocaleKeys.Phonenumbermustbeexactly11digits.tr();
                     }
                     return null;
                   },

@@ -153,7 +153,7 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
                 child: Text(
-                  "Set Duration",
+                  LocaleKeys.setDuration.tr(),
                   style: TextStyle(color: Colors.white),
                 ),
               )
@@ -228,7 +228,7 @@ class _AddNewVideoBodyState extends State<AddNewVideoBody> {
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return LocaleKeys.enterVideoUrl;
+                    return LocaleKeys.enterVideoUrl.tr();
                   }
                   if (!_urlRegex.hasMatch(value)) {
                     return LocaleKeys.entervaildurl.tr();

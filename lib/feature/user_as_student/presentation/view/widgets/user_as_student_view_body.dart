@@ -127,14 +127,14 @@ class _UserAsStudentViewBodyState extends State<UserAsStudentViewBody> {
                       ),
                     );
                   } else {
-                    return Center(child: Text("No Videos Available"));
+                    return Center(child: Text(LocaleKeys.notAvlblVideo.tr()));
                   }
                 },
               )
             else
               Center(
                 child: Text(
-                  "Videos are available only for paid users.",
+                  LocaleKeys.videosareavailableonlyforpaidusers.tr(),
                   style: TextStyle(fontSize: 16, color: Colors.grey),
                 ),
               ),

@@ -178,4 +178,21 @@
   "confirm": "Confirm",
    "entercodescount":"Enter Codes Count" ,
     "entervaildurl":"Enter Vaild Url",
-     "enterthevideoduration":"Enter the Video duration"}
+     "enterthevideoduration":"Enter the Video duration",
+    "thiscodehasbeenusedorisincorrectopleasetryagian":"this code has been used or is incorrect. please try again",
+    "invaildcode":"Invalid Code",
+    "refresh":"Refresh",
+         "passwordrequerid":"password is required",
+ "passwordatleast6number":"password at least 6 number or letters ",
+ "Phonenumbermustbeexactly11digits": "Phone number must be exactly 11 digits",
+   "listcode": "List of Codes",
+     "paymentstatusmarkedaspaid": "payment status marked as paid",
+    "paymentstatusmarkedasunpaid": "payment status marked as un paid",
+     "areyousureyouwanttomarkallstudentsasnotpaid":
+        "Are you sure you want to mark all students as no paid?",  
+          "youaregoingtologoutofyouraccount":
+        "You are going to log out of your account",
+        "videosareavailableonlyforpaidusers":"videos are available only for paid users"
+
+    
+    }

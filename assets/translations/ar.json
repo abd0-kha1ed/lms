@@ -165,7 +165,7 @@
    "minutes": "دقائق",
    "seconds": "ثوانٍ",
    "setDuration": "ضبط المدة",
-   "enterVideoUrl": "أدخل رابط الفيديو",
+   "enterVideoUrll": "أدخل رابط الفيديو",
    "enterVideoTitle": "أدخل عنوان الفيديو",
    "videoAdded": "تم إضافة الفيديو بنجاح",
    "generatedCodesCount": "عدد الأكواد التي تم إنشاؤها",
@@ -178,6 +178,19 @@
    "confirm": "تأكيد",
    "entercodescount":"قم بادخال عدد الاكواد",
    "entervaildurl":"قم بادخال رايط فيديو صالح",
-   "enterthevideoduration":"قم بادخال مدة هذا الفديو"
-  
+   "enterthevideoduration":"قم بادخال مدة هذا الفديو",
+   "thiscodehasbeenusedorisincorrectopleasetryagian":
+        "هذا الكود تم استخدامة او كود خاطي من فضلك حاول مرة اخري",
+        "invaildcode": "كود غير صالح",
+ "refresh":"تحديث",
+ "passwordrequerid":"مطلوب كبمة السر",
+ "passwordatleast6number":"مطلوب كلمة سر اكتر من 6 ارقام او احرف"
+  ,"Phonenumbermustbeexactly11digits": "رقم الهاتف لازم لن يكون 11 رقم بضبط",
+   "listcode": "قائمة الاكواد",
+     "paymentstatusmarkedaspaid": "هذا الطالب قام بتسديد الرسوم ",
+    "paymentstatusmarkedasunpaid": "هذا الطالب لم يقوم بتسديد الرسوم",
+     "areyousureyouwanttomarkallstudentsasnotpaid":
+        "؟هل انت متاكد من جعل كل الطلاب لم يقومو بتسديد الرسوم ",
+        "youaregoingtologoutofyouraccount":"انت سوف تقوم بتسجيل الخروج من حسابك",
+        "videosareavailableonlyforpaidusers":"الفديوهات متاحة فقط للطلاب الذبن قامو بدفع الرسوم"
 }

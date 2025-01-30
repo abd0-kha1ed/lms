@@ -85,7 +85,7 @@ class _VideoItemListViewState extends State<VideoItemListView> {
                         .toList();
 
                 if (approvedVideos.isEmpty) {
-                  return const Center(child: Text('No  Videos Available'));
+                  return Center(child: Text(LocaleKeys.notAvlblVideo.tr()));
                 }
 
                 return ListView.builder(
@@ -275,7 +275,7 @@ class _VideoItemListViewState extends State<VideoItemListView> {
               } else if (state is VideoError) {
                 return Center(child: Text('There was an error ${state.error}'));
               } else {
-                return const Center(child: Text('refresh'));
+                return Center(child: Text(LocaleKeys.refresh.tr()));
               }
             },
           );

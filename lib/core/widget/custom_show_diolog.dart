@@ -14,17 +14,13 @@ class CustomShowDialog extends StatelessWidget {
         color: Colors.red,
         size: 30,
       ),
-      title: Text(LocaleKeys.studentDeletion.tr()),
+      title: Text(LocaleKeys.assistantDeletion.tr()),
       content: SizedBox(
-        height: 90,
+        height: 40,
         child: Column(
           children: [
             Text(
-              'this student',
-              style: TextStyle(fontSize: 17),
-            ),
-            Text(
-              'are you sure?',
+              LocaleKeys.areYouSure.tr(),
               style: TextStyle(fontSize: 17),
             )
           ],
