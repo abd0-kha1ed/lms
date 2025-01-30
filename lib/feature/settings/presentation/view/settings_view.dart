@@ -82,11 +82,10 @@ class _SettingsViewState extends State<SettingsView> {
               color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24),
         ),
         backgroundColor: kPrimaryColor,
-        centerTitle: true,
       ),
       body: isLoading
           ? const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: kPrimaryColor),
             )
           : Padding(
               padding: const EdgeInsets.all(16.0),

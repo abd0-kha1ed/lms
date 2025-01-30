@@ -43,7 +43,8 @@ class _CodeVideoDirectlyState extends State<CodeVideoDirectly> {
                       onPressed: () {
                         GoRouter.of(context).pop();
                       },
-                      icon: Icon(Icons.close, color: Colors.red))
+                      icon: Icon(Icons.close, color: Colors.red),
+                      iconSize: 30)
                 ],
               ),
               const SizedBox(height: 20),
@@ -90,7 +91,7 @@ class _CodeVideoDirectlyState extends State<CodeVideoDirectly> {
                   } else if (state is CodeSessionActive) {
                     final videoUrl = state.videoUrl;
                     //  GoRouter.of(context).pop();
-                    GoRouter.of(context).go(
+                    GoRouter.of(context).push(
                       AppRouter.kVideoViewWithDirectCode,
                       extra: videoUrl,
                     );

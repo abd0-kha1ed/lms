@@ -11,11 +11,11 @@ class AssistantsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        centerTitle: true,
         backgroundColor: kPrimaryColor,
         title: Text(
           LocaleKeys.myAssistants.tr(),
-          style: TextStyle(color: Colors.white, fontSize: 28),
+          style: TextStyle(
+              color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
       body: AssistantViewBody(),

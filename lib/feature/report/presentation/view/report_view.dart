@@ -101,7 +101,6 @@ class _ReportViewState extends State<ReportView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       body: Column(
         children: [
           // Gradient Header
@@ -217,6 +216,7 @@ class _ReportViewState extends State<ReportView> {
     return GestureDetector(
       onTap: onTap,
       child: Card(
+        color: Colors.grey[100],
         elevation: 3,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),

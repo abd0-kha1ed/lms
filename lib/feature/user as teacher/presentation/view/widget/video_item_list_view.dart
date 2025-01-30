@@ -6,13 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
+import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/core/utils/app_router.dart';
 import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
-import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/video_container.dart';
+import 'package:video_player_app/feature/user%20as%20teacher/presentation/view/widget/video_container.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class VideoItemListView extends StatefulWidget {
@@ -61,7 +62,8 @@ class _VideoItemListViewState extends State<VideoItemListView> {
       future: userRole,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+              child: CircularProgressIndicator(color: kPrimaryColor));
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else {
@@ -85,7 +87,7 @@ class _VideoItemListViewState extends State<VideoItemListView> {
                         .toList();
 
                 if (approvedVideos.isEmpty) {
-                  return Center(child: Text(LocaleKeys.notAvlblVideo.tr()));
+                  return Center(child: Text(LocaleKeys.notAvailableVideo.tr()));
                 }
 
                 return ListView.builder(

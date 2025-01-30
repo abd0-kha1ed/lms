@@ -11,7 +11,7 @@ import 'package:video_player_app/core/widget/custom_button.dart';
 import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/widget/code_generator.dart';
-import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/customize_textfield.dart';
+import 'package:video_player_app/feature/user%20as%20teacher/presentation/view/widget/customize_textfield.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class AddEncryptedVideoBody extends StatefulWidget {

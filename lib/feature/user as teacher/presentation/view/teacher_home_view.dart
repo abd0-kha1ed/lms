@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/feature/assistant/presentation/view/assistants_view.dart';
 import 'package:video_player_app/feature/report/presentation/view/report_view.dart';
 import 'package:video_player_app/feature/settings/presentation/view/settings_view.dart';
-import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/teacher_home_view_body.dart';
+import 'package:video_player_app/feature/user%20as%20teacher/presentation/view/widget/teacher_home_view_body.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class TeacherHomeView extends StatefulWidget {
@@ -38,23 +39,23 @@ class _TeacherHomeViewState extends State<TeacherHomeView> {
           onTap: _onItemTapped,
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: Icon(Icons.home, size: 32),
               label: LocaleKeys.home.tr(),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.group),
+              icon: Icon(Icons.group, size: 32),
               label: LocaleKeys.assistants.tr(),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.article),
+              icon: Icon(Icons.article, size: 32),
               label: LocaleKeys.reports.tr(),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
+              icon: Icon(Icons.settings, size: 32),
               label: LocaleKeys.settings.tr(),
             ),
           ],
-          selectedItemColor: Colors.green,
+          selectedItemColor: kPrimaryColor,
           unselectedItemColor: Colors.grey,
         ));
   }

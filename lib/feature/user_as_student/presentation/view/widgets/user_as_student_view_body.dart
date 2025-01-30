@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
-import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/video_item_list_view.dart';
+import 'package:video_player_app/feature/user%20as%20teacher/presentation/view/widget/video_item_list_view.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class UserAsStudentViewBody extends StatefulWidget {
@@ -57,14 +57,14 @@ class _UserAsStudentViewBodyState extends State<UserAsStudentViewBody> {
                 children: [
                   Text(
                     LocaleKeys.welcome.tr(),
-                    style: TextStyle(fontSize: 22, color: kPrimaryColor),
+                    style: TextStyle(fontSize: 26, color: kPrimaryColor),
                   ),
                   Spacer(),
                   IconButton(
                     onPressed: () {
                       context.read<VideoCubit>().fetchVideos();
                     },
-                    icon: Icon(Icons.refresh),
+                    icon: Icon(Icons.refresh, size: 32),
                   ),
                 ],
               ),
@@ -75,11 +75,11 @@ class _UserAsStudentViewBodyState extends State<UserAsStudentViewBody> {
               child: Row(
                 children: [
                   isLoading
-                      ? CircularProgressIndicator()
+                      ? CircularProgressIndicator(color: kPrimaryColor)
                       : Text(
                           userName ?? '',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 26,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -96,7 +96,7 @@ class _UserAsStudentViewBodyState extends State<UserAsStudentViewBody> {
                           vertical: 8,
                         ),
                         child: isLoading
-                            ? CircularProgressIndicator()
+                            ? CircularProgressIndicator(color: kPrimaryColor)
                             : Text(
                                 getLocalizedGrade(grade!),
                                 style: TextStyle(
@@ -127,7 +127,8 @@ class _UserAsStudentViewBodyState extends State<UserAsStudentViewBody> {
                       ),
                     );
                   } else {
-                    return Center(child: Text(LocaleKeys.notAvlblVideo.tr()));
+                    return Center(
+                        child: Text(LocaleKeys.notAvailableVideo.tr()));
                   }
                 },
               )

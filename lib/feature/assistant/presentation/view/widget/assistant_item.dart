@@ -36,7 +36,7 @@ class AssistantWidget extends StatelessWidget {
               children: [
                 Text(
                   name,
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   code,
@@ -71,7 +71,7 @@ class AssistantWidget extends StatelessWidget {
               },
               icon: const Icon(
                 Icons.delete_forever,
-                size: 40,
+                size: 36,
                 color: Colors.red,
               ),
             )

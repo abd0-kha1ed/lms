@@ -131,8 +131,7 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
                 ? Center(child: const CircularProgressIndicator())
                 : CustomButton(
                     color: kPrimaryColor,
-                    title: LocaleKeys.login
-                        .tr(), // Replace with localization key if required
+                    title: LocaleKeys.login.tr(),
                     onTap: () async {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
@@ -148,30 +147,39 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
                 },
                 style: ButtonStyle(
                     foregroundColor: WidgetStatePropertyAll(kPrimaryColor)),
-                child: Text(LocaleKeys.useVideoCode.tr())),
+                child: Text(LocaleKeys.useVideoCode.tr(),
+                    style: TextStyle(fontSize: 16))),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(LocaleKeys.loginAs.tr()),
+                Text(
+                  LocaleKeys.loginAs.tr(),
+                  style: TextStyle(fontSize: 16),
+                ),
                 GestureDetector(
                   onTap: () =>
                       GoRouter.of(context).push(AppRouter.kTeacherLoginView),
                   child: Text(
                     LocaleKeys.teacher.tr(),
                     style: TextStyle(
+                      fontWeight: FontWeight.bold,
                       fontSize: 16,
                       color: kPrimaryColor,
                       decoration: TextDecoration.underline,
                     ),
                   ),
                 ),
-                Text(LocaleKeys.or.tr()),
+                Text(
+                  LocaleKeys.or.tr(),
+                  style: TextStyle(fontSize: 16),
+                ),
                 GestureDetector(
                   onTap: () =>
                       GoRouter.of(context).push(AppRouter.kAssistantLoginView),
                   child: Text(
                     LocaleKeys.assistant.tr(),
                     style: TextStyle(
+                      fontWeight: FontWeight.bold,
                       fontSize: 16,
                       color: kPrimaryColor,
                       decoration: TextDecoration.underline,
@@ -186,48 +194,26 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
     );
   }
 
-// Future<String> getDeviceId() async {
-//   final deviceInfo = DeviceInfoPlugin();
-//   String deviceId = "unknown-device";
-
-//   try {
-//     if (Platform.isAndroid) {
-//       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-//       deviceId = androidInfo.id; // معرف الجهاز للأندرويد
-//     } else if (Platform.isIOS) {
-//       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-//       deviceId = iosInfo.identifierForVendor ?? "unknown-ios-device"; // معرف الجهاز للـ iOS
-//     }
-//   } catch (e) {
-//     print("🔴 خطأ في جلب معرف الجهاز: $e");
-//   }
-
-//   return deviceId;
-// }
   Future<dynamic> showCodeBottomSheet(BuildContext context) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        
-              return Padding(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: SingleChildScrollView(
-                  child: Container(
-                    padding: EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(16)),
-                    ),
-                    child: CodeVideoDirectly(), // ✅ استدعاء واجهة إدخال الكود
-                  ),
-                ),
-              );
-            },
-          
+        return Padding(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+              ),
+              child: CodeVideoDirectly(), // ✅ استدعاء واجهة إدخال الكود
+            ),
+          ),
+        );
+      },
     );
   }
-
-  }
+}

@@ -7,8 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/utils/app_router.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
-import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/add_video_button.dart';
-import 'package:video_player_app/feature/teacher%20home/presentation/view/widget/video_item_list_view.dart';
+import 'package:video_player_app/feature/user%20as%20teacher/presentation/view/widget/add_video_button.dart';
+import 'package:video_player_app/feature/user%20as%20teacher/presentation/view/widget/video_item_list_view.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class UserAsAssistantViewBody extends StatefulWidget {
@@ -40,7 +40,7 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Text(
                 LocaleKeys.welcome.tr(),
-                style: TextStyle(fontSize: 24, color: kPrimaryColor),
+                style: TextStyle(fontSize: 26, color: kPrimaryColor),
               ),
             ),
           ),
@@ -55,17 +55,17 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 isLoading
-                    ? CircularProgressIndicator()
+                    ? CircularProgressIndicator(color: kPrimaryColor)
                     : Text(
                         userName ?? '',
                         style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
+                            fontSize: 26, fontWeight: FontWeight.bold),
                       ),
                 IconButton(
                     onPressed: () {
                       context.read<VideoCubit>().fetchVideos();
                     },
-                    icon: Icon(Icons.refresh)),
+                    icon: Icon(Icons.refresh, size: 32)),
               ],
             ),
           ),
@@ -131,6 +131,7 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                         },
                         selectedColor: Colors.teal,
                         backgroundColor: Colors.transparent,
+                        checkmarkColor: Colors.white,
                       ),
                     ),
                     // 3rd Secondary
@@ -153,6 +154,7 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                         },
                         selectedColor: Colors.teal,
                         backgroundColor: Colors.transparent,
+                        checkmarkColor: Colors.white,
                       ),
                     ),
                     // 2nd Secondary
@@ -175,6 +177,7 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                         },
                         selectedColor: Colors.teal,
                         backgroundColor: Colors.transparent,
+                        checkmarkColor: Colors.white,
                       ),
                     ),
                     // 1st Secondary
@@ -197,6 +200,7 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                         },
                         selectedColor: Colors.teal,
                         backgroundColor: Colors.transparent,
+                        checkmarkColor: Colors.white,
                       ),
                     ),
                     // 3rd Prep
@@ -219,6 +223,7 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                         },
                         selectedColor: Colors.teal,
                         backgroundColor: Colors.transparent,
+                        checkmarkColor: Colors.white,
                       ),
                     ),
                     // 2nd Prep
@@ -241,6 +246,7 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                         },
                         selectedColor: Colors.teal,
                         backgroundColor: Colors.transparent,
+                        checkmarkColor: Colors.white,
                       ),
                     ),
                     // 1st Prep
@@ -263,6 +269,7 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                         },
                         selectedColor: Colors.teal,
                         backgroundColor: Colors.transparent,
+                        checkmarkColor: Colors.white,
                       ),
                     ),
                   ],
@@ -304,6 +311,7 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                           Colors.teal, // Background color when selected
                       backgroundColor: Colors
                           .transparent, // Background color when not selected
+                      checkmarkColor: Colors.white,
                     ),
                     SizedBox(width: 8),
                     ChoiceChip(
@@ -327,6 +335,7 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                           Colors.teal, // Background color when selected
                       backgroundColor: Colors
                           .transparent, // Background color when not selected
+                      checkmarkColor: Colors.white,
                     ),
                     SizedBox(width: 8),
                     ChoiceChip(
@@ -349,6 +358,7 @@ class _TeacherHomeViewBodyState extends State<UserAsAssistantViewBody> {
                           Colors.teal, // Background color when selected
                       backgroundColor: Colors
                           .transparent, // Background color when not selected
+                      checkmarkColor: Colors.white,
                     ),
                   ],
                 ),

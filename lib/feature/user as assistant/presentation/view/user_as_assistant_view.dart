@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:video_player_app/constant.dart';
 
 import 'package:video_player_app/feature/report/presentation/view/report_view.dart';
 import 'package:video_player_app/feature/settings/presentation/view/settings_view.dart';
@@ -35,19 +36,19 @@ class _UserAsAssistantViewState extends State<UserAsAssistantView> {
           onTap: _onItemTapped,
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: Icon(Icons.home, size: 32),
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.article),
+              icon: Icon(Icons.article, size: 32),
               label: 'Reports',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
+              icon: Icon(Icons.settings, size: 32),
               label: 'Settings',
             ),
           ],
-          selectedItemColor: Colors.green,
+          selectedItemColor: kPrimaryColor,
           unselectedItemColor: Colors.grey,
         ));
   }

@@ -86,23 +86,23 @@ class DescriptionSection extends StatelessWidget {
                   onPressed: () {
                     lunchCustomUrl('https://www.islamweb.net/ar/');
                   },
-                  icon: Icon(Icons.link)),
+                  icon: Icon(Icons.link, size: 32)),
               IconButton(
                   onPressed: () {
                     openWhatsApp('201007287335');
                   },
-                  icon: Icon(FontAwesomeIcons.whatsapp)),
+                  icon: Icon(FontAwesomeIcons.whatsapp, size: 32)),
               IconButton(
                   onPressed: () {
                     lunchYoutube('https://www.youtube.com/@Mo_HassanTV');
                   },
-                  icon: Icon(FontAwesomeIcons.youtube)),
+                  icon: Icon(FontAwesomeIcons.youtube, size: 32)),
               IconButton(
                   onPressed: () {
                     lunchFacebook(
                         'https://www.facebook.com/profile.php?id=100021770539965');
                   },
-                  icon: Icon(FontAwesomeIcons.facebook))
+                  icon: Icon(FontAwesomeIcons.facebook, size: 32))
             ],
           )
         ],

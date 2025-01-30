@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player_app/constant.dart';
 
 import 'package:video_player_app/feature/settings/presentation/view/settings_view.dart';
 import 'package:video_player_app/feature/user_as_student/presentation/view/widgets/user_as_student_view_body.dart';
@@ -32,15 +33,15 @@ class _TeacherHomeViewState extends State<UserAsStudentView> {
           onTap: _onItemTapped,
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: Icon(Icons.home, size: 32),
               label: LocaleKeys.home.tr(),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
+              icon: Icon(Icons.settings, size: 32),
               label: LocaleKeys.settings.tr(),
             ),
           ],
-          selectedItemColor: Colors.green,
+          selectedItemColor: kPrimaryColor,
           unselectedItemColor: Colors.grey,
         ));
   }

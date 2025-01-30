@@ -8,7 +8,7 @@ import 'package:video_player_app/core/widget/custom_icon_button.dart';
 import 'package:video_player_app/core/widget/custom_show_diolog.dart';
 import 'package:video_player_app/feature/assistant/presentation/view/widget/whats_phone.dart';
 import 'package:video_player_app/feature/auth/data/model/student_model.dart';
-import 'package:video_player_app/feature/students/add_new_student_view.dart';
+import 'package:video_player_app/feature/students/presentation/views/add_new_student_view.dart';
 import 'package:video_player_app/feature/students/presentation/views/edti_student.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 

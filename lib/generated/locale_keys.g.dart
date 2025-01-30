@@ -63,7 +63,7 @@ abstract class LocaleKeys {
   static const codeUsedBefore = 'codeUsedBefore';
   static const noAvailableVideos = 'noAvailableVideos';
   static const codeUsedTwice = 'codeUsedTwice';
-  static const notAvlblVideo = 'notAvlblVideo';
+  static const notAvailableVideo = 'notAvlblVideo';
   static const language = 'language';
   static const videoUploadedBy = 'videoUploadedBy';
   static const viewedVideo = 'viewedVideo';

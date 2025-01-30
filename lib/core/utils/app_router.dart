@@ -20,7 +20,7 @@ import 'package:video_player_app/feature/secure%20video/presentation/view/manger
 import 'package:video_player_app/feature/secure%20video/presentation/view/youtube_video_player.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/add_new_video.dart';
 import 'package:video_player_app/feature/students/presentation/views/student_view.dart';
-import 'package:video_player_app/feature/teacher%20home/presentation/view/teacher_home_view.dart';
+import 'package:video_player_app/feature/user%20as%20teacher/presentation/view/teacher_home_view.dart';
 import 'package:video_player_app/feature/user%20as%20assistant/presentation/view/user_as_assistant_view.dart';
 import 'package:video_player_app/feature/user_as_student/presentation/view/user_as_student_view.dart';
 
