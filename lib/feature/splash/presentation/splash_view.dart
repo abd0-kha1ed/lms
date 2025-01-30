@@ -46,14 +46,20 @@ class SplashView extends StatelessWidget {
                   SizedBox(
                       height: MediaQuery.of(context).size.height * 0.25,
                       child: Image.asset(Assets.splashLogo)),
-                      const SizedBox(height: 20),
-                  const Text(
-                    "📚 Your future starts now... Learn smart ",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  const SizedBox(height: 20),
+                  Text(
+                    "📚 Learn smart and soar",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.06,
+                      fontWeight: FontWeight.bold, color: Colors.indigo
+                    ),
                   ),
-                  const Text(
-                    "and soar to the top!",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  Text(
+                    " to the top!",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.06,
+                      fontWeight: FontWeight.bold, color: Colors.indigo
+                    ),
                   ),
                   const SizedBox(height: 50),
                   const CircularProgressIndicator(color: Colors.black)
