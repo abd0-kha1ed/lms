@@ -49,6 +49,7 @@ class SecureVideoPlayer extends StatelessWidget {
         theme: ThemeData(
         textTheme: GoogleFonts.cairoTextTheme(),
       ),
+          debugShowCheckedModeBanner: false,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,

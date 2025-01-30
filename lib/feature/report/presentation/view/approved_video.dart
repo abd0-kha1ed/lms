@@ -83,10 +83,8 @@ class ApprovedVideo extends StatelessWidget {
                             ),
                             subtitle: Text(
                                 '${LocaleKeys.uploadedBy.tr()}${video.uploaderName}'),
-                            trailing: Text(
-                              video.createdAt.toDate().toString(),
-                              style: const TextStyle(fontSize: 12),
-                            ),
+                            trailing: Text(DateFormat('MMM dd, yyyy hh:mm a')
+                                .format(video.createdAt.toDate())),
                           ),
                         ),
                         const SizedBox(height: 8),

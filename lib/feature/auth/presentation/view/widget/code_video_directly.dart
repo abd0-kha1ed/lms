@@ -84,10 +84,15 @@ class _CodeVideoDirectlyState extends State<CodeVideoDirectly> {
               BlocConsumer<CodesCubit, CodesState>(
                 listener: (context, state) async {
                   if (state is CodeInvalid) {
-                    alertShowDialog(context, 'Invalid Code',
-                        'This code has been used or is incorrect. Please try again.');
+                    alertShowDialog(
+                        context,
+                        LocaleKeys.invaildcode.tr(),
+                        LocaleKeys
+                            .thiscodehasbeenusedorisincorrectPleasetryagain
+                            .tr());
                   } else if (state is CodeVerificationError) {
-                    alertShowDialog(context, 'Alert', state.message);
+                    alertShowDialog(
+                        context, LocaleKeys.alert.tr(), state.message);
                   } else if (state is CodeSessionActive) {
                     final videoUrl = state.videoUrl;
                     //  GoRouter.of(context).pop();
@@ -96,8 +101,8 @@ class _CodeVideoDirectlyState extends State<CodeVideoDirectly> {
                       extra: videoUrl,
                     );
                   } else if (state is CodeSessionExpired) {
-                    alertShowDialog(context, 'Session Expired',
-                        'Your session has expired. Please try again.');
+                    alertShowDialog(context, 'الجلسة انتهت',
+                        'الجلسة الخاصه بك انتهت حاول مرة اخري.');
                   }
                 },
                 builder: (context, state) {
@@ -106,7 +111,7 @@ class _CodeVideoDirectlyState extends State<CodeVideoDirectly> {
                   return CustomButton(
                       color: isLoading ? Colors.grey : kPrimaryColor,
                       title: isLoading
-                          ? 'Loading...'
+                          ? '...جاري التحميل'
                           : LocaleKeys.confirmText.tr(),
                       onTap: () async {
                         if (formKey.currentState!.validate()) {
@@ -181,7 +186,7 @@ Future<dynamic> alertShowDialog(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text('Dismiss'),
+            child: Text(LocaleKeys.dismiss.tr()),
           ),
         ],
       );
