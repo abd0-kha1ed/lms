@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:video_player_app/constant.dart';
+import 'package:video_player_app/core/utils/assets.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
 import 'package:video_player_app/feature/splash/presentation/manger/auth_cubit.dart';
 
@@ -16,13 +18,10 @@ class SplashView extends StatelessWidget {
     return BlocProvider(
       create: (context) => AuthCubit()..checkAuthState(),
       child: Scaffold(
-        backgroundColor: Colors.white,
         body: BlocBuilder<AuthCubit, AuthState>(
           builder: (context, state) {
-            if (state is AuthLoading) {
-            } else if (state is AuthAuthenticated) {
-              // Navigate based on role
-              Future.microtask(() {
+            if (state is AuthAuthenticated) {
+              Future.delayed(const Duration(seconds: 3), () {
                 if (state.role == 'teacher') {
                   GoRouter.of(context).go(AppRouter.kTeacherHomeView);
                   context.read<VideoCubit>().fetchVideos();
@@ -34,35 +33,30 @@ class SplashView extends StatelessWidget {
                   context.read<VideoCubit>().fetchVideos();
                 }
               });
-              return const SizedBox.shrink(); // Avoid rendering unnecessary UI
-            } else if (state is AuthUnauthenticated) {
-              // Navigate to login view if unauthenticated
-              Future.microtask(() {
+            } else if (state is AuthUnauthenticated || state is AuthError) {
+              Future.delayed(const Duration(seconds: 3), () {
                 GoRouter.of(context).go(AppRouter.kLoginAsStudentView);
               });
-              return const SizedBox.shrink(); // Avoid rendering unnecessary UI
-            } else if (state is AuthError) {
-              // Handle errors
-              Future.microtask(() {
-                GoRouter.of(context).go(AppRouter.kLoginAsStudentView);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.message)),
-                );
-              });
-              return const SizedBox.shrink(); // Avoid rendering unnecessary UI
             }
 
-            // Default case (initial state)
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.school, size: 100, color: Colors.blue),
-                  SizedBox(height: 20),
-                  Text(
-                    "Welcome to the App",
+                children: [
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      child: Image.asset(Assets.splashLogo)),
+                      const SizedBox(height: 20),
+                  const Text(
+                    "📚 Your future starts now... Learn smart ",
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
+                  const Text(
+                    "and soar to the top!",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 50),
+                  const CircularProgressIndicator(color: Colors.black)
                 ],
               ),
             );

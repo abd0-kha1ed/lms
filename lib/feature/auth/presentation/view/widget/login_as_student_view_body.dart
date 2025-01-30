@@ -11,7 +11,6 @@ import 'package:video_player_app/core/utils/app_router.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
 import 'package:video_player_app/core/widget/custom_text_form_field.dart';
 import 'package:video_player_app/feature/auth/presentation/view/widget/code_video_directly.dart';
-import 'package:video_player_app/feature/secure%20code/presentation/view/manger/codes%20cubit/codes_cubit.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
@@ -210,34 +209,7 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return BlocProvider.value(
-          value: context.read<CodesCubit>(), // ✅ الاحتفاظ بنفس Cubit
-          child: BlocConsumer<CodesCubit, CodesState>(
-            listener: (context, state) async {
-              if (state is CodeValid) {
-                // ✅ التحقق من الجلسة قبل بدء جلسة جديدة
-                context.read<CodesCubit>().checkSession(state.videoUrl);
-              } else if (state is CodeSessionActive) {
-                final videoUrl = state.videoUrl;
-                final sessionEndTime = state.sessionEndTime.toDate();
-
-                if (DateTime.now().isBefore(sessionEndTime)) {
-                  // ✅ السماح بمشاهدة الفيديو
-                  GoRouter.of(context).pop();
-                  GoRouter.of(context).go(
-                    AppRouter.kVideoViewWithDirectCode,
-                    extra: videoUrl,
-                  );
-                } else {
-                  alertShowDialog(context); // ❌ الجلسة منتهية
-                }
-              } else if (state is CodeSessionExpired) {
-                alertShowDialog(context);
-              } else if (state is CodeInvalid) {
-                showInvalidCodeDialog(context);
-              }
-            },
-            builder: (context, state) {
+        
               return Padding(
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -254,115 +226,8 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
                 ),
               );
             },
-          ),
-        );
-      },
+          
     );
   }
 
-  Future<void> showInvalidCodeDialog(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          title: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.warning_amber_rounded, color: Colors.red),
-                SizedBox(width: 8),
-                Text('Invalid Code'),
-              ],
-            ),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'This code has been used or is incorrect. Please try again.',
-                style: TextStyle(fontSize: 16),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 20),
-              Image.network(
-                'https://cdn-icons-png.flaticon.com/512/190/190406.png',
-                height: 80,
-              ),
-            ],
-          ),
-          actionsAlignment: MainAxisAlignment.center,
-          actions: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Dismiss'),
-            ),
-          ],
-        );
-      },
-    );
   }
-
-  Future<dynamic> alertShowDialog(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          title: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.warning_amber_rounded, color: Colors.red),
-                SizedBox(width: 8),
-                Text('Session Expired'),
-              ],
-            ),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Your session has expired. Please try again.',
-                style: TextStyle(fontSize: 16),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 20),
-              Image.network(
-                'https://cdn-icons-png.flaticon.com/512/190/190406.png',
-                height: 80,
-              ),
-            ],
-          ),
-          actionsAlignment: MainAxisAlignment.center,
-          actions: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Dismiss'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
