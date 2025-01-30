@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -188,7 +187,6 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
     );
   }
 
-
 // Future<String> getDeviceId() async {
 //   final deviceInfo = DeviceInfoPlugin();
 //   String deviceId = "unknown-device";
@@ -208,160 +206,163 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
 //   return deviceId;
 // }
   Future<dynamic> showCodeBottomSheet(BuildContext context) {
-  return showModalBottomSheet(
-    context: context,
-    isScrollControlled: true, 
-    builder: (BuildContext context) {
-      return BlocProvider.value(
-        value: context.read<CodesCubit>(), // ✅ الاحتفاظ بنفس Cubit
-        child: BlocConsumer<CodesCubit, CodesState>(
-          listener: (context, state) async {
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return BlocProvider.value(
+          value: context.read<CodesCubit>(), // ✅ الاحتفاظ بنفس Cubit
+          child: BlocConsumer<CodesCubit, CodesState>(
+            listener: (context, state) async {
+              if (state is CodeValid) {
+                // ✅ التحقق من الجلسة قبل بدء جلسة جديدة
+                context.read<CodesCubit>().checkSession(state.videoUrl);
+              } else if (state is CodeSessionActive) {
+                final videoUrl = state.videoUrl;
+                final sessionEndTime = state.sessionEndTime.toDate();
 
-            if (state is CodeValid) {
-              // ✅ التحقق من الجلسة قبل بدء جلسة جديدة
-              context.read<CodesCubit>().checkSession(state.videoUrl);
-            } else if (state is CodeSessionActive) {
-              final videoUrl = state.videoUrl;
-              final sessionEndTime = state.sessionEndTime.toDate();
-
-              if (DateTime.now().isBefore(sessionEndTime)) {
-                // ✅ السماح بمشاهدة الفيديو
-                GoRouter.of(context).pop();
-                GoRouter.of(context).go(
-                  AppRouter.kVideoViewWithDirectCode,
-                  extra: videoUrl,
-                );
-              } else {
-                alertShowDialog(context); // ❌ الجلسة منتهية
+                if (DateTime.now().isBefore(sessionEndTime)) {
+                  // ✅ السماح بمشاهدة الفيديو
+                  GoRouter.of(context).pop();
+                  GoRouter.of(context).go(
+                    AppRouter.kVideoViewWithDirectCode,
+                    extra: videoUrl,
+                  );
+                } else {
+                  alertShowDialog(context); // ❌ الجلسة منتهية
+                }
+              } else if (state is CodeSessionExpired) {
+                alertShowDialog(context);
+              } else if (state is CodeInvalid) {
+                showInvalidCodeDialog(context);
               }
-            } else if (state is CodeSessionExpired) {
-              alertShowDialog(context);
-            } else if (state is CodeInvalid) {
-              showInvalidCodeDialog(context);
-            }
-          },
-          builder: (context, state) {
-            return Padding(
-              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: SingleChildScrollView(
-                child: Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+            },
+            builder: (context, state) {
+              return Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(16)),
+                    ),
+                    child: CodeVideoDirectly(), // ✅ استدعاء واجهة إدخال الكود
                   ),
-                  child: CodeVideoDirectly(), // ✅ استدعاء واجهة إدخال الكود
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> showInvalidCodeDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.warning_amber_rounded, color: Colors.red),
+                SizedBox(width: 8),
+                Text('Invalid Code'),
+              ],
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'This code has been used or is incorrect. Please try again.',
+                style: TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20),
+              Image.network(
+                'https://cdn-icons-png.flaticon.com/512/190/190406.png',
+                height: 80,
+              ),
+            ],
+          ),
+          actionsAlignment: MainAxisAlignment.center,
+          actions: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
                 ),
               ),
-            );
-          },
-        ),
-      );
-    },
-  );
-}
-Future<void> showInvalidCodeDialog(BuildContext context) {
-  return showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        title: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.warning_amber_rounded, color: Colors.red),
-              SizedBox(width: 8),
-              Text('Invalid Code'),
-            ],
-          ),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'This code has been used or is incorrect. Please try again.',
-              style: TextStyle(fontSize: 16),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 20),
-            Image.network(
-              'https://cdn-icons-png.flaticon.com/512/190/190406.png',
-              height: 80,
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Dismiss'),
             ),
           ],
-        ),
-        actionsAlignment: MainAxisAlignment.center,
-        actions: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('Dismiss'),
-          ),
-        ],
-      );
-    },
-  );
-}
+        );
+      },
+    );
+  }
 
-Future<dynamic> alertShowDialog(BuildContext context) {
-  return showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        title: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+  Future<dynamic> alertShowDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.warning_amber_rounded, color: Colors.red),
+                SizedBox(width: 8),
+                Text('Session Expired'),
+              ],
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.warning_amber_rounded, color: Colors.red),
-              SizedBox(width: 8),
-              Text('Session Expired'),
+              Text(
+                'Your session has expired. Please try again.',
+                style: TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20),
+              Image.network(
+                'https://cdn-icons-png.flaticon.com/512/190/190406.png',
+                height: 80,
+              ),
             ],
           ),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Your session has expired. Please try again.',
-              style: TextStyle(fontSize: 16),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 20),
-            Image.network(
-              'https://cdn-icons-png.flaticon.com/512/190/190406.png',
-              height: 80,
+          actionsAlignment: MainAxisAlignment.center,
+          actions: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Dismiss'),
             ),
           ],
-        ),
-        actionsAlignment: MainAxisAlignment.center,
-        actions: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('Dismiss'),
-          ),
-        ],
-      );
-    },
-  );
-}}
+        );
+      },
+    );
+  }
+}

@@ -274,44 +274,14 @@ class FirebaseServices {
     videosCollection.doc(id).delete();
   }
 
-  Future<void> addCodesToFirestore(String videoId, List<String> newCodes,
+  Future<void> addCodesToFirestore(String videoId, List<String> codes,
       String videoUrl, String videoDuration) async {
     WriteBatch batch = FirebaseFirestore.instance.batch();
     CollectionReference codesCollection =
         FirebaseFirestore.instance.collection('codes');
-    DocumentReference videoDocRef =
-        FirebaseFirestore.instance.collection('videos').doc(videoId);
 
     try {
-      // 1️⃣ جلب الأكواد المخزنة داخل مستند الفيديو من Collection of Videos
-      DocumentSnapshot videoSnapshot = await videoDocRef.get();
-
-      if (!videoSnapshot.exists) {
-        print("Error: Video document not found.");
-        return;
-      }
-
-      List<String> storedCodes =
-          List<String>.from(videoSnapshot.get('codes') ?? []);
-
-      // 2️⃣ تصفية الأكواد بحيث يتم إضافة الأكواد التي توجد بالفعل في Collection of Videos فقط
-      List<String> filteredCodes =
-          newCodes.where((code) => storedCodes.contains(code)).toList();
-
-      // 3️⃣ جلب جميع المستندات التي تحتوي على نفس videoId من Collection of Codes لحذف الأكواد غير المتطابقة
-      QuerySnapshot existingCodesSnapshot =
-          await codesCollection.where('videoId', isEqualTo: videoId).get();
-
-      for (var doc in existingCodesSnapshot.docs) {
-        String existingCode = doc.get('code');
-        // حذف أي كود غير موجود ضمن الأكواد الجديدة المصفاة
-        if (!filteredCodes.contains(existingCode)) {
-          batch.delete(doc.reference);
-        }
-      }
-
-      // 4️⃣ إضافة الأكواد المسموح بها فقط إلى Collection of Codes
-      for (var code in filteredCodes) {
+      for (var code in codes) {
         DocumentReference docRef = codesCollection.doc();
         batch.set(docRef, {
           'code': code,
@@ -320,16 +290,14 @@ class FirebaseServices {
           'videoDuration': videoDuration,
           'deviceId': null,
           'sessionStartTime': null,
-          'sessionEndTime':null,
+          'sessionEndTime': null,
           'isUsed': false,
           'createdAt': Timestamp.now(),
         });
       }
-
-      // تنفيذ جميع العمليات دفعة واحدة لتحسين الأداء
       await batch.commit();
     } catch (e) {
-      print("Error updating codes: $e");
+      print("Error adding codes: $e");
     }
   }
 
