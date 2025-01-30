@@ -85,7 +85,7 @@ class _VideoItemListViewState extends State<VideoItemListView> {
                         .toList();
 
                 if (approvedVideos.isEmpty) {
-                  return const Center(child: Text('No  Videos Available'));
+                  return Center(child: Text(LocaleKeys.notAvlblVideo.tr()));
                 }
 
                 return ListView.builder(
@@ -152,8 +152,7 @@ class _VideoItemListViewState extends State<VideoItemListView> {
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 8.0, vertical: 4.0),
                                           decoration: BoxDecoration(
-                                            color:
-                                                Colors.black.withOpacity(0.7),
+                                            color: Colors.black54,
                                             borderRadius:
                                                 BorderRadius.circular(8.0),
                                           ),
@@ -275,7 +274,7 @@ class _VideoItemListViewState extends State<VideoItemListView> {
               } else if (state is VideoError) {
                 return Center(child: Text('There was an error ${state.error}'));
               } else {
-                return const Center(child: Text('refresh'));
+                return Center(child: Text(LocaleKeys.refresh.tr()));
               }
             },
           );

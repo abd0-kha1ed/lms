@@ -247,6 +247,7 @@ class _EditEncryptedVideoBodyState extends State<EditEncryptedVideoBody> {
     );
   }
 
+  // ignore: unused_field
   final RegExp _urlRegex = RegExp(
     r'^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be|vimeo\.com)\/.+$',
     caseSensitive: false,

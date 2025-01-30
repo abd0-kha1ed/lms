@@ -21,7 +21,6 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
   final TextEditingController _codeController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _teacherCodeController = TextEditingController();
 
@@ -48,7 +47,7 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
         );
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Assistant registered successfully')),
+          SnackBar(content: Text(LocaleKeys.assistantAdded.tr())),
         );
         Navigator.pop(context);
       } catch (e) {
@@ -79,7 +78,7 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
                   hintText: LocaleKeys.code.tr(),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Code is required';
+                      return LocaleKeys.codeRequired.tr();
                     }
                     return null;
                   },
@@ -87,10 +86,10 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
                 const SizedBox(height: 16),
                 CustomTextFormField(
                   controller: _nameController,
-                  hintText: 'Name',
+                  hintText: LocaleKeys.name.tr(),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Name is required';
+                      return LocaleKeys.nameRequired.tr();
                     }
                     return null;
                   },
@@ -98,13 +97,13 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
                 const SizedBox(height: 16),
                 CustomTextFormField(
                   controller: _passwordController,
-                  hintText: 'Password',
+                  hintText: LocaleKeys.password.tr(),
                   obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Password is required';
+                      return LocaleKeys.passwordrequerid.tr();
                     } else if (value.length < 6) {
-                      return 'Password must be at least 6 characters';
+                      return LocaleKeys.passwordatleast6number;
                     }
                     return null;
                   },
@@ -112,14 +111,14 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
                 const SizedBox(height: 16),
                 CustomTextFormField(
                   controller: _phoneController,
-                  hintText: 'Phone Number',
+                  hintText: LocaleKeys.phone.tr(),
                   keyboardType: TextInputType.number,
                   maxLength: 11,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Phone number is required';
+                      return LocaleKeys.phoneRequired.tr();
                     } else if (value.length != 11) {
-                      return 'Phone number must be exactly 11 digits';
+                      return LocaleKeys.Phonenumbermustbeexactly11digits.tr();
                     }
                     return null;
                   },
@@ -133,8 +132,8 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
                       backgroundColor: kPrimaryColor,
                       padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
-                    child: const Text(
-                      'Add',
+                    child: Text(
+                      LocaleKeys.add.tr(),
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),

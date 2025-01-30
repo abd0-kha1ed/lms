@@ -52,14 +52,14 @@ class _CustomAlertDialogWidgetState extends State<CustomAlertDialogWidget> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              'You are going to log out of your account.',
+            Text(
+              LocaleKeys.youaregoingtologoutofyouraccount.tr(),
               style: TextStyle(fontSize: 16),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: screenHeight * 0.01), // Responsive spacing
-            const Text(
-              'Are you sure?',
+            Text(
+              LocaleKeys.areYouSure.tr(),
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),

@@ -170,4 +170,22 @@ abstract class LocaleKeys {
   static const entercodescount = "entercodescount";
   static const entervaildurl = "entervaildurl";
   static const enterthevideoduration = "enterthevideoduration";
+  static const thiscodehasbeenusedorisincorrectopleasetryagian =
+      "thiscodehasbeenusedorisincorrectopleasetryagian";
+  static const invaildcode = "invaildcode";
+  static const refresh = "refresh";
+  static const passwordrequerid = "passwordrequerid";
+  static const passwordatleast6number = "passwordatleast6number";
+  // ignore: constant_identifier_names
+  static const Phonenumbermustbeexactly11digits =
+      "Phonenumbermustbeexactly11digits";
+  static const listcode = "listcode";
+  static const paymentstatusmarkedaspaid = "paymentstatusmarkedaspaid";
+  static const paymentstatusmarkedasunpaid = "paymentstatusmarkedasunpaid";
+  static const areyousureyouwanttomarkallstudentsasnotpaid =
+      "areyousureyouwanttomarkallstudentsasnotpaid";
+  static const youaregoingtologoutofyouraccount =
+      "youaregoingtologoutofyouraccount";
+  static const videosareavailableonlyforpaidusers =
+      "videosareavailableonlyforpaidusers";
 }

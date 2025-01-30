@@ -297,7 +297,7 @@ class FirebaseServices {
       }
       await batch.commit();
     } catch (e) {
-      print("Error adding codes: $e");
+      // print("Error adding codes: $e");
     }
   }
 Future<void> deleteCodesByVideoId(String videoId) async {
