@@ -140,7 +140,8 @@ class _VideoItemListViewState extends State<VideoItemListView> {
                                         placeholder: (context, url) =>
                                             const Center(
                                                 child:
-                                                    CircularProgressIndicator()),
+                                                    CircularProgressIndicator(
+                                                        color: kPrimaryColor)),
                                         errorWidget: (context, url, error) =>
                                             const Center(
                                                 child: Icon(Icons.broken_image,
@@ -274,7 +275,8 @@ class _VideoItemListViewState extends State<VideoItemListView> {
                   },
                 );
               } else if (state is VideoError) {
-                return Center(child: Text('There was an error ${state.error}'));
+                return Center(
+                    child: Text('There was an error... please try again'));
               } else {
                 return Center(child: Text(LocaleKeys.refresh.tr()));
               }

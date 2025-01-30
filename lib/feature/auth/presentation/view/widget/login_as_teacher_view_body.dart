@@ -135,7 +135,7 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
             ),
             const SizedBox(height: 30),
             _isLoading
-                ? Center(child: const CircularProgressIndicator())
+                ? Center(child: const CircularProgressIndicator(color: kPrimaryColor))
                 : CustomButton(
                     color: kPrimaryColor,
                     title: LocaleKeys.login.tr(),

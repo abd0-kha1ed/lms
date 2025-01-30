@@ -98,7 +98,7 @@ class _CodeVideoDirectlyState extends State<CodeVideoDirectly> {
                     //  GoRouter.of(context).pop();
                     GoRouter.of(context).push(
                       AppRouter.kVideoViewWithDirectCode,
-                      extra: videoUrl,
+                      extra: videoUrl ,
                     );
                   } else if (state is CodeSessionExpired) {
                     alertShowDialog(context, 'الجلسة انتهت',

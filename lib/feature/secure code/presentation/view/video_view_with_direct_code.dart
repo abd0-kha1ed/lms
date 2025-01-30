@@ -38,6 +38,9 @@ class _VideoViewWithDirectCodeState extends State<VideoViewWithDirectCode> {
   void initState() {
     super.initState();
     disableScreenshot();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showUsageDialog(context);
+    });
     _controller = YoutubePlayerController(
       initialVideoId: YoutubePlayer.convertUrlToId(widget.videoUrl)!,
       flags: const YoutubePlayerFlags(
@@ -100,6 +103,7 @@ class _VideoViewWithDirectCodeState extends State<VideoViewWithDirectCode> {
       ),
       builder: (context, player) {
         return Scaffold(
+          backgroundColor: Colors.black,
           body: SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -148,6 +152,40 @@ class _VideoViewWithDirectCodeState extends State<VideoViewWithDirectCode> {
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+
+  void showUsageDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          backgroundColor: Colors.white,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.access_time_filled, color: Colors.indigo, size: 28),
+              SizedBox(width: 10),
+              Text("مدة الاستخدام",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            ],
+          ),
+          content: Text(
+            "متاح لك استخدام الكود لمدة تساوي مرة ونصف من مدة الفيديو.",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 16, color: Colors.black87),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("حسناً",
+                  style: TextStyle(color: Colors.indigo, fontSize: 16)),
+            ),
+          ],
         );
       },
     );

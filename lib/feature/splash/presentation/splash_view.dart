@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/utils/assets.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
 import 'package:video_player_app/feature/splash/presentation/manger/auth_cubit.dart';
@@ -20,7 +21,7 @@ class SplashView extends StatelessWidget {
         body: BlocBuilder<AuthCubit, AuthState>(
           builder: (context, state) {
             if (state is AuthAuthenticated) {
-              Future.delayed(const Duration(seconds: 3), () {
+              Future.delayed(const Duration(seconds: 2), () {
                 if (state.role == 'teacher') {
                   GoRouter.of(context).go(AppRouter.kTeacherHomeView);
                   context.read<VideoCubit>().fetchVideos();
@@ -33,7 +34,7 @@ class SplashView extends StatelessWidget {
                 }
               });
             } else if (state is AuthUnauthenticated || state is AuthError) {
-              Future.delayed(const Duration(seconds: 3), () {
+              Future.delayed(const Duration(seconds: 1), () {
                 GoRouter.of(context).go(AppRouter.kLoginAsStudentView);
               });
             }
@@ -47,21 +48,21 @@ class SplashView extends StatelessWidget {
                       child: Image.asset(Assets.splashLogo)),
                   const SizedBox(height: 20),
                   Text(
-                    "📚 Learn smart and soar",
+                    "📚  تعلّم بذكاء، وانطلق  ",
                     style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.06,
                         fontWeight: FontWeight.bold,
-                        color: Colors.indigo),
+                        color: Colors.black),
                   ),
                   Text(
-                    " to the top!",
+                    " نحو القمة !",
                     style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.06,
                         fontWeight: FontWeight.bold,
-                        color: Colors.indigo),
+                        color: Colors.black),
                   ),
                   const SizedBox(height: 50),
-                  const CircularProgressIndicator(color: Colors.black)
+                  const CircularProgressIndicator(color: kPrimaryColor)
                 ],
               ),
             );
