@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/utils/assets.dart';
 import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
 import 'package:video_player_app/feature/splash/presentation/manger/auth_cubit.dart';
@@ -50,16 +49,16 @@ class SplashView extends StatelessWidget {
                   Text(
                     "📚 Learn smart and soar",
                     style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * 0.06,
-                      fontWeight: FontWeight.bold, color: Colors.indigo
-                    ),
+                        fontSize: MediaQuery.of(context).size.width * 0.06,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.indigo),
                   ),
                   Text(
                     " to the top!",
                     style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.width * 0.06,
-                      fontWeight: FontWeight.bold, color: Colors.indigo
-                    ),
+                        fontSize: MediaQuery.of(context).size.width * 0.06,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.indigo),
                   ),
                   const SizedBox(height: 50),
                   const CircularProgressIndicator(color: Colors.black)

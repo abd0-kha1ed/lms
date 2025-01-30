@@ -188,4 +188,6 @@ abstract class LocaleKeys {
       "youaregoingtologoutofyouraccount";
   static const videosareavailableonlyforpaidusers =
       "videosareavailableonlyforpaidusers";
+  static const thiscodehasbeenusedorisincorrectPleasetryagain =
+      "thiscodehasbeenusedorisincorrectPleasetryagain";
 }

@@ -192,7 +192,8 @@
         "Are you sure you want to mark all students as no paid?",  
           "youaregoingtologoutofyouraccount":
         "You are going to log out of your account",
-        "videosareavailableonlyforpaidusers":"videos are available only for paid users"
+        "videosareavailableonlyforpaidusers":"videos are available only for paid users",
+        "thiscodehasbeenusedorisincorrectPleasetryagain":"This code has been used or is incorrect Please try again"
 
     
     }

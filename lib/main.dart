@@ -45,6 +45,7 @@ class SecureVideoPlayer extends StatelessWidget {
         ),
       ],
       child: MaterialApp.router(
+          debugShowCheckedModeBanner: false,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,

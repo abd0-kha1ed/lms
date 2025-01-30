@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -61,22 +60,20 @@ class CodesCubit extends Cubit<CodesState> {
       }
 
       if (matchedCode.deviceId != null && matchedCode.deviceId != deviceId) {
-        emit(CodeVerificationError(
-            message: 'This code was used in another device'));
+        emit(CodeVerificationError(message: 'هذا الكود مستخدم عبي جهاز اخر'));
         return;
       }
 
       if (data['sessionEndTime'] is Timestamp) {
         Timestamp sessionEndTimestamp = data['sessionEndTime'] as Timestamp;
 
-        
         DateTime sessionEndTimeUTC = sessionEndTimestamp.toDate().toUtc();
-
 
         DateTime nowUTC = DateTime.now().toUtc();
         if (nowUTC.isBefore(sessionEndTimeUTC)) {
           emit(CodeSessionActive(
-              videoUrl: matchedCode.videoUrl, sessionEndTime: newSessionEndTime));
+              videoUrl: matchedCode.videoUrl,
+              sessionEndTime: newSessionEndTime));
         } else {
           await snapshot.docs.first.reference.update({'isUsed': true});
           emit(CodeSessionExpired());
@@ -85,9 +82,10 @@ class CodesCubit extends Cubit<CodesState> {
         emit(CodeSessionExpired());
       }
     } catch (e) {
-      emit(CodeVerificationError(message: "There was an error... please try again"));
+      emit(CodeVerificationError(message: "هناك خطاء... حاول مرة اخري"));
     }
-}
+  }
+
   int _parseDuration(String duration) {
     try {
       List<String> parts = duration.split(':');

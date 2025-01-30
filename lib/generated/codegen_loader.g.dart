@@ -201,7 +201,9 @@ class CodegenLoader extends AssetLoader {
         "؟هل انت متاكد من جعل كل الطلاب لم يقومو بتسديد الرسوم ",
     "youaregoingtologoutofyouraccount": "انت سوف تقوم بتسجيل الخروج من حسابك",
     "videosareavailableonlyforpaidusers":
-        "الفديوهات متاحة فقط للطلاب الذبن قامو بدفع الرسوم"
+        "الفديوهات متاحة فقط للطلاب الذبن قامو بدفع الرسوم",
+    "thiscodehasbeenusedorisincorrectPleasetryagain":
+        "هذا الكود مستخدم او غير صحيح حاول مرة اخري"
   };
   static const Map<String, dynamic> en = {
     "currentLanguage": "عربي",
@@ -394,7 +396,9 @@ class CodegenLoader extends AssetLoader {
     "youaregoingtologoutofyouraccount":
         "You are going to log out of your account",
     "videosareavailableonlyforpaidusers":
-        "videos are available only for paid users"
+        "videos are available only for paid users",
+    "thiscodehasbeenusedorisincorrectPleasetryagain":
+        "This code has been used or is incorrect Please try again"
   };
   static const Map<String, Map<String, dynamic>> mapLocales = {
     "ar": ar,
