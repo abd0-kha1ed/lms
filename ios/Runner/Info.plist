@@ -45,7 +45,17 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-
+    <!-- Add LSApplicationQueriesSchemes for url_launcher -->
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>sms</string>
+		<string>tel</string>
+		<string>whatsapp</string>
+		<string>instagram</string>
+		<string>fb</string>
+		<string>google</string>
+		<string>youtube</string>
+	</array>
     <key>CFBundleLocalizations</key>
     <array>
 	    <string>en</string>

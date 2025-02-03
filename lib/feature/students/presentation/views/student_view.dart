@@ -428,6 +428,7 @@ class _StudentViewState extends State<StudentView> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return CustomShowDialog(
+                                        delete: LocaleKeys.studentDeletion.tr(),
                                         onPressed: () async {
                                           _deleteStudent(id);
                                           Navigator.of(context).pop();
