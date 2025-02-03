@@ -149,7 +149,7 @@ class _ReportViewState extends State<ReportView> {
                       ? 0
                       : _studentCount, // Dynamic student count
                   color: kPrimaryColor,
-                  lable: LocaleKeys.studentCount.tr(),
+                  label: LocaleKeys.studentCount.tr(),
                   onTap: () {
                     GoRouter.of(context).push(AppRouter.kStudentView);
                   },
@@ -158,7 +158,7 @@ class _ReportViewState extends State<ReportView> {
                   count:
                       _isLoadingVideos ? 0 : _videoCount, // Dynamic video count
                   color: Colors.green,
-                  lable: LocaleKeys.videoCount.tr(),
+                  label: LocaleKeys.videoCount.tr(),
                   onTap: () {
                     // GoRouter.of(context).push(AppRouter.kVideoView); // Navigate to video view
                   },

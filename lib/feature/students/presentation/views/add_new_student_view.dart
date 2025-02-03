@@ -47,7 +47,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
         grade: _selectedGrade ?? '',
         teacherCode: _teacherCodeController.text.trim(),
         password: _passwordController.text.trim(),
-        ispaid: true, // Not stored in the model
+        isPaid: true, // Not stored in the model
         createdAt: Timestamp.now(),
       );
 

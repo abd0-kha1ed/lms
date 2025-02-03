@@ -6,12 +6,12 @@ class CircularState extends StatelessWidget {
     super.key,
     required this.count,
     required this.color,
-    required this.lable,
+    required this.label,
     this.onTap,
   });
   final int count;
   final Color color;
-  final String lable;
+  final String label;
   final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class CircularState extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            lable,
+            label,
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

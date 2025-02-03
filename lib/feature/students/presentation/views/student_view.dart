@@ -324,7 +324,8 @@ class _StudentViewState extends State<StudentView> {
                 stream: _getStudentsStream(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return Center(
+                        child: CircularProgressIndicator(color: kPrimaryColor));
                   }
 
                   if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
@@ -399,7 +400,7 @@ class _StudentViewState extends State<StudentView> {
                                 },
                                 icon: Icon(
                                   Icons.check,
-                                  color: student.ispaid
+                                  color: student.isPaid
                                       ? Colors.green
                                       : Colors.grey, // Toggle color
                                   size: 28,

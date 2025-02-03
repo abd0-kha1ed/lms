@@ -72,7 +72,7 @@ class FirebaseServices {
           grade: student.grade,
           teacherCode: student.teacherCode,
           password: student.password,
-          ispaid: student.ispaid,
+          isPaid: student.isPaid,
           createdAt: Timestamp.now(),
         );
 

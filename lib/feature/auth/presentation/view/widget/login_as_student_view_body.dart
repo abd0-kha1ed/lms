@@ -26,7 +26,7 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   String? code, password;
   bool _isPasswordVisible = false;
-  bool _isLoading = false; // Loading state for login button
+  bool _isLoading = false; 
 
   final FirebaseServices _authService = FirebaseServices();
 
@@ -36,7 +36,7 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
     }
 
     setState(() {
-      _isLoading = true; // Show loading indicator
+      _isLoading = true; 
     });
 
     try {

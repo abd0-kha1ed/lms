@@ -59,7 +59,7 @@ class _EditStudentState extends State<EditStudent> {
         grade: _selectedGrade ?? widget.studentModel.grade,
         teacherCode: _teacherCodeController.text.trim(),
         password: _passwordController.text.trim(),
-        ispaid: true,
+        isPaid: true,
         createdAt:
             widget.studentModel.createdAt, // Keep the original creation date
       );
