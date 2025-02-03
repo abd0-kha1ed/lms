@@ -4,8 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class CustomShowDialog extends StatelessWidget {
-  const CustomShowDialog({super.key, this.onPressed});
+  const CustomShowDialog({super.key, this.onPressed, required this.delete});
   final void Function()? onPressed;
+  final String delete;
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -14,7 +15,7 @@ class CustomShowDialog extends StatelessWidget {
         color: Colors.red,
         size: 30,
       ),
-      title: Text(LocaleKeys.assistantDeletion.tr()),
+      title: Text(delete),
       content: SizedBox(
         height: 40,
         child: Column(

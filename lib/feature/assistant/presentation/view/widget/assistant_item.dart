@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player_app/constant.dart';
 import 'package:video_player_app/core/widget/custom_icon_button.dart';
 import 'package:video_player_app/core/widget/custom_show_diolog.dart';
 import 'package:video_player_app/feature/assistant/presentation/view/widget/whats_phone.dart';
+import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class AssistantWidget extends StatelessWidget {
   final String name;
@@ -61,6 +63,7 @@ class AssistantWidget extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return CustomShowDialog(
+                      delete: LocaleKeys.assistantDeletion.tr(),
                       onPressed: () async {
                         onDelete();
                         Navigator.of(context).pop();

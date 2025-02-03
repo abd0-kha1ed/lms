@@ -46,9 +46,9 @@ class SecureVideoPlayer extends StatelessWidget {
         ),
       ],
       child: MaterialApp.router(
-        theme: ThemeData(
-        textTheme: GoogleFonts.cairoTextTheme(),
-      ),
+          theme: ThemeData(
+            textTheme: GoogleFonts.cairoTextTheme(),
+          ),
           debugShowCheckedModeBanner: false,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
