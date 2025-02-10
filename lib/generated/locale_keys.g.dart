@@ -190,4 +190,6 @@ abstract class LocaleKeys {
       "videosareavailableonlyforpaidusers";
   static const thiscodehasbeenusedorisincorrectPleasetryagain =
       "thiscodehasbeenusedorisincorrectPleasetryagain";
+
+  static const khadmaty = "khadmaty";
 }

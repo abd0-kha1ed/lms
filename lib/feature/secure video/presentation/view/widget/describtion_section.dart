@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
+import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class DescriptionSection extends StatelessWidget {
   const DescriptionSection({super.key, required this.videoModel});
@@ -69,7 +70,7 @@ class DescriptionSection extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Abdo Khaled',
+               Text(LocaleKeys.khadmaty.tr(),
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               Text(
                 // Format the createdAt date to "YYYY-MM-DD"
@@ -84,23 +85,23 @@ class DescriptionSection extends StatelessWidget {
             children: [
               IconButton(
                   onPressed: () {
-                    lunchCustomUrl('https://www.islamweb.net/ar/');
+                    lunchCustomUrl('https://lms.5dmaty.com/public/');
                   },
                   icon: Icon(Icons.link, size: 32)),
               IconButton(
                   onPressed: () {
-                    openWhatsApp('201007287335');
+                    openWhatsApp('201065189050');
                   },
                   icon: Icon(FontAwesomeIcons.whatsapp, size: 32)),
               IconButton(
                   onPressed: () {
-                    lunchYoutube('https://www.youtube.com/@Mo_HassanTV');
+                    lunchYoutube('https://youtube.com/@5dmate-support?si=69cfPeuRYa1gMLvo');
                   },
                   icon: Icon(FontAwesomeIcons.youtube, size: 32)),
               IconButton(
                   onPressed: () {
                     lunchFacebook(
-                        'https://www.facebook.com/profile.php?id=100021770539965');
+                        'https://www.facebook.com/share/18iUB8Yamt/');
                   },
                   icon: Icon(FontAwesomeIcons.facebook, size: 32))
             ],

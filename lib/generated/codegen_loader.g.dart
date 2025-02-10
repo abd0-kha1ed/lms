@@ -203,7 +203,8 @@ class CodegenLoader extends AssetLoader {
     "videosareavailableonlyforpaidusers":
         "الفديوهات متاحة فقط للطلاب الذبن قامو بدفع الرسوم",
     "thiscodehasbeenusedorisincorrectPleasetryagain":
-        "هذا الكود مستخدم او غير صحيح حاول مرة اخري"
+        "هذا الكود مستخدم او غير صحيح حاول مرة اخري",
+    "khadmaty": "خدماتي"
   };
   static const Map<String, dynamic> en = {
     "currentLanguage": "عربي",
@@ -398,7 +399,8 @@ class CodegenLoader extends AssetLoader {
     "videosareavailableonlyforpaidusers":
         "videos are available only for paid users",
     "thiscodehasbeenusedorisincorrectPleasetryagain":
-        "This code has been used or is incorrect Please try again"
+        "This code has been used or is incorrect Please try again",
+    "khadmaty": "5dmaty",
   };
   static const Map<String, Map<String, dynamic>> mapLocales = {
     "ar": ar,
