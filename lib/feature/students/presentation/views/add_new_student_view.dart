@@ -64,6 +64,11 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
       _formKey.currentState!.reset();
       setState(() {
         _selectedGrade = null;
+        _nameController.clear();
+        _codeController.clear();
+        _phoneController.clear();
+        _teacherCodeController.clear();
+        _passwordController.clear();
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
