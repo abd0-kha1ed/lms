@@ -38,7 +38,35 @@ class _EditStudentState extends State<EditStudent> {
     _phoneController.text = widget.studentModel.phone;
     _teacherCodeController.text = widget.studentModel.teacherCode;
     _passwordController.text = widget.studentModel.password;
+
+    // Ensure stored grade is always in English
     _selectedGrade = widget.studentModel.grade;
+  }
+
+  /// **Convert localized grade to English before storing in Firebase**
+  String getEnglishGrade(String localizedGrade) {
+    Map<String, String> gradeMap = {
+      LocaleKeys.seven.tr(): '1st Prep',
+      LocaleKeys.eight.tr(): '2nd Prep',
+      LocaleKeys.nine.tr(): '3rd Prep',
+      LocaleKeys.ten.tr(): '1st Secondary',
+      LocaleKeys.eleven.tr(): '2nd Secondary',
+      LocaleKeys.twelve.tr(): '3rd Secondary',
+    };
+    return gradeMap[localizedGrade] ?? localizedGrade;
+  }
+
+  /// **Convert stored English grade to localized display**
+  String getLocalizedGrade(String englishGrade) {
+    Map<String, String> gradeMap = {
+      '1st Prep': LocaleKeys.seven.tr(),
+      '2nd Prep': LocaleKeys.eight.tr(),
+      '3rd Prep': LocaleKeys.nine.tr(),
+      '1st Secondary': LocaleKeys.ten.tr(),
+      '2nd Secondary': LocaleKeys.eleven.tr(),
+      '3rd Secondary': LocaleKeys.twelve.tr(),
+    };
+    return gradeMap[englishGrade] ?? englishGrade;
   }
 
   Future<void> _updateStudent() async {
@@ -50,28 +78,31 @@ class _EditStudentState extends State<EditStudent> {
     });
 
     try {
-      // Create an updated StudentModel
+      // Convert the selected grade to its English equivalent before storing
+      String gradeToSave =
+          getEnglishGrade(_selectedGrade ?? widget.studentModel.grade);
+
+      // Create updated StudentModel
       StudentModel updatedStudent = StudentModel(
-        id: widget.studentModel.id, // Use the existing student ID
+        id: widget.studentModel.id, // Keep existing ID
         code: _codeController.text.trim(),
         name: _nameController.text.trim(),
         phone: _phoneController.text.trim(),
-        grade: _selectedGrade ?? widget.studentModel.grade,
+        grade: gradeToSave, // 🔥 Ensure stored grade is always in English
         teacherCode: _teacherCodeController.text.trim(),
         password: _passwordController.text.trim(),
         isPaid: true,
-        createdAt:
-            widget.studentModel.createdAt, // Keep the original creation date
+        createdAt: widget.studentModel.createdAt, // Keep original creation date
       );
 
-      // Call the update function
+      // Update Firebase
       await FirebaseServices().updateStudentDetails(updatedStudent);
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Student updated successfully!")),
       );
 
-      GoRouter.of(context).pop(); // Go back to the previous screen
+      GoRouter.of(context).pop(); // Navigate back
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Update failed: $e")),
@@ -152,7 +183,8 @@ class _EditStudentState extends State<EditStudent> {
                         studentModel: widget.studentModel,
                         onChanged: (value) {
                           setState(() {
-                            _selectedGrade = value;
+                            _selectedGrade = getEnglishGrade(
+                                value!); // 🔥 Always convert to English before storing
                           });
                         },
                         validator: (value) {
@@ -163,12 +195,12 @@ class _EditStudentState extends State<EditStudent> {
                           }
                         },
                         items: [
-                          LocaleKeys.seven.tr(),
-                          LocaleKeys.eight.tr(),
-                          LocaleKeys.nine.tr(),
-                          LocaleKeys.ten.tr(),
-                          LocaleKeys.eleven.tr(),
-                          LocaleKeys.twelve.tr(),
+                          getLocalizedGrade("1st Prep"),
+                          getLocalizedGrade("2nd Prep"),
+                          getLocalizedGrade("3rd Prep"),
+                          getLocalizedGrade("1st Secondary"),
+                          getLocalizedGrade("2nd Secondary"),
+                          getLocalizedGrade("3rd Secondary"),
                         ],
                       ),
                     ),
