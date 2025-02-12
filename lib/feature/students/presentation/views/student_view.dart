@@ -246,10 +246,12 @@ class _StudentViewState extends State<StudentView> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
                         label: Text(LocaleKeys.twelve.tr()),
-                        selected: _selectedGrade == LocaleKeys.twelve.tr(),
+                        selected:
+                            _selectedGrade == "3rd Secondary", // Stored value
                         onSelected: (selected) {
                           setState(() {
-                            _selectedGrade = LocaleKeys.twelve.tr();
+                            _selectedGrade =
+                                "3rd Secondary"; // Store English value
                           });
                         },
                       ),
@@ -258,10 +260,10 @@ class _StudentViewState extends State<StudentView> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
                         label: Text(LocaleKeys.eleven.tr()),
-                        selected: _selectedGrade == LocaleKeys.eleven.tr(),
+                        selected: _selectedGrade == "2nd Secondary",
                         onSelected: (selected) {
                           setState(() {
-                            _selectedGrade = LocaleKeys.eleven.tr();
+                            _selectedGrade = "2nd Secondary";
                           });
                         },
                       ),
@@ -270,10 +272,10 @@ class _StudentViewState extends State<StudentView> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
                         label: Text(LocaleKeys.ten.tr()),
-                        selected: _selectedGrade == LocaleKeys.ten.tr(),
+                        selected: _selectedGrade == "1st Secondary",
                         onSelected: (selected) {
                           setState(() {
-                            _selectedGrade = LocaleKeys.ten.tr();
+                            _selectedGrade = "1st Secondary";
                           });
                         },
                       ),
@@ -282,10 +284,10 @@ class _StudentViewState extends State<StudentView> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
                         label: Text(LocaleKeys.nine.tr()),
-                        selected: _selectedGrade == LocaleKeys.nine.tr(),
+                        selected: _selectedGrade == "3rd Prep",
                         onSelected: (selected) {
                           setState(() {
-                            _selectedGrade = LocaleKeys.nine.tr();
+                            _selectedGrade = "3rd Prep";
                           });
                         },
                       ),
@@ -294,10 +296,10 @@ class _StudentViewState extends State<StudentView> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
                         label: Text(LocaleKeys.eight.tr()),
-                        selected: _selectedGrade == LocaleKeys.eight.tr(),
+                        selected: _selectedGrade == "2nd Prep",
                         onSelected: (selected) {
                           setState(() {
-                            _selectedGrade = LocaleKeys.eight.tr();
+                            _selectedGrade = "2nd Prep";
                           });
                         },
                       ),
@@ -306,10 +308,10 @@ class _StudentViewState extends State<StudentView> {
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: FilterChip(
                         label: Text(LocaleKeys.seven.tr()),
-                        selected: _selectedGrade == LocaleKeys.seven.tr(),
+                        selected: _selectedGrade == "1st Prep",
                         onSelected: (selected) {
                           setState(() {
-                            _selectedGrade = LocaleKeys.seven.tr();
+                            _selectedGrade = "1st Prep";
                           });
                         },
                       ),
