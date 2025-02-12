@@ -1,4 +1,5 @@
 {
   "java.configuration.updateBuildConfiguration": "interactive",
-  "cSpell.words": ["Expirable"]
+  "cSpell.words": ["Expirable"],
+  "cmake.ignoreCMakeListsMissing": true
 }
