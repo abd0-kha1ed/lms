@@ -99,7 +99,6 @@ class _StudentViewState extends State<StudentView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         actions: [
           IconButton(
@@ -346,107 +345,119 @@ class _StudentViewState extends State<StudentView> {
                       return Card(
                         elevation: 3,
                         margin: EdgeInsets.symmetric(vertical: 8),
-                        child: ListTile(
-                          leading: Container(
-                            padding: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: kPrimaryColor,
-                              borderRadius: BorderRadius.circular(8),
+                        child: Column(
+                          children: [
+                            ListTile(
+                              leading: Container(
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: kPrimaryColor,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  student.code,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              title: Text(student.name),
+                              subtitle: Text(student.phone),
                             ),
-                            child: Text(
-                              student.code,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          title: Text(student.name),
-                          subtitle: Text(student.phone),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                onPressed: () async {
-                                  try {
-                                    // Get the current state of `isPaid` from Firestore
-                                    final doc = FirebaseFirestore.instance
-                                        .collection('students')
-                                        .doc(id);
-                                    final snapshot = await doc.get();
-                                    final currentState =
-                                        snapshot['ispaid'] ?? false;
+                            Row(
+                              children: [
+                                const Spacer(),
+                                WhatsPhone(phoneNumber: student.phone),
+                                const Spacer(),
+                                IconButton(
+                                  onPressed: () async {
+                                    try {
+                                      // Get the current state of `isPaid` from Firestore
+                                      final doc = FirebaseFirestore.instance
+                                          .collection('students')
+                                          .doc(id);
+                                      final snapshot = await doc.get();
+                                      final currentState =
+                                          snapshot['ispaid'] ?? false;
 
-                                    // Toggle `isPaid` state
-                                    await doc.update({'ispaid': !currentState});
+                                      // Toggle `isPaid` state
+                                      await doc
+                                          .update({'ispaid': !currentState});
 
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          currentState
-                                              ? LocaleKeys
-                                                  .paymentstatusmarkedasunpaid
-                                                  .tr()
-                                              : LocaleKeys
-                                                  .paymentstatusmarkedaspaid
-                                                  .tr(),
-                                        ),
-                                      ),
-                                    );
-                                  } catch (e) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
                                           content: Text(
-                                              "Failed to update payment status: $e")),
-                                    );
-                                  }
-                                },
-                                icon: Icon(
-                                  Icons.check,
-                                  color: student.isPaid
-                                      ? Colors.green
-                                      : Colors.grey, // Toggle color
-                                  size: 28,
-                                ),
-                              ),
-                              WhatsPhone(phoneNumber: student.phone),
-                              IconButton(
-                                icon: Icon(
-                                  Icons.edit,
-                                  color: Colors.green,
-                                  size: 30,
-                                ),
-                                onPressed: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    return EditStudent(
-                                      studentModel: student,
-                                    );
-                                  }));
-                                },
-                              ),
-                              CustomIconButton(
-                                onPressed: () async {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return CustomShowDialog(
-                                        delete: LocaleKeys.studentDeletion.tr(),
-                                        onPressed: () async {
-                                          _deleteStudent(id);
-                                          Navigator.of(context).pop();
-                                        },
+                                            currentState
+                                                ? LocaleKeys
+                                                    .paymentstatusmarkedasunpaid
+                                                    .tr()
+                                                : LocaleKeys
+                                                    .paymentstatusmarkedaspaid
+                                                    .tr(),
+                                          ),
+                                        ),
                                       );
-                                    },
-                                  );
-                                },
-                                icon: const Icon(
-                                  Icons.delete_forever,
-                                  size: 35,
-                                  color: Colors.red,
+                                    } catch (e) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                            content: Text(
+                                                "Failed to update payment status: $e")),
+                                      );
+                                    }
+                                  },
+                                  icon: Icon(
+                                    Icons.check,
+                                    color: student.isPaid
+                                        ? Colors.red
+                                        : Colors.grey, // Toggle color
+                                    size: 32,
+                                  ),
                                 ),
-                              )
-                            ],
-                          ),
+                                const Spacer(),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: Colors.green,
+                                    size: 26,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return EditStudent(
+                                        studentModel: student,
+                                      );
+                                    }));
+                                  },
+                                ),
+                                const Spacer(),
+                                CustomIconButton(
+                                  onPressed: () async {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return CustomShowDialog(
+                                          delete:
+                                              LocaleKeys.studentDeletion.tr(),
+                                          onPressed: () async {
+                                            _deleteStudent(id);
+                                            Navigator.of(context).pop();
+                                          },
+                                        );
+                                      },
+                                    );
+                                  },
+                                  icon: const Icon(
+                                    Icons.delete_forever,
+                                    size: 28,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                const Spacer(),
+                              ],
+                            ),
+                          ],
                         ),
                       );
                     },

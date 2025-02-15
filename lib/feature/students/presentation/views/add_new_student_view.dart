@@ -95,7 +95,6 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Text(
           LocaleKeys.addNewStudent.tr(),
           style: const TextStyle(fontWeight: FontWeight.w600),
@@ -209,7 +208,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 ),
                 const SizedBox(height: 40),
                 _isLoading
-                    ? const CircularProgressIndicator()
+                    ? const CircularProgressIndicator(color: kPrimaryColor)
                     : CustomButton(
                         color: kPrimaryColor,
                         onTap: _registerStudent,
