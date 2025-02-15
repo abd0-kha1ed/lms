@@ -118,7 +118,6 @@ class _EditStudentState extends State<EditStudent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Text(
           LocaleKeys.update.tr(),
           style: TextStyle(fontWeight: FontWeight.w600),
@@ -188,7 +187,8 @@ class _EditStudentState extends State<EditStudent> {
                           });
                         },
                         validator: (value) {
-                          if (value?.isEmpty ?? true) {
+                          if (value?.isEmpty ??
+                              true && widget.studentModel.grade == null) {
                             return 'Choose grade';
                           } else {
                             return null;
@@ -208,7 +208,7 @@ class _EditStudentState extends State<EditStudent> {
                 ),
                 SizedBox(height: 40),
                 _isLoading
-                    ? CircularProgressIndicator()
+                    ? CircularProgressIndicator(color: kPrimaryColor)
                     : CustomButton(
                         color: kPrimaryColor,
                         onTap: _updateStudent,
