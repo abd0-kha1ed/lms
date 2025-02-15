@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player_app/constant.dart';
-import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
 import 'package:video_player_app/core/widget/custom_text_form_field.dart';
 import 'package:video_player_app/feature/auth/data/model/student_model.dart';

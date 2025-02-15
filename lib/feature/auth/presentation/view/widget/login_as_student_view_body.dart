@@ -26,7 +26,7 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   String? code, password;
   bool _isPasswordVisible = false;
-  bool _isLoading = false; 
+  bool _isLoading = false;
 
   final FirebaseServices _authService = FirebaseServices();
 
@@ -36,7 +36,7 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
     }
 
     setState(() {
-      _isLoading = true; 
+      _isLoading = true;
     });
 
     try {
@@ -128,7 +128,9 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
             ),
             const SizedBox(height: 30),
             _isLoading
-                ? Center(child: const CircularProgressIndicator(color: kPrimaryColor))
+                ? Center(
+                    child:
+                        const CircularProgressIndicator(color: kPrimaryColor))
                 : CustomButton(
                     color: kPrimaryColor,
                     title: LocaleKeys.login.tr(),
