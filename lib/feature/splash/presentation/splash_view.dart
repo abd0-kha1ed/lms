@@ -43,9 +43,15 @@ class SplashView extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      child: Image.asset(Assets.splashLogo)),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.253,
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.fill,
+                            image: AssetImage(Assets.teacherLogo)),
+                        borderRadius: BorderRadius.circular(400)),
+                  ),
                   const SizedBox(height: 20),
                   Text(
                     "📚  تعلّم بذكاء، وانطلق  ",

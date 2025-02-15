@@ -109,10 +109,12 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
                   obscureText: true,
                   enabled: !isLoading,
                   validator: (value) {
-                    if (value == null || value.isEmpty)
+                    if (value == null || value.isEmpty) {
                       return LocaleKeys.passwordrequerid.tr();
-                    if (value.length < 6)
+                    }
+                    if (value.length < 6) {
                       return LocaleKeys.passwordatleast6number;
+                    }
                     return null;
                   },
                 ),
@@ -124,10 +126,12 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
                   maxLength: 11,
                   enabled: !isLoading,
                   validator: (value) {
-                    if (value == null || value.isEmpty)
+                    if (value == null || value.isEmpty) {
                       return LocaleKeys.phoneRequired.tr();
-                    if (value.length != 11)
+                    }
+                    if (value.length != 11) {
                       return LocaleKeys.Phonenumbermustbeexactly11digits.tr();
+                    }
                     return null;
                   },
                 ),
