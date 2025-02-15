@@ -38,23 +38,32 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
     });
 
     try {
+      // Generate a unique ID for the student
+      String studentId =
+          FirebaseFirestore.instance.collection('students').doc().id;
+
       // Create a StudentModel from the form inputs
       final student = StudentModel(
-        id: '', // Will be set by Firebase
+        id: studentId, // Assign the generated ID
         code: _codeController.text.trim(),
         name: _nameController.text.trim(),
         phone: _phoneController.text.trim(),
         grade: _selectedGrade ?? '',
         teacherCode: _teacherCodeController.text.trim(),
         password: _passwordController.text.trim(),
-        isPaid: true, // Not stored in the model
+        isPaid: true,
         createdAt: Timestamp.now(),
       );
 
-      // Call the AuthService to register the student
-      await FirebaseServices().registerStudent(
-        student,
-      );
+      // Manually store the student data in Firestore (without changing auth session)
+      await FirebaseFirestore.instance
+          .collection('students')
+          .doc(studentId)
+          .set({
+        "id": studentId,
+        "role": "student",
+        ...student.toJson(),
+      });
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(LocaleKeys.studentAdded.tr())),

@@ -74,15 +74,26 @@ class _UserAsStudentViewBodyState extends State<UserAsStudentViewBody> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 children: [
-                  isLoading
-                      ? CircularProgressIndicator(color: kPrimaryColor)
-                      : Text(
+                  if (isLoading)
+                    CircularProgressIndicator(color: kPrimaryColor)
+                  else
+                    Flexible(
+                      // Ensures text wraps and does not overflow
+                      child: FittedBox(
+                        fit: BoxFit
+                            .scaleDown, // Ensures text shrinks when needed
+                        child: Text(
                           userName ?? '',
                           style: TextStyle(
                             fontSize: 26,
                             fontWeight: FontWeight.bold,
                           ),
+                          overflow: TextOverflow
+                              .ellipsis, // Adds "..." if name is too long
+                          maxLines: 1, // Prevents multi-line wrapping
                         ),
+                      ),
+                    ),
                   Spacer(),
                   Container(
                     decoration: BoxDecoration(
