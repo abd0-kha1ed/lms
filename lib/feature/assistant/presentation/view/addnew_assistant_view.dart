@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player_app/constant.dart';
+import 'package:video_player_app/core/widget/custom_button.dart';
 import 'package:video_player_app/core/widget/custom_text_form_field.dart';
 import 'package:video_player_app/feature/auth/data/model/assistant_model.dart';
 import 'package:video_player_app/generated/locale_keys.g.dart';
@@ -23,19 +24,19 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _teacherCodeController = TextEditingController();
 
+  bool isLoading = false; // حالة التحميل
+
   Future<void> _registerAssistant() async {
-    if (!_formKey.currentState!.validate()) {
-      return; // Form not valid
-    }
+    if (!_formKey.currentState!.validate()) return; // التأكد من صحة البيانات
+
+    setState(() => isLoading = true); // تعطيل الحقول
 
     try {
-      // Generate a unique ID for the assistant
       String assistantId =
           FirebaseFirestore.instance.collection('assistants').doc().id;
 
-      // Construct AssistantModel
       final assistant = AssistantModel(
-        id: assistantId, // Assign generated ID
+        id: assistantId,
         code: _codeController.text.trim(),
         name: _nameController.text.trim(),
         phone: _phoneController.text.trim(),
@@ -44,7 +45,6 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
         lastCheckedInAt: Timestamp.now(),
       );
 
-      // Store the assistant data manually in Firestore
       await FirebaseFirestore.instance
           .collection('assistants')
           .doc(assistantId)
@@ -57,9 +57,13 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(LocaleKeys.assistantAdded.tr())),
       );
+      setState(() {
+        isLoading = true;
+      });
 
       Navigator.pop(context);
     } catch (e) {
+      setState(() => isLoading = false); // إعادة التمكين في حالة الخطأ
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $e')),
       );
@@ -84,35 +88,31 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
                   keyboardType: TextInputType.number,
                   controller: _codeController,
                   hintText: LocaleKeys.code.tr(),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return LocaleKeys.codeRequired.tr();
-                    }
-                    return null;
-                  },
+                  enabled: !isLoading, // تعطيل الحقل أثناء التحميل
+                  validator: (value) => value == null || value.isEmpty
+                      ? LocaleKeys.codeRequired.tr()
+                      : null,
                 ),
                 const SizedBox(height: 16),
                 CustomTextFormField(
                   controller: _nameController,
                   hintText: LocaleKeys.name.tr(),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return LocaleKeys.nameRequired.tr();
-                    }
-                    return null;
-                  },
+                  enabled: !isLoading,
+                  validator: (value) => value == null || value.isEmpty
+                      ? LocaleKeys.nameRequired.tr()
+                      : null,
                 ),
                 const SizedBox(height: 16),
                 CustomTextFormField(
                   controller: _passwordController,
                   hintText: LocaleKeys.password.tr(),
                   obscureText: true,
+                  enabled: !isLoading,
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
+                    if (value == null || value.isEmpty)
                       return LocaleKeys.passwordrequerid.tr();
-                    } else if (value.length < 6) {
+                    if (value.length < 6)
                       return LocaleKeys.passwordatleast6number;
-                    }
                     return null;
                   },
                 ),
@@ -122,29 +122,31 @@ class _AddNewAssistantViewState extends State<AddNewAssistantView> {
                   hintText: LocaleKeys.phone.tr(),
                   keyboardType: TextInputType.number,
                   maxLength: 11,
+                  enabled: !isLoading,
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
+                    if (value == null || value.isEmpty)
                       return LocaleKeys.phoneRequired.tr();
-                    } else if (value.length != 11) {
+                    if (value.length != 11)
                       return LocaleKeys.Phonenumbermustbeexactly11digits.tr();
-                    }
                     return null;
                   },
                 ),
                 const SizedBox(height: 24),
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _registerAssistant,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: kPrimaryColor,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                    ),
-                    child: Text(
-                      LocaleKeys.add.tr(),
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                  ),
+                  child: isLoading
+                      ? Center(
+                          child: const CircularProgressIndicator(
+                              color: kPrimaryColor))
+                      : CustomButton(
+                          title: LocaleKeys.add.tr(),
+                          color: kPrimaryColor,
+                          onTap: isLoading
+                              ? null
+                              : _registerAssistant, // تعطيل الزر أثناء التحميل
+                          isLoading:
+                              isLoading, // يمكنك تعديل `CustomButton` ليدعم حالة `isLoading`
+                        ),
                 ),
               ],
             ),

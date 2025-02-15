@@ -26,7 +26,7 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   String? code, password;
   bool _isPasswordVisible = false;
-  bool _isLoading = false; 
+  bool _isLoading = false;
 
   final FirebaseServices _authService = FirebaseServices();
 
@@ -36,7 +36,7 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
     }
 
     setState(() {
-      _isLoading = true; 
+      _isLoading = true;
     });
 
     try {
@@ -90,8 +90,8 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
             const SizedBox(height: 35),
             CustomTextFormField(
               keyboardType: TextInputType.number,
-              hintText: LocaleKeys.enterYourCode
-                  .tr(), // Replace with localization key if required
+              hintText: LocaleKeys.enterYourCode.tr(),
+              enabled: !_isLoading,
               onChanged: (value) {
                 code = value;
               },
@@ -104,8 +104,8 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
             ),
             const SizedBox(height: 15),
             CustomTextFormField(
-              hintText: LocaleKeys.enterYourPassword
-                  .tr(), // Replace with localization key if required
+              hintText: LocaleKeys.enterYourPassword.tr(),
+              enabled: !_isLoading,
               onChanged: (value) {
                 password = value;
               },
@@ -116,29 +116,39 @@ class _LoginAsStudentViewBodyState extends State<LoginAsStudentViewBody> {
                 return null;
               },
               obscureText: !_isPasswordVisible,
-              suffixIcon: Icon(
-                _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                color: kPrimaryColor,
-              ),
-              onTapSuffixIcon: () {
-                setState(() {
-                  _isPasswordVisible = !_isPasswordVisible;
-                });
-              },
+              suffixIcon: _isLoading
+                  ? null
+                  : Icon(
+                      _isPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: kPrimaryColor,
+                    ),
+              onTapSuffixIcon: _isLoading
+                  ? null
+                  : () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
             ),
             const SizedBox(height: 30),
             _isLoading
-                ? Center(child: const CircularProgressIndicator(color: kPrimaryColor))
+                ? Center(
+                    child:
+                        const CircularProgressIndicator(color: kPrimaryColor))
                 : CustomButton(
                     color: kPrimaryColor,
                     title: LocaleKeys.login.tr(),
-                    onTap: () async {
-                      if (formKey.currentState!.validate()) {
-                        formKey.currentState!.save();
-                        await login(context, code!, password!);
-                      }
-                      context.read<VideoCubit>().fetchVideos();
-                    },
+                    onTap: _isLoading
+                        ? null
+                        : () async {
+                            if (formKey.currentState!.validate()) {
+                              formKey.currentState!.save();
+                              await login(context, code!, password!);
+                            }
+                            context.read<VideoCubit>().fetchVideos();
+                          },
                   ),
             const SizedBox(height: 30),
             TextButton(

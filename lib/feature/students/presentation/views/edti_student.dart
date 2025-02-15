@@ -139,6 +139,7 @@ class _EditStudentState extends State<EditStudent> {
                 ),
                 SizedBox(height: 10),
                 CustomTextFormField(
+                  enabled: !_isLoading,
                   hintText: LocaleKeys.name.tr(),
                   controller: _nameController,
                   validator: (value) =>
@@ -146,6 +147,7 @@ class _EditStudentState extends State<EditStudent> {
                 ),
                 SizedBox(height: 10),
                 CustomTextFormField(
+                  enabled: !_isLoading,
                   hintText: LocaleKeys.password.tr(),
                   controller: _passwordController,
                   obscureText: false,
@@ -154,6 +156,7 @@ class _EditStudentState extends State<EditStudent> {
                 ),
                 SizedBox(height: 10),
                 CustomTextFormField(
+                  enabled: !_isLoading,
                   controller: _phoneController,
                   hintText: LocaleKeys.phone.tr(),
                   keyboardType: TextInputType.number,
@@ -179,6 +182,7 @@ class _EditStudentState extends State<EditStudent> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.40,
                       child: CustomDropdown(
+                        isLoading: !_isLoading,
                         studentModel: widget.studentModel,
                         onChanged: (value) {
                           setState(() {

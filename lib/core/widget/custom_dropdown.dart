@@ -8,11 +8,12 @@ class CustomDropdown extends StatefulWidget {
       required this.items,
       this.onChanged,
       this.validator,
-      this.studentModel});
+      this.studentModel,  this.isLoading});
   final List<String> items;
   final void Function(String?)? onChanged;
   final String? Function(String?)? validator;
   final StudentModel? studentModel;
+  final bool? isLoading;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -45,6 +46,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
             items: widget.items
                 .map(
                   (level) => DropdownMenuItem<String>(
+                    enabled: widget.isLoading ?? false,
                     value: level,
                     child: Text(level),
                   ),

@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player_app/constant.dart';
-import 'package:video_player_app/core/services/auth_services.dart';
 import 'package:video_player_app/core/widget/custom_button.dart';
 import 'package:video_player_app/core/widget/custom_text_form_field.dart';
 import 'package:video_player_app/feature/auth/data/model/student_model.dart';
@@ -110,11 +109,13 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 CustomTextFormField(
                   hintText: LocaleKeys.name.tr(),
                   controller: _nameController,
+                  enabled: !_isLoading,
                   validator: (value) =>
                       value!.isEmpty ? LocaleKeys.pleaseEnterName.tr() : null,
                 ),
                 const SizedBox(height: 10),
                 CustomTextFormField(
+                  enabled: !_isLoading,
                   keyboardType: TextInputType.number,
                   hintText: LocaleKeys.code.tr(),
                   controller: _codeController,
@@ -123,6 +124,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 ),
                 const SizedBox(height: 10),
                 CustomTextFormField(
+                  enabled: !_isLoading,
                   hintText: LocaleKeys.password.tr(),
                   controller: _passwordController,
                   obscureText: false,
@@ -132,6 +134,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                 ),
                 const SizedBox(height: 10),
                 CustomTextFormField(
+                  enabled: !_isLoading,
                   controller: _phoneController,
                   hintText: LocaleKeys.phone.tr(),
                   keyboardType: TextInputType.number,
@@ -188,6 +191,7 @@ class _AddStudentScreenState extends State<AddStudentScreen> {
                         ]
                             .map(
                               (item) => DropdownMenuItem<String>(
+                                enabled: !_isLoading,
                                 value: item['id'], // Store English value
                                 child: Text(
                                     item['label']!), // Display localized value

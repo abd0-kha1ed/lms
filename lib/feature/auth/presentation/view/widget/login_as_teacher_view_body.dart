@@ -98,6 +98,7 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
             CustomTextFormField(
               keyboardType: TextInputType.number,
               hintText: LocaleKeys.code.tr(),
+              enabled: !_isLoading,
               onChanged: (value) {
                 code = value;
               },
@@ -112,6 +113,7 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
             const SizedBox(height: 15),
             CustomTextFormField(
               hintText: LocaleKeys.password.tr(),
+              enabled: !_isLoading,
               onChanged: (value) {
                 password = value;
               },
@@ -123,29 +125,39 @@ class _LoginAsTeacherViewBodyState extends State<LoginAsTeacherViewBody> {
                 }
               },
               obscureText: !_isPasswordVisible,
-              suffixIcon: Icon(
-                _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                color: kPrimaryColor,
-              ),
-              onTapSuffixIcon: () {
-                setState(() {
-                  _isPasswordVisible = !_isPasswordVisible;
-                });
-              },
+              suffixIcon: _isLoading
+                  ? null
+                  : Icon(
+                      _isPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: kPrimaryColor,
+                    ),
+              onTapSuffixIcon: _isLoading
+                  ? null
+                  : () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
             ),
             const SizedBox(height: 30),
             _isLoading
-                ? Center(child: const CircularProgressIndicator(color: kPrimaryColor))
+                ? Center(
+                    child:
+                        const CircularProgressIndicator(color: kPrimaryColor))
                 : CustomButton(
                     color: kPrimaryColor,
                     title: LocaleKeys.login.tr(),
-                    onTap: () async {
-                      if (formKey.currentState!.validate()) {
-                        formKey.currentState!.save();
-                        await login(context, code!, password!);
-                        context.read<VideoCubit>().fetchVideos();
-                      }
-                    },
+                    onTap: _isLoading
+                        ? null
+                        : () async {
+                            if (formKey.currentState!.validate()) {
+                              formKey.currentState!.save();
+                              await login(context, code!, password!);
+                              context.read<VideoCubit>().fetchVideos();
+                            }
+                          },
                   ),
           ],
         ),
