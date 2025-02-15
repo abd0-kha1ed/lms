@@ -87,7 +87,7 @@ class _StudentViewState extends State<StudentView> {
     try {
       await FirebaseFirestore.instance.collection('students').doc(id).delete();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Student deleted successfully")),
+        SnackBar(content: Text(LocaleKeys.studentDeleted.tr())),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

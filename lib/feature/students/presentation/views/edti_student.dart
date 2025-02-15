@@ -118,6 +118,7 @@ class _EditStudentState extends State<EditStudent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           LocaleKeys.update.tr(),
           style: TextStyle(fontWeight: FontWeight.w600),
@@ -135,7 +136,7 @@ class _EditStudentState extends State<EditStudent> {
                   hintText: widget.studentModel.code,
                   controller: _codeController,
                   validator: (value) =>
-                      value!.isEmpty ? "Please enter the code" : null,
+                      value!.isEmpty ? LocaleKeys.pleaseEnterCode.tr() : null,
                 ),
                 SizedBox(height: 10),
                 CustomTextFormField(
@@ -143,7 +144,7 @@ class _EditStudentState extends State<EditStudent> {
                   hintText: LocaleKeys.name.tr(),
                   controller: _nameController,
                   validator: (value) =>
-                      value!.isEmpty ? "Please enter the name" : null,
+                      value!.isEmpty ? LocaleKeys.pleaseEnterName.tr() : null,
                 ),
                 SizedBox(height: 10),
                 CustomTextFormField(
@@ -151,8 +152,9 @@ class _EditStudentState extends State<EditStudent> {
                   hintText: LocaleKeys.password.tr(),
                   controller: _passwordController,
                   obscureText: false,
-                  validator: (value) =>
-                      value!.isEmpty ? "Please enter the password" : null,
+                  validator: (value) => value!.isEmpty
+                      ? LocaleKeys.pleaseEnterYourPassword.tr()
+                      : null,
                 ),
                 SizedBox(height: 10),
                 CustomTextFormField(
@@ -163,9 +165,9 @@ class _EditStudentState extends State<EditStudent> {
                   maxLength: 11,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Phone number is required';
+                      return LocaleKeys.phoneRequired.tr();
                     } else if (value.length != 11) {
-                      return 'Phone number must be exactly 11 digits';
+                      return LocaleKeys.Phonenumbermustbeexactly11digits.tr();
                     }
                     return null;
                   },
@@ -191,9 +193,8 @@ class _EditStudentState extends State<EditStudent> {
                           });
                         },
                         validator: (value) {
-                          if (value?.isEmpty ??
-                              true && widget.studentModel.grade == null) {
-                            return 'Choose grade';
+                          if (value?.isEmpty ?? true) {
+                            return LocaleKeys.chooseGrade.tr();
                           } else {
                             return null;
                           }
@@ -212,7 +213,7 @@ class _EditStudentState extends State<EditStudent> {
                 ),
                 SizedBox(height: 40),
                 _isLoading
-                    ? CircularProgressIndicator(color: kPrimaryColor)
+                    ? CircularProgressIndicator()
                     : CustomButton(
                         color: kPrimaryColor,
                         onTap: _updateStudent,
