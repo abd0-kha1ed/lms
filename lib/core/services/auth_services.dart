@@ -16,6 +16,30 @@ class FirebaseServices {
   // Register Assistant
   Future<User?> registerAssistant(AssistantModel assistant) async {
     try {
+      // 🔥 1. حفظ بيانات المعلم الحالي قبل إنشاء الحساب الجديد
+      User? currentTeacher = _auth.currentUser;
+      if (currentTeacher == null) {
+        throw Exception("no teacher now");
+      }
+
+      String teacherId = currentTeacher.uid;
+
+      // 🔥 2. جلب كلمة مرور المعلم من Firestore
+      DocumentSnapshot teacherDoc = await FirebaseFirestore.instance
+          .collection('teachers')
+          .doc(teacherId)
+          .get();
+
+      if (!teacherDoc.exists) {
+        throw Exception("not exist");
+      }
+
+      String teacherPassword = teacherDoc.get('password'); // جلب كلمة المرور
+      if (teacherPassword.isEmpty) {
+        throw Exception("password does not exsist in firebase");
+      }
+
+      // 🔥 3. إنشاء حساب المساعد الجديد
       String email = "${assistant.code}@gmail.com";
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
@@ -45,16 +69,63 @@ class FirebaseServices {
         });
       }
 
+      // 🔥 4. تسجيل خروج المساعد الجديد فورًا بعد إضافته
+      await _auth.signOut();
+
+      // 🔥 5. إعادة تسجيل المعلم باستخدام كلمة المرور المسترجعة من Firestore
+      await _auth.signInWithEmailAndPassword(
+        email: currentTeacher.email!,
+        password: teacherPassword,
+      );
+
       return user;
     } catch (e) {
-      throw Exception("Registration failed: $e");
+      throw Exception(e.toString());
     }
   }
 
   // Register Student
   Future<User?> registerStudent(StudentModel student) async {
     try {
-      String email = "${student.code}@gmail.com"; // Custom email format
+      // 🔥 1. حفظ بيانات المستخدم الحالي (قد يكون معلمًا أو مساعدًا)
+      User? currentUser = _auth.currentUser;
+      if (currentUser == null) {
+        throw Exception("not exsit");
+      }
+
+      String userId = currentUser.uid;
+      String? userPassword;
+      String? userRole;
+      String? userEmail = currentUser.email;
+
+      // 🔥 2. التحقق مما إذا كان المستخدم الحالي معلمًا أو مساعدًا وجلب كلمة المرور
+      DocumentSnapshot teacherDoc = await FirebaseFirestore.instance
+          .collection('teachers')
+          .doc(userId)
+          .get();
+
+      if (teacherDoc.exists) {
+        userPassword = teacherDoc.get('password');
+        userRole = "teacher";
+      } else {
+        DocumentSnapshot assistantDoc = await FirebaseFirestore.instance
+            .collection('assistants')
+            .doc(userId)
+            .get();
+
+        if (assistantDoc.exists) {
+          userPassword = assistantDoc.get('password');
+          userRole = "assistant";
+        }
+      }
+
+      if (userPassword == null || userPassword.isEmpty) {
+        throw Exception(
+            "❌ لا يمكن استرجاع كلمة مرور المستخدم (${userRole ?? 'غير معروف'}).");
+      }
+
+      // 🔥 3. إنشاء حساب الطالب الجديد
+      String email = "${student.code}@gmail.com";
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -85,9 +156,18 @@ class FirebaseServices {
         });
       }
 
+      // 🔥 4. تسجيل خروج الطالب الجديد فورًا بعد إضافته
+      await _auth.signOut();
+
+      // 🔥 5. إعادة تسجيل المستخدم السابق (معلم أو مساعد) تلقائيًا بعد إنشاء الطالب
+      await _auth.signInWithEmailAndPassword(
+        email: userEmail!,
+        password: userPassword,
+      );
+
       return user;
     } catch (e) {
-      throw Exception("Registration failed: $e");
+      throw Exception(e.toString());
     }
   }
 
