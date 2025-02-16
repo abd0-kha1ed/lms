@@ -44,13 +44,13 @@ class SplashView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.253,
+                    height: MediaQuery.of(context).size.height * 0.24,
                     width: MediaQuery.of(context).size.width * 0.5,
                     decoration: BoxDecoration(
                         image: DecorationImage(
                             fit: BoxFit.fill,
                             image: AssetImage(Assets.teacherLogo)),
-                        borderRadius: BorderRadius.circular(400)),
+                        borderRadius: BorderRadius.circular(450)),
                   ),
                   const SizedBox(height: 20),
                   Text(
