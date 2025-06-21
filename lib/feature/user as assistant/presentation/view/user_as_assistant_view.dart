@@ -1,9 +1,8 @@
+import 'package:Ahmed_Hamed_lecture/constant.dart';
+import 'package:Ahmed_Hamed_lecture/feature/report/presentation/view/report_view.dart';
+import 'package:Ahmed_Hamed_lecture/feature/settings/presentation/view/settings_view.dart';
+import 'package:Ahmed_Hamed_lecture/feature/user%20as%20assistant/presentation/view/widgets/user_as_assistant_view_body.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player_app/constant.dart';
-
-import 'package:video_player_app/feature/report/presentation/view/report_view.dart';
-import 'package:video_player_app/feature/settings/presentation/view/settings_view.dart';
-import 'package:video_player_app/feature/user%20as%20assistant/presentation/view/widgets/user_as_assistant_view_body.dart';
 
 class UserAsAssistantView extends StatefulWidget {
   const UserAsAssistantView({super.key});

@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "108550346269",
-    "project_id": "video-player-f696b",
-    "storage_bucket": "video-player-f696b.firebasestorage.app"
+    "project_number": "309835215337",
+    "project_id": "dmaty-faf1e",
+    "storage_bucket": "dmaty-faf1e.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:108550346269:android:fb1f1ca77452f44190d8f4",
+        "mobilesdk_app_id": "1:309835215337:android:ca171ec44df8dc041d9b78",
         "android_client_info": {
-          "package_name": "com.example.video_player_app"
+          "package_name": "com.example.khdamaty_app"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBdclwIHjH-CYBUg1opSMuXo2RsgSOxCto"
+          "current_key": "AIzaSyC9BO890upA6wjKGMyFPLvO5n6AvWTH1_I"
         }
       ],
       "services": {

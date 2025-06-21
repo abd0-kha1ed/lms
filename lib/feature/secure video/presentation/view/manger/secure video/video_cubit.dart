@@ -1,7 +1,9 @@
+import 'package:Ahmed_Hamed_lecture/core/services/auth_services.dart';
+import 'package:Ahmed_Hamed_lecture/feature/secure%20video/data/model/video_model.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:video_player_app/core/services/auth_services.dart';
-import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
+
+
 
 part 'video_state.dart';
 

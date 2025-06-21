@@ -1,14 +1,15 @@
 import 'dart:io';
+import 'package:Ahmed_Hamed_lecture/constant.dart';
+import 'package:Ahmed_Hamed_lecture/feature/secure%20code/data/code_model.dart';
+import 'package:Ahmed_Hamed_lecture/feature/secure%20code/presentation/view/widget/code_item.dart';
+import 'package:Ahmed_Hamed_lecture/feature/secure%20video/data/model/video_model.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:open_file/open_file.dart';
-import 'package:video_player_app/constant.dart';
-import 'package:video_player_app/feature/secure%20code/data/code_model.dart';
-import 'package:video_player_app/feature/secure%20code/presentation/view/widget/code_item.dart';
-import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
+
 
 class CodeViewBody extends StatefulWidget {
   const CodeViewBody({super.key, required this.videoModel});

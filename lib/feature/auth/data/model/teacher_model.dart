@@ -1,5 +1,5 @@
+import 'package:Ahmed_Hamed_lecture/feature/auth/data/model/socialmedia_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:video_player_app/feature/auth/data/model/socialmedia_model.dart';
 
 class Teacher {
   String id;

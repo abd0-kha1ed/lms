@@ -41,48 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBDfpoMRaeivEC0aqLETaCvIVBXRG-Ct0E',
-    appId: '1:108550346269:web:920a148719c763c890d8f4',
-    messagingSenderId: '108550346269',
-    projectId: 'video-player-f696b',
-    authDomain: 'video-player-f696b.firebaseapp.com',
-    storageBucket: 'video-player-f696b.firebasestorage.app',
-    measurementId: 'G-SEP81D2GPH',
+    apiKey: 'AIzaSyAAJkmvJTQbegVRVdTDZTDrg3PT-bJqMBM',
+    appId: '1:309835215337:web:57908bb526372fe21d9b78',
+    messagingSenderId: '309835215337',
+    projectId: 'dmaty-faf1e',
+    authDomain: 'dmaty-faf1e.firebaseapp.com',
+    storageBucket: 'dmaty-faf1e.firebasestorage.app',
+    measurementId: 'G-2T8VMKVQQK',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBdclwIHjH-CYBUg1opSMuXo2RsgSOxCto',
-    appId: '1:108550346269:android:fb1f1ca77452f44190d8f4',
-    messagingSenderId: '108550346269',
-    projectId: 'video-player-f696b',
-    storageBucket: 'video-player-f696b.firebasestorage.app',
+    apiKey: 'AIzaSyC9BO890upA6wjKGMyFPLvO5n6AvWTH1_I',
+    appId: '1:309835215337:android:ca171ec44df8dc041d9b78',
+    messagingSenderId: '309835215337',
+    projectId: 'dmaty-faf1e',
+    storageBucket: 'dmaty-faf1e.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCbV9IZV8LxHn-fthjqkSCWxcbceuMucgQ',
-    appId: '1:108550346269:ios:eafcf7dfec94e8c190d8f4',
-    messagingSenderId: '108550346269',
-    projectId: 'video-player-f696b',
-    storageBucket: 'video-player-f696b.firebasestorage.app',
+    apiKey: 'AIzaSyBUptzQj5BEvHfCtIQzEs6L6QUZBRK2ViQ',
+    appId: '1:309835215337:ios:e27b03e37202be4c1d9b78',
+    messagingSenderId: '309835215337',
+    projectId: 'dmaty-faf1e',
+    storageBucket: 'dmaty-faf1e.firebasestorage.app',
     iosBundleId: 'com.example.videoPlayerApp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCbV9IZV8LxHn-fthjqkSCWxcbceuMucgQ',
-    appId: '1:108550346269:ios:eafcf7dfec94e8c190d8f4',
-    messagingSenderId: '108550346269',
-    projectId: 'video-player-f696b',
-    storageBucket: 'video-player-f696b.firebasestorage.app',
+    apiKey: 'AIzaSyBUptzQj5BEvHfCtIQzEs6L6QUZBRK2ViQ',
+    appId: '1:309835215337:ios:e27b03e37202be4c1d9b78',
+    messagingSenderId: '309835215337',
+    projectId: 'dmaty-faf1e',
+    storageBucket: 'dmaty-faf1e.firebasestorage.app',
     iosBundleId: 'com.example.videoPlayerApp',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyBDfpoMRaeivEC0aqLETaCvIVBXRG-Ct0E',
-    appId: '1:108550346269:web:5a4c875aa4ab43f490d8f4',
-    messagingSenderId: '108550346269',
-    projectId: 'video-player-f696b',
-    authDomain: 'video-player-f696b.firebaseapp.com',
-    storageBucket: 'video-player-f696b.firebasestorage.app',
-    measurementId: 'G-L3NZSDGSCD',
+    apiKey: 'AIzaSyAAJkmvJTQbegVRVdTDZTDrg3PT-bJqMBM',
+    appId: '1:309835215337:web:038cb3d1558e8c331d9b78',
+    messagingSenderId: '309835215337',
+    projectId: 'dmaty-faf1e',
+    authDomain: 'dmaty-faf1e.firebaseapp.com',
+    storageBucket: 'dmaty-faf1e.firebasestorage.app',
+    measurementId: 'G-MJR36JSYR5',
   );
+
 }

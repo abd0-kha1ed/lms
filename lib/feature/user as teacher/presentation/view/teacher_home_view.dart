@@ -1,11 +1,12 @@
+import 'package:Ahmed_Hamed_lecture/constant.dart';
+import 'package:Ahmed_Hamed_lecture/feature/assistant/presentation/view/assistants_view.dart';
+import 'package:Ahmed_Hamed_lecture/feature/report/presentation/view/report_view.dart';
+import 'package:Ahmed_Hamed_lecture/feature/settings/presentation/view/settings_view.dart';
+import 'package:Ahmed_Hamed_lecture/feature/user%20as%20teacher/presentation/view/widget/teacher_home_view_body.dart';
+import 'package:Ahmed_Hamed_lecture/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player_app/constant.dart';
-import 'package:video_player_app/feature/assistant/presentation/view/assistants_view.dart';
-import 'package:video_player_app/feature/report/presentation/view/report_view.dart';
-import 'package:video_player_app/feature/settings/presentation/view/settings_view.dart';
-import 'package:video_player_app/feature/user%20as%20teacher/presentation/view/widget/teacher_home_view_body.dart';
-import 'package:video_player_app/generated/locale_keys.g.dart';
+
 
 class TeacherHomeView extends StatefulWidget {
   const TeacherHomeView({super.key});

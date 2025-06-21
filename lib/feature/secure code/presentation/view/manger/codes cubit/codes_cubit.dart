@@ -1,9 +1,9 @@
+import 'package:Ahmed_Hamed_lecture/feature/secure%20code/data/code_model.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:meta/meta.dart';
 import 'dart:io';
-import 'package:video_player_app/feature/secure%20code/data/code_model.dart';
 
 part 'codes_state.dart';
 

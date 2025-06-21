@@ -1,14 +1,14 @@
+import 'package:Ahmed_Hamed_lecture/constant.dart';
+import 'package:Ahmed_Hamed_lecture/core/utils/app_router.dart';
+import 'package:Ahmed_Hamed_lecture/core/widget/custom_button.dart';
+import 'package:Ahmed_Hamed_lecture/feature/assistant/presentation/view/widget/assistant_item.dart';
+import 'package:Ahmed_Hamed_lecture/feature/auth/data/model/assistant_model.dart';
+import 'package:Ahmed_Hamed_lecture/generated/locale_keys.g.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:video_player_app/constant.dart';
-import 'package:video_player_app/core/utils/app_router.dart';
-import 'package:video_player_app/core/widget/custom_button.dart';
-// Import AssistantModel
-import 'package:video_player_app/feature/assistant/presentation/view/widget/assistant_item.dart';
-import 'package:video_player_app/feature/auth/data/model/assistant_model.dart';
-import 'package:video_player_app/generated/locale_keys.g.dart';
+
 
 class AssistantViewBody extends StatelessWidget {
   const AssistantViewBody({super.key});

@@ -25,11 +25,14 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.video_player_app"
+        applicationId = "com.example.khdamaty_app"
         minSdkVersion 23
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        ndk {
+        abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+    }
     }
 
     // ✅ إضافة إعدادات توقيع التطبيق

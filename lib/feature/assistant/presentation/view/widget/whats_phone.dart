@@ -1,7 +1,7 @@
+import 'package:Ahmed_Hamed_lecture/core/widget/custom_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:video_player_app/core/widget/custom_icon_button.dart';
 
 class WhatsPhone extends StatelessWidget {
   const WhatsPhone({

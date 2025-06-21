@@ -1,17 +1,18 @@
+import 'package:Ahmed_Hamed_lecture/constant.dart';
+import 'package:Ahmed_Hamed_lecture/core/utils/app_router.dart';
+import 'package:Ahmed_Hamed_lecture/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
+import 'package:Ahmed_Hamed_lecture/feature/teacher%20home/presentation/view/widget/video_item_list_view.dart';
+import 'package:Ahmed_Hamed_lecture/feature/user%20as%20teacher/presentation/view/widget/add_video_button.dart';
+import 'package:Ahmed_Hamed_lecture/feature/user%20as%20teacher/presentation/view/widget/grade_filter.dart';
+import 'package:Ahmed_Hamed_lecture/feature/user%20as%20teacher/presentation/view/widget/type_video_filter.dart';
+import 'package:Ahmed_Hamed_lecture/generated/locale_keys.g.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:video_player_app/constant.dart';
-import 'package:video_player_app/core/utils/app_router.dart';
-import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
-import 'package:video_player_app/feature/user%20as%20teacher/presentation/view/widget/add_video_button.dart';
-import 'package:video_player_app/feature/user%20as%20teacher/presentation/view/widget/grade_filter.dart';
-import 'package:video_player_app/feature/user%20as%20teacher/presentation/view/widget/type_video_filter.dart';
-import 'package:video_player_app/feature/user%20as%20teacher/presentation/view/widget/video_item_list_view.dart';
-import 'package:video_player_app/generated/locale_keys.g.dart';
+
 
 class TeacherHomeViewBody extends StatefulWidget {
   const TeacherHomeViewBody({super.key});

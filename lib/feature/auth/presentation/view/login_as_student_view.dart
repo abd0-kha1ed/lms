@@ -1,6 +1,6 @@
+import 'package:Ahmed_Hamed_lecture/feature/auth/presentation/view/widget/login_as_student_view_body.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player_app/feature/auth/presentation/view/widget/login_as_student_view_body.dart';
 
 class LoginAsStudentView extends StatelessWidget {
   const LoginAsStudentView({super.key});

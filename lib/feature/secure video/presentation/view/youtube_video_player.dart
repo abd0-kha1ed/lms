@@ -1,7 +1,8 @@
+import 'package:Ahmed_Hamed_lecture/feature/secure%20video/data/model/video_model.dart';
+import 'package:Ahmed_Hamed_lecture/feature/secure%20video/presentation/view/widget/describtion_section.dart';
 import 'package:flutter/material.dart';
 import 'package:no_screenshot/no_screenshot.dart';
-import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
-import 'package:video_player_app/feature/secure%20video/presentation/view/widget/describtion_section.dart';
+import 'package:screen_protector/screen_protector.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YouTubeVideoPlayer extends StatefulWidget {
@@ -20,9 +21,21 @@ class _YouTubeVideoPlayerState extends State<YouTubeVideoPlayer> {
   String? overlayText; // Text that appears while clicking
   bool showOverlay = false; // Text display status
 
-  void disableScreenshot() async {
-    bool result = await _noScreenshot.screenshotOff();
-    debugPrint('Screenshot Off: $result');
+  void _setupScreenProtection() async {
+    try {
+      await _noScreenshot.screenshotOff(); // حماية Android / iOS
+      await ScreenProtector.enableScreenProtection(); // حماية Windows
+    } catch (e) {
+      debugPrint('Error enabling screen protection: $e');
+    }
+  }
+
+  void _disableScreenProtection() async {
+    try {
+      await _noScreenshot.screenshotOn(); // إعادة تمكين السكرين شوت على Android / iOS
+    } catch (e) {
+      debugPrint('Error disabling screen protection: $e');
+    }
   }
 
   void enableScreenshot() async {
@@ -38,7 +51,7 @@ class _YouTubeVideoPlayerState extends State<YouTubeVideoPlayer> {
   @override
   void initState() {
     super.initState();
-    disableScreenshot();
+    _setupScreenProtection();
     _controller = YoutubePlayerController(
       initialVideoId: YoutubePlayer.convertUrlToId(widget.videoModel.videoUrl)!,
       flags: const YoutubePlayerFlags(
@@ -53,7 +66,7 @@ class _YouTubeVideoPlayerState extends State<YouTubeVideoPlayer> {
 
   @override
   void dispose() {
-    enableScreenshot();
+    _disableScreenProtection();
     _controller.dispose();
     super.dispose();
   }

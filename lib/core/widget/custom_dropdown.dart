@@ -1,6 +1,7 @@
+import 'package:Ahmed_Hamed_lecture/constant.dart';
+import 'package:Ahmed_Hamed_lecture/feature/auth/data/model/student_model.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player_app/constant.dart';
-import 'package:video_player_app/feature/auth/data/model/student_model.dart';
+
 
 class CustomDropdown extends StatefulWidget {
   const CustomDropdown(

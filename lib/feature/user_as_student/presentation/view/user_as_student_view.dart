@@ -1,10 +1,10 @@
+import 'package:Ahmed_Hamed_lecture/constant.dart';
+import 'package:Ahmed_Hamed_lecture/feature/settings/presentation/view/settings_view.dart';
+import 'package:Ahmed_Hamed_lecture/feature/user_as_student/presentation/view/widgets/user_as_student_view_body.dart';
+import 'package:Ahmed_Hamed_lecture/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player_app/constant.dart';
 
-import 'package:video_player_app/feature/settings/presentation/view/settings_view.dart';
-import 'package:video_player_app/feature/user_as_student/presentation/view/widgets/user_as_student_view_body.dart';
-import 'package:video_player_app/generated/locale_keys.g.dart';
 
 class UserAsStudentView extends StatefulWidget {
   const UserAsStudentView({super.key});

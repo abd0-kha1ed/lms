@@ -1,8 +1,9 @@
+import 'package:Ahmed_Hamed_lecture/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
+import 'package:Ahmed_Hamed_lecture/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
-import 'package:video_player_app/generated/locale_keys.g.dart';
+
 
 class TypeVideoFilter extends StatelessWidget {
   const TypeVideoFilter({

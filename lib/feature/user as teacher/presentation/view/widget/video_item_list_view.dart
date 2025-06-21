@@ -1,20 +1,22 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:Ahmed_Hamed_lecture/constant.dart';
+import 'package:Ahmed_Hamed_lecture/core/services/auth_services.dart';
+import 'package:Ahmed_Hamed_lecture/core/utils/app_router.dart';
+import 'package:Ahmed_Hamed_lecture/feature/secure%20video/data/model/video_model.dart';
+import 'package:Ahmed_Hamed_lecture/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
+import 'package:Ahmed_Hamed_lecture/feature/user%20as%20teacher/presentation/view/widget/video_container.dart';
+import 'package:Ahmed_Hamed_lecture/generated/locale_keys.g.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
-import 'package:video_player_app/constant.dart';
-import 'package:video_player_app/core/services/auth_services.dart';
-import 'package:video_player_app/core/utils/app_router.dart';
-import 'package:video_player_app/feature/secure%20video/data/model/video_model.dart';
+
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
-import 'package:video_player_app/feature/user%20as%20teacher/presentation/view/widget/video_container.dart';
-import 'package:video_player_app/generated/locale_keys.g.dart';
+
 
 class VideoItemListView extends StatefulWidget {
   const VideoItemListView({super.key, this.videos});

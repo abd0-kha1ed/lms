@@ -1,10 +1,11 @@
+import 'package:Ahmed_Hamed_lecture/constant.dart';
+import 'package:Ahmed_Hamed_lecture/core/widget/custom_alert_dioalog.dart';
+import 'package:Ahmed_Hamed_lecture/generated/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:video_player_app/constant.dart';
-import 'package:video_player_app/core/widget/custom_alert_dioalog.dart';
-import 'package:video_player_app/generated/locale_keys.g.dart';
+
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});

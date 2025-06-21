@@ -1,6 +1,6 @@
 
+import 'package:Ahmed_Hamed_lecture/constant.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player_app/constant.dart';
 
 class CustomLoginContainer extends StatelessWidget {
   const CustomLoginContainer(

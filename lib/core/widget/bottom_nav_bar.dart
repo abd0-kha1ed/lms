@@ -1,5 +1,5 @@
+import 'package:Ahmed_Hamed_lecture/feature/user%20as%20teacher/presentation/view/teacher_home_view.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player_app/feature/user%20as%20teacher/presentation/view/teacher_home_view.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});

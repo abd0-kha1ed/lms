@@ -1,19 +1,20 @@
+import 'package:Ahmed_Hamed_lecture/core/services/auth_services.dart';
+import 'package:Ahmed_Hamed_lecture/core/utils/app_router.dart';
+import 'package:Ahmed_Hamed_lecture/feature/secure%20code/presentation/view/manger/codes%20cubit/codes_cubit.dart';
+import 'package:Ahmed_Hamed_lecture/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
+import 'package:Ahmed_Hamed_lecture/firebase_options.dart';
+import 'package:Ahmed_Hamed_lecture/generated/codegen_loader.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
-import 'package:video_player_app/core/services/auth_services.dart';
-import 'package:video_player_app/core/utils/app_router.dart';
-import 'package:video_player_app/feature/secure%20code/presentation/view/manger/codes%20cubit/codes_cubit.dart';
-import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
 
-import 'package:video_player_app/firebase_options.dart';
-import 'package:video_player_app/generated/codegen_loader.g.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

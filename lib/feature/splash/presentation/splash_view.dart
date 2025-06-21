@@ -1,14 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:Ahmed_Hamed_lecture/constant.dart';
+import 'package:Ahmed_Hamed_lecture/core/utils/app_router.dart';
+import 'package:Ahmed_Hamed_lecture/core/utils/assets.dart';
+import 'package:Ahmed_Hamed_lecture/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
+import 'package:Ahmed_Hamed_lecture/feature/splash/presentation/manger/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:video_player_app/constant.dart';
-import 'package:video_player_app/core/utils/assets.dart';
-import 'package:video_player_app/feature/secure%20video/presentation/view/manger/secure%20video/video_cubit.dart';
-import 'package:video_player_app/feature/splash/presentation/manger/auth_cubit.dart';
 
 import 'package:go_router/go_router.dart';
-import 'package:video_player_app/core/utils/app_router.dart';
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
@@ -18,6 +18,7 @@ class SplashView extends StatelessWidget {
     return BlocProvider(
       create: (context) => AuthCubit()..checkAuthState(),
       child: Scaffold(
+        backgroundColor: Color(0xffFFFFFF),
         body: BlocBuilder<AuthCubit, AuthState>(
           builder: (context, state) {
             if (state is AuthAuthenticated) {
@@ -44,13 +45,14 @@ class SplashView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.24,
-                    width: MediaQuery.of(context).size.width * 0.5,
+                    height: 300,
+                    width: 300,
                     decoration: BoxDecoration(
-                        image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: AssetImage(Assets.teacherLogo)),
-                        borderRadius: BorderRadius.circular(450)),
+                      image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage(Assets.khdmatyLogo)),
+                      // borderRadius: BorderRadius.circular(450)
+                    ),
                   ),
                   const SizedBox(height: 20),
                   Text(
